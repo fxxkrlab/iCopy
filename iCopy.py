@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 def start(update, context):
-    menu_keyboard = [['极速转存'], ['自定义转存']]
+    menu_keyboard = [['极速转存', '自定义转存', '全盘备份']]
     menu_markup = ReplyKeyboardMarkup(menu_keyboard, one_time_keyboard=True)
     update.message.reply_text('Hi! 欢迎使用 iCopy\n'
         'Fxxkr LAB 出品必属极品', reply_markup=menu_markup)
