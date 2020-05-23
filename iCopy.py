@@ -34,11 +34,11 @@ def start(update, context):
     menu_markup = ReplyKeyboardMarkup(menu_keyboard, one_time_keyboard=True)
     update.message.reply_text('Hi! 欢迎使用 iCopy\n'
         'Fxxkr LAB 出品必属极品', reply_markup=menu_markup)
-
+'''
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-
+'''
 #按钮列表
 @restricted
 def list(update, context):
@@ -60,7 +60,7 @@ def select_menu(update, context):
 @restricted
 def quick(update, context):
     update.message.reply_text('示例运行 gclone lsf')
-    txt = "gclone copy gc:{15y-hKqsOvoh3eqUuVlbLsWUXbIweKr__} gc:{1vPsJutJHthzHqbpTzARRCSzA1IxjlZA1} --drive-server-side-across-configs -vvP --ignore-existing --transfers 40 --tpslimit 40"
+    txt = "gclone copy gc:{15y-hKqsOvoh3eqUuVlbLsWUXbIweKr__} gc:{1vPsJutJHthzHqbpTzARRCSzA1IxjlZA1} --drive-server-side-across-configs"
     command = "".join(txt)
     copyprocess(update, context, command)
 
@@ -152,7 +152,7 @@ def main():
     dp.add_handler(CommandHandler("quick", quick))
     dp.add_handler(CallbackQueryHandler(select_menu))
 
-    dp.add_error_handler(error)
+#    dp.add_error_handler(error)
     updater.start_polling()
     logger.info('Fxxkr LAB iCopy Start')
     updater.idle()
