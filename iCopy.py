@@ -22,6 +22,7 @@ def restricted(func):
         user_id = update.effective_user.id
         if user_id not in settings.ENABLED_USERS:
             print(f"Unauthorized access denied for {user_id}.")
+            update.message.reply_text('您的账号未经授权 请联系管理员')
             return
         return func(update, context, *args, **kwargs)
     return wrapped
