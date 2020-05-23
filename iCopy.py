@@ -34,12 +34,12 @@ def start(update, context):
     menu_markup = ReplyKeyboardMarkup(menu_keyboard, one_time_keyboard=True)
     update.message.reply_text('Hi! 欢迎使用 iCopy\n'
         'Fxxkr LAB 出品必属极品', reply_markup=menu_markup)
-'''
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-'''
-#按钮列表
+
+
 @restricted
 def list(update, context):
     reply_markup = InlineKeyboardMarkup([[
@@ -48,7 +48,6 @@ def list(update, context):
         InlineKeyboardButton('全盘备份', callback_data='backup')]])
     update.message.reply_text('请选择 Google Drive 模式转存模式\n',reply_markup = reply_markup)
 
-#按钮点击行为更换 if 下一行的内容
 @restricted
 def select_menu(update, context):
     if update.callback_query.data == 'quick':
@@ -59,11 +58,10 @@ def select_menu(update, context):
         update.callback_query.edit_message_text('全盘备份')
 @restricted
 def quick(update, context):
-    update.message.reply_text('示例运行 gclone lsf')
-    txt = "gclone copy gc:{15y-hKqsOvoh3eqUuVlbLsWUXbIweKr__} gc:{1vPsJutJHthzHqbpTzARRCSzA1IxjlZA1} --drive-server-side-across-configs"
+    update.message.reply_text('示例运行 gclone')
+    txt="这里输入 gclone copy 命令"
     command = "".join(txt)
     copyprocess(update, context, command)
-
 
 def copyprocess(update, context, command):
     bot = context.bot
@@ -75,11 +73,11 @@ def copyprocess(update, context, command):
     working1=""
     prog=""
     for toutput in run(command):
-        print(toutput)
-        y= re.findall("^Transferred:" , toutput)
-        z= re.findall("^ * ", toutput)
+        print(toutput.decode("utf-8", "ignore"))
+        y= re.findall("^Transferred:", toutput.decode("utf-8", "ignore"))
+        z= re.findall("^ * ", toutput.decode("utf-8", "ignore"))
         if (y):
-            val=str(toutput)
+            val=str(toutput.decode("utf-8", "ignore"))
             val=val.split(",")
             percent=str(val[1])
             statu=val[1].replace("%","")
@@ -88,13 +86,12 @@ def copyprocess(update, context, command):
                 prog=status(statu)
 
         if (z):
-            working=str(toutput)
+            working=str(toutput.decode("utf-8", "ignore"))
 
         if working1 != working or percent1 != percent :
             bot.edit_message_text(chat_id=message.chat_id,message_id=mid,text="{} \n {} \n {}".format(percent,prog,working))
             percent1=percent
             working1=working
-
 
 def status(val):
     if val<10 :
@@ -130,16 +127,15 @@ def status(val):
     if val==100:
         ss= "[##########]"
     return ss
-
+    
 def run(command):
-    process=Popen(command,stdout=PIPE,shell=True)
+    process = Popen(command,stdout=PIPE,shell=True)
     while True:
         line=process.stdout.readline().rstrip()
         if not line:
             break
         yield line
 
-#增加命令请在下方增加对应的 Handler "" 中为命令 ,后为 def 函数名
 def main():
     updater = Updater(
         settings.TOKEN, use_context=True,
@@ -152,7 +148,7 @@ def main():
     dp.add_handler(CommandHandler("quick", quick))
     dp.add_handler(CallbackQueryHandler(select_menu))
 
-#    dp.add_error_handler(error)
+    dp.add_error_handler(error)
     updater.start_polling()
     logger.info('Fxxkr LAB iCopy Start')
     updater.idle()
