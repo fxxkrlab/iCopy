@@ -22,12 +22,35 @@ def restricted(func):
         user_id = update.effective_user.id
         if user_id not in settings.ENABLED_USERS:
             print(f"Unauthorized access denied for {user_id}.")
-            update.message.reply_text('您的账号未经授权 请联系管理员')
+            update.message.reply_text('您的用户ID{user_id}未经授权 请联系管理员')
             return
         return func(update, context, *args, **kwargs)
     return wrapped
 
-#开始列表
+#start
+@restricted
+def start(update, context):
+    update.message.reply_text('Hi! 欢迎使用 iCopy\n'
+        'Fxxkr LAB 出品必属极品\n'
+        '请输入 /help 查询使用命令')
+
+#error handler
+def error(update, context):
+    """Log Errors caused by Updates."""
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
+
+@restricted
+def help(update, context):
+	update.message.reply_text('/help - 查询使用命令 \n '
+	'/quick Google Drive 极速转存 \n'
+	'/copy 自定义目录转存 \n'
+	'/pre1 预设转存目录1 \n'
+	'/pre2 预设转存目录2 \n'
+	'/backup 预设备份目录1 \n'
+	'/dir 获取预设目录文件 \n')
+
+'''
+#ReplyKB + 开始列表
 @restricted
 def start(update, context):
     menu_keyboard = [['极速转存', '自定义转存', '全盘备份']]
@@ -35,20 +58,17 @@ def start(update, context):
     update.message.reply_text('Hi! 欢迎使用 iCopy\n'
         'Fxxkr LAB 出品必属极品', reply_markup=menu_markup)
 
-def error(update, context):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
-
-
+#InlineKB + 开始列表
 @restricted
-def list(update, context):
+def start(update, context):
     reply_markup = InlineKeyboardMarkup([[
         InlineKeyboardButton('极速转存', callback_data='quick'),
         InlineKeyboardButton('自定义转存', callback_data='customize'),
         InlineKeyboardButton('全盘备份', callback_data='backup')]])
-    update.message.reply_text('请选择 Google Drive 模式转存模式\n',reply_markup = reply_markup)
+    update.message.reply_text('Hi! 欢迎使用 iCopy\n'
+        'Fxxkr LAB 出品必属极品\n'
+        '请选择 Google Drive 模式转存模式',reply_markup = reply_markup)
 
-@restricted
 def select_menu(update, context):
     if update.callback_query.data == 'quick':
         update.callback_query.edit_message_text('您选择了极速转存模式')
@@ -56,11 +76,17 @@ def select_menu(update, context):
         update.callback_query.edit_message_text('自定义转存')
     if update.callback_query.data == 'backup':
         update.callback_query.edit_message_text('全盘备份')
+
+
+def button_callback(update, context):
+    if update.callback_query.data == 'quick':
+        quick(update, context)
+'''
+
 @restricted
 def quick(update, context):
     update.message.reply_text('示例运行 gclone')
-    txt="这里输入 gclone copy 命令"
-    command = "".join(txt)
+    command = "".join(settings.QUICK_SET)
     copyprocess(update, context, command)
 
 def copyprocess(update, context, command):
@@ -144,9 +170,9 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("list", list))
+    dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("quick", quick))
-    dp.add_handler(CallbackQueryHandler(select_menu))
+    #dp.add_handler(CallbackQueryHandler(button_callback))
 
     dp.add_error_handler(error)
     updater.start_polling()
