@@ -7,7 +7,7 @@ import chardet
 from datetime import date
 from subprocess import Popen, PIPE 
 from datetime import date
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove, ReplyKeyboardMarkup, Message
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove, ReplyKeyboardMarkup, Message, User
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
 import settings
@@ -22,7 +22,8 @@ def restricted(func):
         user_id = update.effective_user.id
         if user_id not in settings.ENABLED_USERS:
             print(f"Unauthorized access denied for {user_id}.")
-            update.message.reply_text('您的用户ID{user_id}未经授权 请联系管理员')
+            update.message.reply_text('Hi {} 您好'.format(update.message.from_user.first_name))
+            update.message.reply_text('您的用户ID:{} 未经授权\n请联系管理员'.format(update.message.from_user.id))
             return
         return func(update, context, *args, **kwargs)
     return wrapped
