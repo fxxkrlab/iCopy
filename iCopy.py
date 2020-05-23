@@ -62,10 +62,10 @@ def quick(update, context):
     update.message.reply_text('示例运行 gclone lsf')
     txt = "gclone copy gc:{15y-hKqsOvoh3eqUuVlbLsWUXbIweKr__} gc:{1vPsJutJHthzHqbpTzARRCSzA1IxjlZA1} --drive-server-side-across-configs -vvP --ignore-existing --transfers 40 --tpslimit 40"
     command = "".join(txt)
-    process(update, context, command)
+    copyprocess(update, context, command)
 
 
-def process(update, context, command):
+def copyprocess(update, context, command):
     bot = context.bot
     message=update.message.reply_text("STATUS")
     mid=message.message_id
@@ -76,7 +76,7 @@ def process(update, context, command):
     prog=""
     for toutput in run(command):
         print(toutput)
-        y= re.findall("^Transferred:", toutput)
+        y= re.findall("^Transferred:" , toutput)
         z= re.findall("^ * ", toutput)
         if (y):
             val=str(toutput)
