@@ -31,8 +31,8 @@ def restricted(func):
 #start
 @restricted
 def start(update, context):
-    update.message.reply_text('Hi! 欢迎使用 iCopy\n'
-        'Fxxkr LAB 出品必属极品\n'
+    update.message.reply_text('Hi! {} 欢迎使用 iCopy\n'.format(update.message.from_user.first_name))
+    update.message.reply_text('Fxxkr LAB 出品必属极品\n'
         '请输入 /help 查询使用命令')
 
 #error handler
