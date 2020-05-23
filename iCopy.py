@@ -42,7 +42,7 @@ def error(update, context):
 
 @restricted
 def help(update, context):
-	update.message.reply_text('/help - 查询使用命令 \n '
+	update.message.reply_text('/help - 查询使用命令 \n'
 	'/quick Google Drive 极速转存 \n'
 	'/copy 自定义目录转存 \n'
 	'/pre1 预设转存目录1 \n'
