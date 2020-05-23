@@ -2,25 +2,44 @@ import logging
 import time
 import os
 import re
+from functools import wraps
 import chardet
 from datetime import date
 from subprocess import Popen, PIPE 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from datetime import date
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove, ReplyKeyboardMarkup, Message
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
 import settings
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+#用户限制
+def restricted(func):
+    @wraps(func)
+    def wrapped(update, context, *args, **kwargs):
+        user_id = update.effective_user.id
+        if user_id not in settings.ENABLED_USERS:
+            print(f"Unauthorized access denied for {user_id}.")
+            return
+        return func(update, context, *args, **kwargs)
+    return wrapped
+
 #开始列表
+@restricted
 def start(update, context):
     menu_keyboard = [['极速转存', '自定义转存', '全盘备份']]
     menu_markup = ReplyKeyboardMarkup(menu_keyboard, one_time_keyboard=True)
     update.message.reply_text('Hi! 欢迎使用 iCopy\n'
         'Fxxkr LAB 出品必属极品', reply_markup=menu_markup)
 
+def error(update, context):
+    """Log Errors caused by Updates."""
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
+
 #按钮列表
+@restricted
 def list(update, context):
     reply_markup = InlineKeyboardMarkup([[
         InlineKeyboardButton('极速转存', callback_data='quick'),
@@ -29,6 +48,7 @@ def list(update, context):
     update.message.reply_text('请选择 Google Drive 模式转存模式\n',reply_markup = reply_markup)
 
 #按钮点击行为更换 if 下一行的内容
+@restricted
 def select_menu(update, context):
     if update.callback_query.data == 'quick':
         update.callback_query.edit_message_text('您选择了极速转存模式')
@@ -36,7 +56,7 @@ def select_menu(update, context):
         update.callback_query.edit_message_text('自定义转存')
     if update.callback_query.data == 'backup':
         update.callback_query.edit_message_text('全盘备份')
-
+@restricted
 def quick(update, context):
     update.message.reply_text('示例运行 gclone lsf')
     txt = "gclone copy gc:{15y-hKqsOvoh3eqUuVlbLsWUXbIweKr__} gc:{1vPsJutJHthzHqbpTzARRCSzA1IxjlZA1} --drive-server-side-across-configs -vvP --ignore-existing --transfers 40 --tpslimit 40"
@@ -130,6 +150,8 @@ def main():
     dp.add_handler(CommandHandler("list", list))
     dp.add_handler(CommandHandler("quick", quick))
     dp.add_handler(CallbackQueryHandler(select_menu))
+
+    dp.add_error_handler(error)
     updater.start_polling()
     logger.info('Fxxkr LAB iCopy Start')
     updater.idle()
