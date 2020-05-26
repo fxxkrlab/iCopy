@@ -42,13 +42,13 @@ def error(update, context):
 
 @restricted
 def help(update, context):
-	update.message.reply_text('/help - 查询使用命令 \n'
-	'/quick Google Drive 极速转存 \n'
-	'/copy 自定义目录转存 \n'
-	'/pre1 预设转存目录1 \n'
-	'/pre2 预设转存目录2 \n'
-	'/backup 预设备份目录1 \n'
-	'/dir 获取预设目录文件 \n')
+    update.message.reply_text('/help - 查询使用命令 \n'
+    '/quick Google Drive 极速转存 \n'
+    '/copy 自定义目录转存 \n'
+    '/pre1 预设转存目录1 \n'
+    '/pre2 预设转存目录2 \n'
+    '/backup 预设备份目录1 \n'
+    '/dir 获取预设目录文件 \n')
 
 '''
 #ReplyKB + 开始列表
@@ -84,11 +84,18 @@ def button_callback(update, context):
         quick(update, context)
 '''
 
+regex = r"[-\w]{11,}"
 @restricted
 def quick(update, context):
-    update.message.reply_text('示例运行 gclone')
-    command = "".join(settings.QUICK_SET)
+    #给群友的示例
+    txt=update.message.text 
+    if "/quick" == txt.strip()[:6]:
+        link = " ".join(txt.strip().split(" ")[1:])
+    id = "".join(re.findall(regex, link))
+    command = "gclone copy {}:{} {}:{} --drive-server-side-across-configs -vvP --ignore-existing --transfers 10".format(settings.remote, {id}, settings.remote, settings.Pre_Dst_id)
+    print(command)
     copyprocess(update, context, command)
+    #给群友的示例
 
 def copyprocess(update, context, command):
     bot = context.bot
@@ -116,7 +123,7 @@ def copyprocess(update, context, command):
             working=str(toutput.decode("utf-8", "ignore"))
 
         if working1 != working or percent1 != percent :
-            bot.edit_message_text(chat_id=message.chat_id,message_id=mid,text="{} \n {} \n {}".format(percent,prog,working))
+            bot.edit_message_text(chat_id=message.chat_id,message_id=mid,text="正在执行转存 \n {} \n {} \n {} \n".format(percent,prog,working)[:300])
             percent1=percent
             working1=working
 
