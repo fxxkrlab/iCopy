@@ -1,5 +1,5 @@
 import os, re, time
-import logging, chardet
+import logging
 from functools import wraps
 from datetime import date
 from subprocess import Popen, PIPE 
@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 TYPING_REPLY = range(1)
 regex = r"[-\w]{11,}"
 
-#用户限制
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
@@ -28,15 +27,12 @@ def restricted(func):
         return func(update, context, *args, **kwargs)
     return wrapped
 
-
-#start
 @restricted
 def start(update, context):
     update.message.reply_text('Hi! {} 欢迎使用 iCopy\n'.format(update.message.from_user.first_name))
     update.message.reply_text('Fxxkr LAB 出品必属极品\n'
         '请输入 /help 查询使用命令')
 
-#error handler
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -79,7 +75,6 @@ def copyprocess(update, context, command):
     prog=""
     for toutput in run(command):
         print(toutput)
-        #.decode("utf-8", "ignore")
         y= re.findall("^Transferred:", toutput)
         z= re.findall("^ * ", toutput)
         if (y):
@@ -93,7 +88,6 @@ def copyprocess(update, context, command):
 
         if (z):
             working=str(toutput.lstrip('*  ').rsplit(':', 2)[0])
-#lstrip('*  ').rsplit(':', 2)[0]
         if working1 != working or percent1 != percent :
             bot.edit_message_text(chat_id=message.chat_id,message_id=mid,text="正在执行转存 \n {} \n {} \n {} \n ".format(percent,prog,working))
             percent1=percent
