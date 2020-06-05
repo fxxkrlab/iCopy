@@ -17,7 +17,7 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 * Remote : Your gclone config name.like "gc"
 * Pre_Dst_id : Pre-Assigned Google Drive Destination Folder ID for quick mode
 
-#### Start iCopy BOT : `screen -dmS iCopy `which python3` -u iCopy.py` 
+#### Start iCopy BOT : ``screen -dmS iCopy `which python3` -u iCopy.py``  
 
 #### 本项目意在方便群友自定义转存机器人以及快捷命令  
 #### 若有网上的朋友不明白的欢迎加TG群 [Google Drive 资源互通](https://t.me/sharegdrive)  
