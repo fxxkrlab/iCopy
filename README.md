@@ -18,6 +18,10 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 * Pre_Dst_id : Pre-Assigned Google Drive Destination Folder ID for quick mode
 
 #### Start iCopy BOT :   
+##### Start :  
+`python3 -u iCopy.py`  
+
+##### Start via screen :  
 ``screen -dmS iCopy `which python3` -u iCopy.py``  
 
 #### 本项目意在方便群友自定义转存机器人以及快捷命令  
