@@ -1,9 +1,14 @@
 import os
 
-TOKEN = os.environ.get("TELEGRAM_API_TOKEN", '')
+TOKEN = os.environ.get("TELEGRAM_API_TOKEN", 'Your_API_ID_HERE')
 
-ENABLED_USERS = os.environ.get("ENABLED_USERS", '')
+ENABLED_USERS = os.environ.get("ENABLED_USERS", 'Your_TG_ID_HERE')
 ENABLED_USERS = set(int(e.strip()) for e in ENABLED_USERS.split(','))
 
-Pre_Dst_id = "{}"
-remote = ""
+
+Remote = "Your_Remote_Config_NAME_Here"
+Pre_Dst_id = "Preassigned_GDrive_FolderID_For_quick_mode_HERE"
+Run_Mode = "--drive-server-side-across-configs -P --ignore-existing"
+#Run_Mode 中 "-P" 为必须参数, 请不要删除
+Parallel_NUM = "10"
+TRANSFER = "--transfers {}".format(Parallel_NUM)
