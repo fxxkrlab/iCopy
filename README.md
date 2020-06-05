@@ -2,7 +2,7 @@
 Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 
 ## Install  
-1.Requires Python 3.6 or higher
+1.Requires Python 3.6 or higher  
 2.Need Pre-install and Configured [gclone](https://github.com/donwa/gclone)  
   For Linux directly use this command  
   `bash <(wget -qO- https://git.io/gclone.sh)`  
