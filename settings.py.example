@@ -1,14 +1,15 @@
 import os
 
-TOKEN = os.environ.get("TELEGRAM_API_TOKEN", 'Your_API_ID_HERE')
+TOKEN = os.environ.get("TELEGRAM_API_TOKEN", '填写bot Api Token')
 
-ENABLED_USERS = os.environ.get("ENABLED_USERS", 'Your_TG_ID_HERE')
+ENABLED_USERS = os.environ.get("ENABLED_USERS", '填写个人TG ID')
 ENABLED_USERS = set(int(e.strip()) for e in ENABLED_USERS.split(','))
 
 
-Remote = "Your_Remote_Config_NAME_Here"
-Pre_Dst_id = "Preassigned_GDrive_FolderID_For_quick_mode_HERE"
+Remote = "填写gclone配置名"
+Pre_Dst_id = "预定的Dst Folder ID"
 Run_Mode = "--drive-server-side-across-configs -P --ignore-existing"
 #Run_Mode 中 "-P" 为必须参数, 请不要删除
 Parallel_NUM = "10"
+#自定义并行 Transfers 数
 TRANSFER = "--transfers {}".format(Parallel_NUM)
