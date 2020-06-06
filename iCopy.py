@@ -4,13 +4,7 @@ from functools import wraps
 from datetime import date
 from subprocess import Popen, PIPE
 from datetime import date
-from telegram import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    ReplyKeyboardRemove,
-    ReplyKeyboardMarkup,
-    Message,
-)
+from telegram import Message
 from telegram.ext import (
     Updater,
     CommandHandler,
