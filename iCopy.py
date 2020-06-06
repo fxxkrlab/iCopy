@@ -3,7 +3,6 @@ import logging
 from functools import wraps
 from datetime import date
 from subprocess import Popen, PIPE
-from datetime import date
 from telegram import Message
 from telegram.ext import (
     Updater,
@@ -25,6 +24,7 @@ logger = logging.getLogger(__name__)
 TYPING_REPLY = range(1)
 regex = r"[-\w]{11,}"
 
+
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
@@ -42,27 +42,32 @@ def restricted(func):
 
     return wrapped
 
+
 @restricted
 def start(update, context):
-    update.message.reply_text('Hi! {} 欢迎使用 iCopy\n'.format(update.message.from_user.first_name))
-    update.message.reply_text('Fxxkr LAB 出品必属极品\n'
-        '请输入 /help 查询使用命令')
+    update.message.reply_text(
+        "Hi! {} 欢迎使用 iCopy\n".format(update.message.from_user.first_name)
+    )
+    update.message.reply_text("Fxxkr LAB 出品必属极品\n" "请输入 /help 查询使用命令")
+
 
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
+
 
 @restricted
 def help(update, context):
     update.message.reply_text(
         "/help - 查询使用命令 \n"
         "/quick Google Drive 极速转存 \n"
-        "/copy 自定义目录转存 \n"
-        "/pre1 预设转存目录1 \n"
-        "/pre2 预设转存目录2 \n"
-        "/backup 预设备份目录1 \n"
-        "/dir 获取预设目录文件 \n"
+        "/copy 自定义目录转存(未制作) \n"
+        "/pre1 预设转存目录1(未制作) \n"
+        "/pre2 预设转存目录2(未制作) \n"
+        "/backup 预设备份目录1(未制作) \n"
+        "/dir 获取预设目录文件(未制作) \n"
     )
+
 
 @restricted
 def quick(update, context):
@@ -72,18 +77,41 @@ def quick(update, context):
 
     return TYPING_REPLY
 
+
 def recived_link(update, context):
     link = update.message.text
     if "drive.google.com" in link:
-        id = "".join(re.findall(regex, link))
-    update.message.reply_text(
-        "本次转存来自 id : {} \n" "本次转存目标 id : {}".format(id, settings.Pre_Dst_id)
+        lid = "".join(re.findall(regex, link))
+        foldername = (
+            os.popen(
+                """gclone lsf gc:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                    lid, lid
+                )
+            )
+            .read()
+            .rstrip()
+        )
+    pre_foldername = (
+        os.popen(
+            """gclone lsf gc:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                settings.Pre_Dst_id, settings.Pre_Dst_id
+            )
+        )
+        .read()
+        .rstrip()
     )
-    command = "gclone copy {}:{} {}:{{{}}} {} {}".format(
+    update.message.reply_text(
+        "分享文件夹为 : {} \n"
+        "Folder id 为 : {} \n"
+        "分享内容转存至 \n"
+        "{} 预设目录中的 {} 文件夹内".format(foldername, lid, pre_foldername, foldername)
+    )
+    command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
         settings.Remote,
-        {id},
+        lid,
         settings.Remote,
         settings.Pre_Dst_id,
+        foldername,
         settings.Run_Mode,
         settings.TRANSFER,
     )
@@ -95,6 +123,7 @@ def recived_link(update, context):
 def sendmsg(bot, chat_id, mid, context):
 
     bot.edit_message_text(chat_id=chat_id, message_id=mid, text=context)
+
 
 def copyprocess(update, context, command):
     bot = context.bot
@@ -139,6 +168,7 @@ def copyprocess(update, context, command):
                 working1 = working
                 xtime = time.time()
 
+
 def status(val):
     if val < 10:
         ss = "[                         ]"
@@ -174,6 +204,7 @@ def status(val):
         ss = "[▇▇▇▇▇▇▇▇▇▇]"
     return ss
 
+
 def run(command):
     process = Popen(
         command, stdout=PIPE, shell=True, bufsize=1, universal_newlines=True
@@ -184,6 +215,7 @@ def run(command):
             break
         yield line
 
+
 def cancel(update, context):
     user = update.message.from_user
     logger.info("User %s canceled the conversation.", user.first_name)
@@ -192,6 +224,7 @@ def cancel(update, context):
     )
 
     return ConversationHandler.END
+
 
 def main():
     updater = Updater(settings.TOKEN, use_context=True,)
@@ -213,6 +246,7 @@ def main():
     updater.start_polling()
     logger.info("Fxxkr LAB iCopy Start")
     updater.idle()
+
 
 if __name__ == "__main__":
     main()
