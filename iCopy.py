@@ -84,8 +84,8 @@ def recived_link(update, context):
         lid = "".join(re.findall(regex, link))
         foldername = (
             os.popen(
-                """gclone lsf gc:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
-                    lid, lid
+                """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                    settings.Remote, lid, lid
                 )
             )
             .read()
@@ -93,8 +93,8 @@ def recived_link(update, context):
         )
     pre_foldername = (
         os.popen(
-            """gclone lsf gc:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
-                settings.Pre_Dst_id, settings.Pre_Dst_id
+            """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                settings.Remote, settings.Pre_Dst_id, settings.Pre_Dst_id
             )
         )
         .read()
