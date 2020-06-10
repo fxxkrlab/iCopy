@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-TYPING_REPLY = range(1)
+LINK_REPLY, TARGET_REPLY = range(2)
 regex = r"[-\w]{11,}"
 
 
@@ -62,7 +62,7 @@ def help(update, context):
     update.message.reply_text(
         "/help - 查询使用命令 \n"
         "/quick Google Drive 极速转存 \n"
-        "/copy 自定义目录转存(未制作) \n"
+        "/copy 自定义目录转存 \n"
         "/pre1 预设转存目录1(未制作) \n"
         "/pre2 预设转存目录2(未制作) \n"
         "/backup 预设备份目录1(未制作) \n"
@@ -73,49 +73,106 @@ def help(update, context):
 @restricted
 def quick(update, context):
     update.message.reply_text(
+       "您好 {} , 本次转存任务您选择了 自定义模式 ".format(update.message.from_user.first_name)
+    )
+    global mode
+    mode = update.message.text.strip('/')
+
+    return request_link(update, context)
+
+
+@restricted
+def copy(update, context):
+    update.message.reply_text(
+        "您好 {} , 本次转存任务您选择了 自定义模式 ".format(update.message.from_user.first_name)
+    )
+    global mode
+    mode = update.message.text.strip('/')
+
+    return request_link(update, context)
+
+
+def request_link(update, context):
+    update.message.reply_text(
         "您好 {} , 请输入 Google Drive 分享链接 ".format(update.message.from_user.first_name)
     )
 
-    return TYPING_REPLY
+    return LINK_REPLY
 
 
-def recived_link(update, context):
+def request_target(update, context):
+    global mode
+    global link
     link = update.message.text
-    if "drive.google.com" in link:
-        lid = "".join(re.findall(regex, link))
-        foldername = (
-            os.popen(
-                """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
-                    settings.Remote, lid, lid
-                )
-            )
-            .read()
-            .rstrip()
+
+    if "quick" == mode:
+        return recived_mission(update, context)
+
+    if "copy" == mode:
+        update.message.reply_text(
+            "您好 {} , 请输入任务目标文件夹链接 ".format(update.message.from_user.first_name)
         )
-    pre_foldername = (
+
+    return TARGET_REPLY
+
+
+def recived_mission(update, context):
+    global mode
+    global link
+    global target
+    target = update.message.text
+    
+    lid = "".join(re.findall(regex, link))
+    tid = "".join(re.findall(regex, target))
+    foldername = (
         os.popen(
-            """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
-                settings.Remote, settings.Pre_Dst_id, settings.Pre_Dst_id
+             """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                settings.Remote, lid, lid
             )
         )
         .read()
         .rstrip()
     )
+
+    if "quick" == mode:
+        target_folder = (
+            os.popen(
+                """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                    settings.Remote, settings.Pre_Dst_id, settings.Pre_Dst_id
+                )
+            )
+            .read()
+            .rstrip()
+        )
+        tid = settings.Pre_Dst_id
+    elif "copy" == mode:
+        target_folder = (
+            os.popen(
+                """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+                    settings.Remote, tid, tid
+                )
+            )
+            .read()
+            .rstrip()
+        )
+
     update.message.reply_text(
         "分享文件夹为 : {} \n"
         "Folder id 为 : {} \n"
         "分享内容转存至 \n"
-        "{} 预设目录中的 {} 文件夹内".format(foldername, lid, pre_foldername, foldername)
+        "{} / {} 文件夹内".format(foldername, lid, target_folder, foldername)
     )
+
     command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
         settings.Remote,
         lid,
         settings.Remote,
-        settings.Pre_Dst_id,
+        tid,
         foldername,
         settings.Run_Mode,
         settings.TRANSFER,
     )
+    print(command)
     copyprocess(update, context, command)
 
     return ConversationHandler.END
@@ -151,7 +208,9 @@ def copyprocess(update, context, command):
                 prog = status(statu)
 
         if z:
-            working = str(toutput.decode("utf-8", "ignore").lstrip("*  ").rsplit(":", 2)[0])
+            working = str(
+                toutput.decode("utf-8", "ignore").lstrip("*  ").rsplit(":", 2)[0]
+            )
 
         if working1 != working or percent1 != percent:
             if int(time.time()) - xtime > timeout:
@@ -171,9 +230,7 @@ def copyprocess(update, context, command):
 
 
 def run(command):
-    process = Popen(
-        command, stdout=PIPE, shell=True
-    )
+    process = Popen(command, stdout=PIPE, shell=True)
     while True:
         line = process.stdout.readline().rstrip()
         if not line:
@@ -197,8 +254,11 @@ def main():
     dp = updater.dispatcher
 
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("quick", quick)],
-        states={TYPING_REPLY: [MessageHandler(Filters.text, recived_link),],},
+        entry_points=[CommandHandler("quick", quick), CommandHandler("copy", copy)],
+        states={
+            LINK_REPLY: [MessageHandler(Filters.text, request_target),],
+            TARGET_REPLY: [MessageHandler(Filters.text, recived_mission),],
+        },
         fallbacks=[CommandHandler("cancel", cancel)],
     )
 

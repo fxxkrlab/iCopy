@@ -3,6 +3,9 @@ iCopy_old.py
 iCopy_old_1.py
 iCopy_dev.py
 iCopy_dev_old.py
+iCopy_dev_2.py
+iCopy_quickmode_only.py
 __pycache__
 .vscode
 JWT_auth.py
+utils.py
