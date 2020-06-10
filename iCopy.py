@@ -1,5 +1,5 @@
 import os, re, time
-import logging
+import logging, chardet
 from functools import wraps
 from datetime import date
 from subprocess import Popen, PIPE
@@ -15,6 +15,7 @@ from telegram.ext import (
 from threading import Timer
 
 import settings
+from process_bar import status
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -137,11 +138,11 @@ def copyprocess(update, context, command):
     timeout = 0.1
     xtime = 0
     for toutput in run(command):
-        print(toutput)
-        y = re.findall("^Transferred:", toutput)
-        z = re.findall("^ * ", toutput)
+        print(toutput.decode("utf-8", "ignore"))
+        y = re.findall("^Transferred:", toutput.decode("utf-8", "ignore"))
+        z = re.findall("^ * ", toutput.decode("utf-8", "ignore"))
         if y:
-            val = str(toutput)
+            val = str(toutput.decode("utf-8", "ignore"))
             val = val.split(",")
             percent = str(val[1])
             statu = val[1].replace("%", "")
@@ -150,7 +151,7 @@ def copyprocess(update, context, command):
                 prog = status(statu)
 
         if z:
-            working = str(toutput.lstrip("*  ").rsplit(":", 2)[0])
+            working = str(toutput.decode("utf-8", "ignore").lstrip("*  ").rsplit(":", 2)[0])
 
         if working1 != working or percent1 != percent:
             if int(time.time()) - xtime > timeout:
@@ -169,45 +170,9 @@ def copyprocess(update, context, command):
                 xtime = time.time()
 
 
-def status(val):
-    if val < 10:
-        ss = "[                         ]"
-
-    if val >= 10 and val <= 19:
-        ss = "[▇                      ]"
-
-    if val >= 20 and val <= 29:
-        ss = "[▇▇                    ]"
-
-    if val >= 30 and val <= 39:
-        ss = "[▇▇▇                 ]"
-
-    if val >= 40 and val <= 49:
-        ss = "[▇▇▇▇               ]"
-
-    if val >= 50 and val <= 59:
-        ss = "[▇▇▇▇▇            ]"
-
-    if val >= 60 and val <= 69:
-        ss = "[▇▇▇▇▇▇          ]"
-
-    if val >= 70 and val <= 79:
-        ss = "[▇▇▇▇▇▇▇      ]"
-
-    if val >= 80 and val <= 89:
-        ss = "[▇▇▇▇▇▇▇▇     ]"
-
-    if val >= 90 and val <= 99:
-        ss = "[▇▇▇▇▇▇▇▇▇  ]"
-
-    if val == 100:
-        ss = "[▇▇▇▇▇▇▇▇▇▇]"
-    return ss
-
-
 def run(command):
     process = Popen(
-        command, stdout=PIPE, shell=True, bufsize=1, universal_newlines=True
+        command, stdout=PIPE, shell=True
     )
     while True:
         line = process.stdout.readline().rstrip()
