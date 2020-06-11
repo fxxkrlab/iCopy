@@ -73,10 +73,10 @@ def help(update, context):
 @restricted
 def quick(update, context):
     update.message.reply_text(
-       "您好 {} , 本次转存任务您选择了\n极速模式 ".format(update.message.from_user.first_name)
+        "您好 {} , 本次转存任务您选择了\n极速模式 ".format(update.message.from_user.first_name)
     )
     global mode
-    mode = update.message.text.strip('/')
+    mode = update.message.text.strip("/")
 
     return request_link(update, context)
 
@@ -87,15 +87,13 @@ def copy(update, context):
         "您好 {} , 本次转存任务您选择了\n自定义模式 ".format(update.message.from_user.first_name)
     )
     global mode
-    mode = update.message.text.strip('/')
+    mode = update.message.text.strip("/")
 
     return request_link(update, context)
 
 
 def request_link(update, context):
-    update.message.reply_text(
-        "您好 {} , 请输入 Google Drive 分享链接 ".format(update.message.from_user.first_name)
-    )
+    update.message.reply_text("请输入 Google Drive 分享链接")
 
     return LINK_REPLY
 
@@ -109,9 +107,7 @@ def request_target(update, context):
         return recived_mission(update, context)
 
     if "copy" == mode:
-        update.message.reply_text(
-            "您好 {} , 请输入任务目标文件夹链接 ".format(update.message.from_user.first_name)
-        )
+        update.message.reply_text("请输入转入目标文件夹链接 ")
 
     return TARGET_REPLY
 
@@ -121,12 +117,12 @@ def recived_mission(update, context):
     global link
     global target
     target = update.message.text
-    
+
     lid = "".join(re.findall(regex, link))
     tid = "".join(re.findall(regex, target))
     foldername = (
         os.popen(
-             """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
+            """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
                 settings.Remote, lid, lid
             )
         )
@@ -157,10 +153,13 @@ def recived_mission(update, context):
         )
 
     update.message.reply_text(
-        "┋资源名称┋:{} \n"
-        "┋资源地址┋:{} \n"
-        "┋转入位置┋:{}/{}"
-        .format(foldername, lid, target_folder, foldername)
+        "▣▣▣▣▣▣▣▣任务信息▣▣▣▣▣▣▣▣\n"
+        "┋资源名称┋:\n"
+        "┋•{} \n"
+        "┋资源地址┋:\n"
+        "┋•{} \n"
+        "┋转入位置┋:\n"
+        "┋•{}/{}".format(foldername, lid, target_folder, foldername)
     )
 
     command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
@@ -185,7 +184,7 @@ def sendmsg(bot, chat_id, mid, context):
 
 def copyprocess(update, context, command):
     bot = context.bot
-    message = update.message.reply_text("开始转存文件")
+    message = update.message.reply_text("转存任务准备中...")
     mid = message.message_id
     percent = ""
     percent1 = ""
@@ -221,7 +220,9 @@ def copyprocess(update, context, command):
                         bot,
                         message.chat_id,
                         mid,
-                        "正在执行转存 \n {} \n {} \n {} \n ".format(percent, prog, working),
+                        "▣▣▣▣▣▣▣正在执行转存▣▣▣▣▣▣▣ \n {} \n {} \n {} \n ".format(
+                            percent, prog, working
+                        ),
                     ),
                 ).start()
                 percent1 = percent

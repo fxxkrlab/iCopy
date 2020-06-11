@@ -1,5 +1,7 @@
 # iCopy  
 Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT  
+[iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6)|
+[TELEGRAM GROUP](https://t.me/sharegdrive)  
 
 ## Install  
 1.Python 3.6+ is Required  
