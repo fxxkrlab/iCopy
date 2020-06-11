@@ -29,4 +29,5 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 
 #### 本项初愿本意通过学习 方便群友自定义转存机器人以及快捷命令  
 #### 由于需求扩大 决定转为一个成品项目 慢慢完善  
+#### 由于目前出于持续更新和半成品状态 给大家造成了麻烦 真的很抱歉
 #### 若有网上的朋友不明白的欢迎加TG群 [Google Drive 资源互通](https://t.me/sharegdrive)  

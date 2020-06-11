@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 LINK_REPLY, TARGET_REPLY = range(2)
 regex = r"[-\w]{11,}"
 
-
+#授权来自于 setting.ENABLED_USERS
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
@@ -43,7 +43,7 @@ def restricted(func):
 
     return wrapped
 
-
+#START 开始命令提示引导
 @restricted
 def start(update, context):
     update.message.reply_text(
@@ -51,12 +51,12 @@ def start(update, context):
     )
     update.message.reply_text("Fxxkr LAB 出品必属极品\n" "请输入 /help 查询使用命令")
 
-
+#error module
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-
+#HELP 帮助命令提示引导
 @restricted
 def help(update, context):
     update.message.reply_text(
@@ -69,35 +69,35 @@ def help(update, context):
         "/dir 获取预设目录文件(未制作) \n"
     )
 
-
+#QUICK 极速模式开始命令 并且获取 mode = quick
 @restricted
 def quick(update, context):
     update.message.reply_text(
-        "您好 {} , 本次转存任务您选择了\n极速模式 ".format(update.message.from_user.first_name)
+        "您好 {} , 本次转存任务您选择了\n┋极速转存┋模式 ".format(update.message.from_user.first_name)
     )
     global mode
     mode = update.message.text.strip("/")
 
     return request_link(update, context)
 
-
+#COPY 自定义模式开始命令 并获取 mode = copy
 @restricted
 def copy(update, context):
     update.message.reply_text(
-        "您好 {} , 本次转存任务您选择了\n自定义模式 ".format(update.message.from_user.first_name)
+        "您好 {} , 本次转存任务您选择了\n┋自定义目录┋模式 ".format(update.message.from_user.first_name)
     )
     global mode
     mode = update.message.text.strip("/")
 
     return request_link(update, context)
 
-
+#请求获取转存链接
 def request_link(update, context):
     update.message.reply_text("请输入 Google Drive 分享链接")
 
     return LINK_REPLY
 
-
+#请求获取转入位置链接 并 真实获取转存链接 link
 def request_target(update, context):
     global mode
     global link
@@ -111,7 +111,7 @@ def request_target(update, context):
 
     return TARGET_REPLY
 
-
+#真实获取转入位置链接 target 并通过判断 mode 赋予 command 正确命令
 def recived_mission(update, context):
     global mode
     global link
@@ -176,12 +176,12 @@ def recived_mission(update, context):
 
     return ConversationHandler.END
 
-
+#BOT 界面信息滚动更新模块
 def sendmsg(bot, chat_id, mid, context):
 
     bot.edit_message_text(chat_id=chat_id, message_id=mid, text=context)
 
-
+#任务信息读取处理，并通过异步进程发送 BOT 界面滚动更新信息
 def copyprocess(update, context, command):
     bot = context.bot
     message = update.message.reply_text("转存任务准备中...")
@@ -229,7 +229,7 @@ def copyprocess(update, context, command):
                 working1 = working
                 xtime = time.time()
 
-
+#run(command) subprocess.popen --> line --> stdout
 def run(command):
     process = Popen(command, stdout=PIPE, shell=True)
     while True:
