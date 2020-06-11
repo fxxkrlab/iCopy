@@ -73,7 +73,7 @@ def help(update, context):
 @restricted
 def quick(update, context):
     update.message.reply_text(
-       "您好 {} , 本次转存任务您选择了 自定义模式 ".format(update.message.from_user.first_name)
+       "您好 {} , 本次转存任务您选择了\n极速模式 ".format(update.message.from_user.first_name)
     )
     global mode
     mode = update.message.text.strip('/')
@@ -84,7 +84,7 @@ def quick(update, context):
 @restricted
 def copy(update, context):
     update.message.reply_text(
-        "您好 {} , 本次转存任务您选择了 自定义模式 ".format(update.message.from_user.first_name)
+        "您好 {} , 本次转存任务您选择了\n自定义模式 ".format(update.message.from_user.first_name)
     )
     global mode
     mode = update.message.text.strip('/')
@@ -157,10 +157,10 @@ def recived_mission(update, context):
         )
 
     update.message.reply_text(
-        "分享文件夹为 : {} \n"
-        "Folder id 为 : {} \n"
-        "分享内容转存至 \n"
-        "{} / {} 文件夹内".format(foldername, lid, target_folder, foldername)
+        "┋资源名称┋:{} \n"
+        "┋资源地址┋:{} \n"
+        "┋转入位置┋:{}/{}"
+        .format(foldername, lid, target_folder, foldername)
     )
 
     command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
