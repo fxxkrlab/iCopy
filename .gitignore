@@ -9,3 +9,8 @@ __pycache__
 .vscode
 JWT_auth.py
 utils.py
+bot_func.py
+dir.py
+example.py
+iCopy_dev_with_button.py
+newdev.py
