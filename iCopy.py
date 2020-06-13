@@ -303,7 +303,7 @@ def run(command):
             break
         yield line
 
-
+# cancel function
 """
 def cancel(update, context):
     user = update.message.from_user
