@@ -23,7 +23,7 @@ from threading import Timer
 import settings
 from process_bar import status
 
-# Latest Modified DateTime : 202006131950
+# Latest Modified DateTime : 202006140110
 
 # Logging.basicConfig()
 logging.basicConfig(
