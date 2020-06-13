@@ -17,6 +17,8 @@ from threading import Timer
 import settings
 from process_bar import status
 
+#Latest Modified DateTime : 202006131950
+
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,  # level=logging.INFO
@@ -54,12 +56,12 @@ def start(update, context):
     update.message.reply_text("Fxxkr LAB 出品必属极品\n" "请输入 /help 查询使用命令")
 
 
-'''
+
 #error module
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-'''
+
 # HELP 帮助命令提示引导
 @restricted
 def help(update, context):
@@ -301,7 +303,7 @@ def main():
 
     dp.add_handler(CommandHandler("help", help))
 
-    # dp.add_error_handler(error)
+    dp.add_error_handler(error)
 
     updater.start_polling()
     logger.info("Fxxkr LAB iCopy Start")
