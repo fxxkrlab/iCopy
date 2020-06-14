@@ -1,6 +1,7 @@
 # iCopy  
-[iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6)|
-[TELEGRAM GROUP](https://t.me/sharegdrive)  
+[iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
+[TELEGRAM GROUP](https://t.me/sharegdrive) |
+[CHANGELOG](CHANGELOG.md)
 Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT  
 
 ## Install  
@@ -9,7 +10,7 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 3.Pre-install and Configured [gclone](https://github.com/donwa/gclone) is Reqired  
   For Linux directly use this command  
   `bash <(wget -qO- https://git.io/gclone.sh)`  
-4.`pip3 install python-telegram-bot chardet`  
+4.`pip3 install -r requirements.txt`
 5.`git clone https://github.com/fxxkrlab/iCopy.git && cd iCopy`  
 6.`cp settings.py.example settings.py`  
 7.Edit settings.py   
