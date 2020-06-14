@@ -3,7 +3,8 @@
 * version 0.1.0-alpha.0  
 Update 采用版本号管理更新  
 Update 提取 utils.py 与 iCopy.py 分离  
-FixBug 修复不同入口时功能模块报错  
+Update 新增 requirements.txt 安装方式  
+FixBug 修复不同入口时功能模块报错   
 FixBug 修复所有被影响的 sendMsg 方式  
 
 ***  
