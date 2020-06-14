@@ -1,4 +1,4 @@
-import os, re, time
+import os, re, time, datetime
 import logging, chardet
 from functools import wraps
 from datetime import date
@@ -6,8 +6,6 @@ from subprocess import Popen, PIPE
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    ReplyKeyboardRemove,
-    ReplyKeyboardMarkup,
     Message,
 )
 from telegram.ext import (
@@ -23,14 +21,17 @@ from threading import Timer
 import settings
 from process_bar import status
 
-# Latest Modified DateTime : 202006140110
+# Latest Modified DateTime : 202006141250
 
 # Logging.basicConfig()
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,  # level=logging.INFO
+    level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
+
+# Mission is finished Judged via Mission_Done bool
+Mission_Done = bool
 
 # Conversation Stats
 CHOOSE_MODE, LINK_REPLY, TARGET_REPLY = range(3)
@@ -88,7 +89,7 @@ def error(update, context):
 # HELP 帮助命令提示引导
 @restricted
 def help(update, context):
-    update.message.reply_text(
+    update.effective_message.reply_text(
         "/help - 查询使用命令 \n"
         "/quick Google Drive 极速转存 \n"
         "/copy 自定义目录转存 \n"
@@ -102,7 +103,7 @@ def help(update, context):
 # QUICK Mode ,set mode = quick
 @restricted
 def quick(update, context):
-    update.effective_message.reply_text(
+    update.callback_query.edit_message_text(
         "您好 {} , 本次转存任务您选择了\n┋极速转存┋模式 ".format(update.effective_user.first_name)
     )
     global mode
@@ -114,7 +115,7 @@ def quick(update, context):
 # COPY Mode ,set mode = copy
 @restricted
 def copy(update, context):
-    update.effective_message.reply_text(
+    update.callback_query.edit_message_text(
         "您好 {} , 本次转存任务您选择了\n┋自定义目录┋模式 ".format(update.effective_user.first_name)
     )
     global mode
@@ -152,11 +153,11 @@ def recived_mission(update, context):
     global target
     target = update.effective_message.text
 
-# extract lid,tid from Link(shared & Target)
+    # extract lid,tid from Link(shared & Target)
     lid = "".join(re.findall(regex, link))
     tid = "".join(re.findall(regex, target))
 
-# extract Shared_Link folderName
+    # extract Shared_Link folderName
     foldername = (
         os.popen(
             """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8""".format(
@@ -167,7 +168,7 @@ def recived_mission(update, context):
         .rstrip()
     )
 
-# get Target_folderName under quick mode
+    # get Target_folderName under quick mode
     if "quick" == mode:
         target_folder = (
             os.popen(
@@ -178,10 +179,10 @@ def recived_mission(update, context):
             .read()
             .rstrip()
         )
-# tid = Pre_Dst_id under quick mode
+        # tid = Pre_Dst_id under quick mode
         tid = settings.Pre_Dst_id
 
-# get Target_folderName under copy mode
+    # get Target_folderName under copy mode
     elif "copy" == mode:
         target_folder = (
             os.popen(
@@ -193,7 +194,7 @@ def recived_mission(update, context):
             .rstrip()
         )
 
-# sendmsg Mission.INFO
+    # sendmsg Mission.INFO
     update.effective_message.reply_text(
         "▣▣▣▣▣▣▣▣任务信息▣▣▣▣▣▣▣▣\n"
         "┋资源名称┋:\n"
@@ -204,7 +205,7 @@ def recived_mission(update, context):
         "┋•{}/{}".format(foldername, lid, target_folder, foldername)
     )
 
-# Build Mission Command
+    # Build Mission Command
     command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
         settings.Remote,
         lid,
@@ -237,6 +238,8 @@ def copyprocess(update, context, command):
     prog = ""
     timeout = 0.1
     xtime = 0
+    global Mission_Done
+
     for toutput in run(command):
         print(toutput.decode("utf-8", "ignore"))
         y = re.findall("^Transferred:", toutput.decode("utf-8", "ignore"))
@@ -255,6 +258,7 @@ def copyprocess(update, context, command):
                 toutput.decode("utf-8", "ignore").lstrip("*  ").rsplit(":", 2)[0]
             )
 
+        # if x is None:
         if working1 != working or percent1 != percent:
             if int(time.time()) - xtime > timeout:
                 Timer(
@@ -273,35 +277,36 @@ def copyprocess(update, context, command):
                 working1 = working
                 xtime = time.time()
 
-        if statu != " -" and working1 == working:
-            waitime = int(time.time())
-            if waitime - int(timeout) > 5 and int(statu) > int(0):
-                percent = "100%"
-                prog = status(100)
-                Timer(
-                    0,
-                    sendmsg,
-                    args=(
-                        bot,
-                        message.chat_id,
-                        mid,
-                        "▣▣▣▣▣▣▣转存任务完成▣▣▣▣▣▣▣ \n {} \n {} \n"
-                        "本次转存任务已完成 \n"
-                        "跳转至开始(START)命令 \n".format(percent, prog),
-                    ),
-                ).start()
+    if Mission_Done == True:
+        percent = "100%"
+        prog = status(100)
+        Timer(
+            0,
+            sendmsg,
+            args=(
+                bot,
+                message.chat_id,
+                mid,
+                "▣▣▣▣▣▣▣转存任务完成▣▣▣▣▣▣▣ \n {} \n {} \n"
+                "本次转存任务已完成 \n"
+                "跳转至开始(START)命令 \n".format(percent, prog),
+            ),
+        ).start()
 
-                return start(update, context)
+        return start(update, context)
 
 
 # run(command) subprocess.popen --> line --> stdout
 def run(command):
+    global Mission_Done
     process = Popen(command, stdout=PIPE, shell=True)
     while True:
         line = process.stdout.readline().rstrip()
         if not line:
+            Mission_Done = True
             break
         yield line
+
 
 # cancel function
 """
@@ -321,7 +326,7 @@ def main():
 
     dp = updater.dispatcher
 
-# Entry Conversation
+    # Entry Conversation
     conv_handler = ConversationHandler(
         entry_points=[
             # Entry Points
