@@ -1,7 +1,7 @@
 # iCopy  
 [iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
-[CHANGELOG](CHANGELOG.md)
+[CHANGELOG](CHANGELOG.md)  
 Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT  
 
 ## Install  

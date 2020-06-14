@@ -1,6 +1,6 @@
 ### CHANGELOG
 
-*version 0.1.0-alpha.0  
+* version 0.1.0-alpha.0  
 Update 采用版本号管理更新  
 Update 提取 utils.py 与 iCopy.py 分离  
 FixBug 修复不同入口时功能模块报错  
