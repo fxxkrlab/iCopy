@@ -1,7 +1,7 @@
 ### CHANGELOG
 
-* version 0.1.0-alpha.1
-FixBug 版本号 字符错误
+* version 0.1.0-alpha.1  
+FixBug 版本号 字符错误  
 
 * version 0.1.0-alpha.0  
 Update 采用版本号管理更新  
