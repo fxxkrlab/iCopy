@@ -27,7 +27,7 @@ import settings
 from process_bar import status
 
 # Latest Modified DateTime : 202006150210
-version = 0.1.0-alpha.0
+version = "0.1.0-alpha.1"
 
 # Logging.basicConfig()
 logging.basicConfig(
