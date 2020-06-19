@@ -180,7 +180,7 @@ def recived_mission(update, context):
     global link
     global target
     target = update.effective_message.text
-    if "/cancel" == link.strip()[:7]:
+    if "/cancel" == target.strip()[:7]:
         return cancel(update, context)
 
     # extract lid,tid from Link(shared & Target)
