@@ -1,5 +1,6 @@
 settings.py
-__pycache__
-.vscode
-utils
-under_deving
+__pycache__/
+.vscode/
+under_deving/
+latest_backup/
+.DS_Store

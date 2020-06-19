@@ -8,6 +8,19 @@ from telegram import (
 import settings
 from threading import Timer
 
+# ############################## Program Description ##############################
+# Latest Modified DateTime : 202006191805,
+# Version = '0.1.1-beta.1',
+# Author : 'FxxkrLab',
+# Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
+# Code_URL : 'https://github.com/fxxkrlab/iCopy',
+# Description= 'Copy GoogleDrive Resources via Telegram BOT',
+# Programming Language : Python3',
+# License : MIT License',
+# Operating System : Linux',
+# ############################## Program Description.END ###########################
+
+
 # Mission is finished Judged via Mission_Done bool
 Mission_Done = bool()
 
@@ -58,11 +71,11 @@ def cron_task(sendmsg,bot,chat_id,mid,info,percent,prog,working):
 
 
 # 资源名获取
-def folder_name(remote, lid, mid):
+def folder_name(remote, lid, tid):
     f_name = (
         os.popen(
             """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8"""
-                .format(remote, lid, mid)
+                .format(remote, lid, lid)
         ).read().rstrip()
     )
     return f_name

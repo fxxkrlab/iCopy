@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+* version 0.1.1-beta.1
+Update 新增通过 drive.v3 API 获取 foldername(仅团队盘根目录时)  
+Update settings 中 新增 sa_path 路径需填写  
+Update requirements.txt  
+FixBug 团队盘根目录无法获取 name 任务显示空白  
+FixBug 代码传参错误导致任务运行失败  
+
 * version 0.1.0-alpha.1  
 FixBug 版本号 字符错误  
 

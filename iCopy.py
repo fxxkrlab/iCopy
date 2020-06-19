@@ -22,12 +22,25 @@ from utils import (
     pros_message,
     cron_task
 )
+from drive import drive_get
 from threading import Timer
 import settings
 from process_bar import status
 
-# Latest Modified DateTime : 202006150210
-version = "0.1.0-alpha.1"
+# ############################## Program Description ##############################
+# Latest Modified DateTime : 202006191805,
+# Version = '0.1.1-beta.1',
+# Author : 'FxxkrLab',
+# Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
+# Code_URL : 'https://github.com/fxxkrlab/iCopy',
+# Description= 'Copy GoogleDrive Resources via Telegram BOT',
+# Programming Language : Python3',
+# License : MIT License',
+# Operating System : Linux',
+# ############################## Program Description.END ###########################
+
+
+# ############################## logging ##############################
 
 # Logging.basicConfig()
 logging.basicConfig(
@@ -171,17 +184,30 @@ def recived_mission(update, context):
     tid = "".join(re.findall(regex, target))
 
     # extract Shared_Link folderName
-    foldername = folder_name(settings.Remote, lid, lid)
+    if len(lid) == 28 or len(lid) == 33:
+        foldername = folder_name(settings.Remote, lid, lid)
+    elif len(lid) != 28 and len(lid) != 33:
+        d_id = lid
+        foldername = drive_get(d_id)
 
     # get Target_folderName under quick mode
     if "quick" == mode:
-        target_folder = folder_name(settings.Remote, settings.Pre_Dst_id, settings.Pre_Dst_id)
         # tid = Pre_Dst_id under quick mode
         tid = settings.Pre_Dst_id
+        if len(tid) == 28 or len(tid) == 33:
+            target_folder = folder_name(settings.Remote, tid, tid)
+        elif len(tid) != 28 and len(tid) != 33:
+            d_id = tid
+            target_folder = drive_get(d_id)
+
 
     # get Target_folderName under copy mode
     elif "copy" == mode:
-        target_folder = folder_name(settings.Remote, tid, tid)
+        if len(tid) == 28 or len(tid) == 33:
+            target_folder = folder_name(settings.Remote, tid, tid)
+        elif len(tid) != 28 and len(tid) != 33:
+            d_id = tid
+            target_folder = drive_get(d_id)
 
     # sendmsg Mission.INFO
     update.effective_message.reply_text(task_message()

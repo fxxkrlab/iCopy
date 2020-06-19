@@ -13,3 +13,4 @@ Run_Mode = "--drive-server-side-across-configs -P --ignore-existing"
 Parallel_NUM = "10"
 #自定义并行 Transfers 数
 TRANSFER = "--transfers {}".format(Parallel_NUM)
+sa_path = "填入 Service_Account_Path 路径 结尾不需要 斜杠"
