@@ -19,6 +19,7 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 * ENABLED_USERS : Your telegram user id. Only enabled users can use this bot.  
 * Remote : Your gclone config name.like "gc"  
 * Pre_Dst_id : Pre-Assigned Google Drive Destination Folder ID for quick mode  
+* sa_path : The directory where your "service_accounts.json" is. End without slash "/".  
 
 #### Start iCopy BOT :   
 ##### Start :  
