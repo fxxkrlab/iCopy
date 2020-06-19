@@ -1,5 +1,8 @@
 ### CHANGELOG
 
+* version 0.1.1-beta.2
+Update requirements.txt
+
 * version 0.1.1-beta.1
 Update 新增通过 drive.v3 API 获取 foldername(仅团队盘根目录时)  
 Update settings 中 新增 sa_path 路径需填写  
