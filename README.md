@@ -22,6 +22,7 @@ Copy GoogleDrive Resources via [Telegram](http://telegram.org) BOT
 * Remote : Your gclone config name.like "gc"  
 * Pre_Dst_id : Pre-Assigned Google Drive Destination Folder ID for quick mode  
 * sa_path : The directory where your "service_accounts.json" is. End without slash "/".  
+            NOTICE : "~" is not supported in the path.  
 
 #### Start iCopy BOT :   
 ##### Start :  
