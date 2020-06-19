@@ -8,7 +8,7 @@ from settings import sa_path
 
 # ############################## Program Description ##############################
 # Latest Modified DateTime : 202006191805,
-# Version = '0.1.1-beta.1',
+# Version = '0.1.1-beta.3',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',

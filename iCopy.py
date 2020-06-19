@@ -28,8 +28,8 @@ import settings
 from process_bar import status
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006191805,
-# Version = '0.1.1-beta.1',
+# Latest Modified DateTime : 202006192350,
+# Version = '0.1.1-beta.3',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -134,7 +134,7 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-'''
+
 # cancel function
 
 def cancel(update, context):
@@ -144,7 +144,7 @@ def cancel(update, context):
         "Bye! {} , 欢迎再次使用 iCopy".format(update.message.from_user.first_name)
     )
     return ConversationHandler.END
-'''
+
 
 
 # ################################ Service #################################
@@ -161,6 +161,8 @@ def request_target(update, context):
     global mode
     global link
     link = update.effective_message.text
+    if "/cancel" == link.strip()[:7]:
+        return cancel(update, context)
 
     if "quick" == mode:
 
@@ -178,6 +180,8 @@ def recived_mission(update, context):
     global link
     global target
     target = update.effective_message.text
+    if "/cancel" == link.strip()[:7]:
+        return cancel(update, context)
 
     # extract lid,tid from Link(shared & Target)
     lid = "".join(re.findall(regex, link))
@@ -309,7 +313,7 @@ def main():
                 MessageHandler(Filters.text, recived_mission),
             ],
         },
-        fallbacks=[],
+        fallbacks=[CommandHandler("cancel", cancel),],
     )
 
     dp.add_handler(conv_handler)
