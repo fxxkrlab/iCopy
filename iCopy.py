@@ -8,8 +8,8 @@ from telegram.ext import (
     ConversationHandler,
 )
 from telegram.ext.dispatcher import run_async
+import utils
 from utils import (
-    Mission_Done,
     folder_name,
     sendmsg,
     restricted,
@@ -22,18 +22,20 @@ from utils import (
     cplt_message,
     pros_message,
     cron_task,
-    Mission_kill,
     killmission,
-    kill_message
+    kill_message,
+    Mission_Done,
+    Mission_kill,
 )
 from drive import drive_get
 from threading import Timer, Thread
 import settings
 from process_bar import status
 
+
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006201800,
-# Version = '0.1.2-beta.1',
+# Latest Modified DateTime : 202006202245,
+# Version = '0.1.2-beta.2',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -48,20 +50,15 @@ from process_bar import status
 
 # Logging.basicConfig()
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG,
 )
 logger = logging.getLogger(__name__)
 
 
 # ############################## Global ##############################
 
-# Mission is finished Judged via Mission_Done bool
-Mission_Done = bool
-Mission_kill = bool
-
 # Conversation Stats
-CHOOSE_MODE, LINK_REPLY, TARGET_REPLY= range(3)
+CHOOSE_MODE, LINK_REPLY, TARGET_REPLY = range(3)
 
 # Regex
 regex = r"[-\w]{11,}"
@@ -102,7 +99,7 @@ def quick(update, context):
 
         return request_link(update, context)
 
-    if update.callback_query.data == 'quick':
+    if update.callback_query.data == "quick":
         update.callback_query.edit_message_text(
             mode_message().format(update.effective_user.first_name, "┋极速转存┋")
         )
@@ -124,12 +121,13 @@ def copy(update, context):
 
         return request_link(update, context)
 
-    if update.callback_query.data == 'copy':
+    if update.callback_query.data == "copy":
         update.callback_query.edit_message_text(
             mode_message().format(update.effective_user.first_name, "┋自定义目录┋")
         )
 
         return request_link(update, context)
+
 
 # ############################## Run_Modes.END ##############################
 
@@ -142,6 +140,7 @@ def error(update, context):
 
 # cancel function
 
+
 def cancel(update, context):
     user = update.message.from_user
     logger.info("User %s canceled the conversation.", user.first_name)
@@ -153,10 +152,10 @@ def cancel(update, context):
 
 # kill function
 
+
 def kill(update, context):
     Thread(target=killmission).start()
     return cancel(update, context)
-
 
 
 # ################################ Service #################################
@@ -216,7 +215,6 @@ def recived_mission(update, context):
             d_id = tid
             target_folder = drive_get(d_id)
 
-
     # get Target_folderName under copy mode
     elif "copy" == mode:
         if len(tid) == 28 or len(tid) == 33:
@@ -226,10 +224,9 @@ def recived_mission(update, context):
             target_folder = drive_get(d_id)
 
     # sendmsg Mission.INFO
-    update.effective_message.reply_text(task_message()
-                                        .format(foldername, lid, target_folder, foldername)
-                                        )
-
+    update.effective_message.reply_text(
+        task_message().format(foldername, lid, target_folder, foldername)
+    )
 
     # Build Mission Command
     global command
@@ -280,32 +277,57 @@ def copyprocess(update, context, command):
 
         if working1 != working or percent1 != percent:
             if int(time.time()) - xtime > timeout:
-                cron_task(sendmsg, bot, message.chat_id, mid, pros_message(), percent, prog, working)
+                cron_task(
+                    sendmsg,
+                    bot,
+                    message.chat_id,
+                    mid,
+                    pros_message(),
+                    percent,
+                    prog,
+                    working,
+                )
                 percent1 = percent
                 working1 = working
                 xtime = time.time()
 
     # Fix Mission INFO
-    if Mission_Done:
+    if utils.Mission_Done == "finished":
+        if utils.Mission_kill != "killed":
+            percent = "100%"
+            prog = status(100)
+            cron_task(
+                sendmsg, bot, message.chat_id, mid, cplt_message(), percent, prog, ""
+            )
+            utils.Mission_Done = ""
 
-        if Mission_kill:
+            return help(update, context)
+
+        elif utils.Mission_kill == "killed":
             percent = "0%"
             prog = status(0)
             working = "本次转存任务已取消"
-            cron_task(sendmsg, bot, message.chat_id, mid, kill_message(), percent, prog, working)
+            cron_task(
+                sendmsg,
+                bot,
+                message.chat_id,
+                mid,
+                kill_message(),
+                percent,
+                prog,
+                working,
+            )
+            utils.Mission_Done = ""
+            utils.Mission_kill = ""
 
-        percent = "100%"
-        prog = status(100)
-        cron_task(sendmsg, bot, message.chat_id, mid, cplt_message(), percent, prog, "")
-
-        return help(update, context)
-
+            return help(update, context)
 
 
 # ############################### Main ####################################
 
+
 def main():
-    updater = Updater(settings.TOKEN, use_context=True, )
+    updater = Updater(settings.TOKEN, use_context=True,)
 
     dp = updater.dispatcher
 
@@ -315,7 +337,7 @@ def main():
             # Entry Points
             CommandHandler("start", start),
             CommandHandler("quick", quick),
-            CommandHandler("copy", copy), 
+            CommandHandler("copy", copy),
         ],
         states={
             CHOOSE_MODE: [
@@ -337,9 +359,9 @@ def main():
         fallbacks=[CommandHandler("cancel", cancel),],
     )
 
-    dp.add_handler(CommandHandler("kill", kill),1)
+    dp.add_handler(CommandHandler("kill", kill), 1)
 
-    dp.add_handler(conv_handler,2)
+    dp.add_handler(conv_handler, 2)
 
     dp.add_handler(CommandHandler("help", help))
 

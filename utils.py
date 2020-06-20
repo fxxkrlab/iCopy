@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006201800,
-# Version = '0.1.2-beta.1',
+# Latest Modified DateTime : 202006202245,
+# Version = '0.1.2-beta.2',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -21,9 +21,9 @@ from threading import Timer
 # ############################## Program Description.END ###########################
 
 
-# Mission is finished Judged via Mission_Done bool
-Mission_Done = bool()
-Mission_kill = bool()
+# Mission is finished Judged via Mission_Done and Mission_kill
+Mission_Done = ""
+Mission_kill = ""
 
 
 # ############################## Global AUTH ##############################
@@ -101,14 +101,14 @@ def run(command):
     while True:
         line = icopyprocess.stdout.readline().rstrip()
         if not line:
-            Mission_Done = True
+            Mission_Done = "finished"
             break
         yield line
 
 def killmission():
-    os.popen("killall -9 gclone")
     global Mission_kill
-    Mission_kill = True
+    os.popen("killall -9 gclone")
+    Mission_kill = "killed"
 
 
 
