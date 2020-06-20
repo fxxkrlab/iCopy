@@ -1,5 +1,8 @@
 ### CHANGELOG
 
+* version 0.1.2-beta.2
+FixBug 修复任务完成状态判定错误
+
 * version 0.1.2-beta.1  
 Update /cancel 任务开始前取消对话  
 Update /kill 任务中取消当前任务  
