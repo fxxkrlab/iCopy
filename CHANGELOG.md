@@ -1,16 +1,16 @@
 ### CHANGELOG
 
-* version 0.1.2-beta.1
-Update /cancel 任务开始前取消对话
-Update /kill 任务中取消当前任务
-Update 功能异步处理
-Update Handler 分组优先级处理
-FixBug 当前命令时 Bot 接受命令阻塞问题
+* version 0.1.2-beta.1  
+Update /cancel 任务开始前取消对话  
+Update /kill 任务中取消当前任务  
+Update 功能异步处理  
+Update Handler 分组优先级处理  
+FixBug 当前命令时 Bot 接受命令阻塞问题  
 
-* version 0.1.1-beta.2
-Update requirements.txt
+* version 0.1.1-beta.2  
+Update requirements.txt  
 
-* version 0.1.1-beta.1
+* version 0.1.1-beta.1  
 Update 新增通过 drive.v3 API 获取 foldername(仅团队盘根目录时)  
 Update settings 中 新增 sa_path 路径需填写  
 Update requirements.txt  
