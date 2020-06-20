@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006191805,
-# Version = '0.1.1-beta.3',
+# Latest Modified DateTime : 202006201800,
+# Version = '0.1.2-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -23,6 +23,7 @@ from threading import Timer
 
 # Mission is finished Judged via Mission_Done bool
 Mission_Done = bool()
+Mission_kill = bool()
 
 
 # ############################## Global AUTH ##############################
@@ -96,15 +97,18 @@ def menu_keyboard():
 # run(command) subprocess.popen --> line --> stdout
 def run(command):
     global Mission_Done
-    process = Popen(command, stdout=PIPE, shell=True)
+    icopyprocess = Popen(command, stdout=PIPE, shell=True)
     while True:
-        line = process.stdout.readline().rstrip()
+        line = icopyprocess.stdout.readline().rstrip()
         if not line:
             Mission_Done = True
             break
         yield line
 
-
+def killmission():
+    os.popen("killall -9 gclone")
+    global Mission_kill
+    Mission_kill = True
 
 
 
@@ -118,7 +122,9 @@ def help_message():
     return ("/start - 开始菜单 \n"
             "/help - 帮助菜单 \n"
             "/quick - 极速转存 \n"
-            "/copy - 自定义转存 \n")
+            "/copy - 自定义转存 \n"
+            "/cancel - 任务未开始前取消 \n"
+            "/kill - 任务进行中取消 \n")
 
 
 def mode_message():
@@ -146,5 +152,5 @@ def cplt_message():
 
 
 def kill_message():
-    return "✖✖✖✖✖✖✖任务已被取消✖✖✖✖✖✖✖ \n {} \n {} \n {} \n "
+    return "✖✖✖✖✖✖任务已被取消✖✖✖✖✖✖ \n {} \n {} \n {} \n "
 

@@ -7,6 +7,7 @@ from telegram.ext import (
     CallbackQueryHandler,
     ConversationHandler,
 )
+from telegram.ext.dispatcher import run_async
 from utils import (
     Mission_Done,
     folder_name,
@@ -20,16 +21,19 @@ from utils import (
     task_message,
     cplt_message,
     pros_message,
-    cron_task
+    cron_task,
+    Mission_kill,
+    killmission,
+    kill_message
 )
 from drive import drive_get
-from threading import Timer
+from threading import Timer, Thread
 import settings
 from process_bar import status
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006192350,
-# Version = '0.1.1-beta.3',
+# Latest Modified DateTime : 202006201800,
+# Version = '0.1.2-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -54,9 +58,10 @@ logger = logging.getLogger(__name__)
 
 # Mission is finished Judged via Mission_Done bool
 Mission_Done = bool
+Mission_kill = bool
 
 # Conversation Stats
-CHOOSE_MODE, LINK_REPLY, TARGET_REPLY = range(3)
+CHOOSE_MODE, LINK_REPLY, TARGET_REPLY= range(3)
 
 # Regex
 regex = r"[-\w]{11,}"
@@ -78,7 +83,7 @@ def start(update, context):
 # HELP 帮助命令提示引导
 @restricted
 def help(update, context):
-    update.message.reply_text(help_message())
+    update.effective_message.reply_text(help_message())
 
 
 # ############################## Run_Modes ##############################
@@ -144,6 +149,13 @@ def cancel(update, context):
         "Bye! {} , 欢迎再次使用 iCopy".format(update.message.from_user.first_name)
     )
     return ConversationHandler.END
+
+
+# kill function
+
+def kill(update, context):
+    Thread(target=killmission).start()
+    return cancel(update, context)
 
 
 
@@ -220,6 +232,7 @@ def recived_mission(update, context):
 
 
     # Build Mission Command
+    global command
     command = """gclone copy {}:{{{}}} {}:{{{}}}/"{}" {} {}""".format(
         settings.Remote,
         lid,
@@ -229,12 +242,12 @@ def recived_mission(update, context):
         settings.Run_Mode,
         settings.TRANSFER,
     )
-    copyprocess(update, context, command)
 
-    return ConversationHandler.END
+    return ConversationHandler.END, copyprocess(update, context, command)
 
 
 # 任务信息读取处理，并通过异步进程发送 BOT 界面滚动更新信息
+@run_async
 def copyprocess(update, context, command):
     bot = context.bot
     message = update.effective_message.reply_text("转存任务准备中...")
@@ -274,11 +287,19 @@ def copyprocess(update, context, command):
 
     # Fix Mission INFO
     if Mission_Done:
+
+        if Mission_kill:
+            percent = "0%"
+            prog = status(0)
+            working = "本次转存任务已取消"
+            cron_task(sendmsg, bot, message.chat_id, mid, kill_message(), percent, prog, working)
+
         percent = "100%"
         prog = status(100)
         cron_task(sendmsg, bot, message.chat_id, mid, cplt_message(), percent, prog, "")
 
         return help(update, context)
+
 
 
 # ############################### Main ####################################
@@ -316,7 +337,9 @@ def main():
         fallbacks=[CommandHandler("cancel", cancel),],
     )
 
-    dp.add_handler(conv_handler)
+    dp.add_handler(CommandHandler("kill", kill),1)
+
+    dp.add_handler(conv_handler,2)
 
     dp.add_handler(CommandHandler("help", help))
 

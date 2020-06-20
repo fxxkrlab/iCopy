@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+* version 0.1.2-beta.1
+Update /cancel 任务开始前取消对话
+Update /kill 任务中取消当前任务
+Update 功能异步处理
+Update Handler 分组优先级处理
+FixBug 当前命令时 Bot 接受命令阻塞问题
+
 * version 0.1.1-beta.2
 Update requirements.txt
 
