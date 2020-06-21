@@ -1,11 +1,11 @@
 ### CHANGELOG
 
-* version 0.1.3-beta.1
-Update Command str --> list, subprocess.Popen 父进程管理任务, Shell=False 安全处理
-Update killmission 采用 Popen.kill() 管理父进程，不再使用 killall -9 gclone 防止误杀
+* version 0.1.3-beta.1  
+Update Command str --> list, subprocess.Popen 父进程管理任务, Shell=False 安全处理  
+Update killmission 采用 Popen.kill() 管理父进程，不再使用 killall -9 gclone 防止误杀  
 
-* version 0.1.2-beta.2
-FixBug 修复任务完成状态判定错误
+* version 0.1.2-beta.2  
+FixBug 修复任务完成状态判定错误  
 
 * version 0.1.2-beta.1  
 Update /cancel 任务开始前取消对话  
