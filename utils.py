@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006202245,
-# Version = '0.1.2-beta.2',
+# Latest Modified DateTime : 202006211635,
+# Version = '0.1.3-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -97,7 +97,8 @@ def menu_keyboard():
 # run(command) subprocess.popen --> line --> stdout
 def run(command):
     global Mission_Done
-    icopyprocess = Popen(command, stdout=PIPE, shell=True)
+    global icopyprocess
+    icopyprocess = Popen(command, stdout=PIPE, shell=False)
     while True:
         line = icopyprocess.stdout.readline().rstrip()
         if not line:
@@ -107,9 +108,9 @@ def run(command):
 
 def killmission():
     global Mission_kill
-    os.popen("killall -9 gclone")
+    global icopyprocess
+    icopyprocess.kill()
     Mission_kill = "killed"
-
 
 
 

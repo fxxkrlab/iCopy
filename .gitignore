@@ -4,3 +4,4 @@ __pycache__/
 under_deving/
 latest_backup/
 .DS_Store
+test.py
