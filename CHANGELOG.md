@@ -1,7 +1,7 @@
 ### CHANGELOG
 
-* version 0.1.3-beta.2
-FixBug 修正命令分隔符问题 以 jsusplit 替代 空格
+* version 0.1.3-beta.2  
+FixBug 修正命令分隔符问题 以 jsusplit 替代 空格  
 
 * version 0.1.3-beta.1  
 Update Command str --> list, subprocess.Popen 父进程管理任务, Shell=False 安全处理  
