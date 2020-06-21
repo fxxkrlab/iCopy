@@ -9,7 +9,7 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006211635,
+# Latest Modified DateTime : 202006211635 ,
 # Version = '0.1.3-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
