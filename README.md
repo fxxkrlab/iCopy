@@ -1,5 +1,5 @@
 [<img src="https://f002.backblazeb2.com/file/jsuforum-upload/optimized/1X/cff2835c1652bb57a18aac42a3eee34b51cd9b89_2_1380x386.gif" width="50%" alt="jclone">](https://bbs.jsu.net/c/official-project/icopy/6)  
-![iCopy-Telegram-Bot](https://img.shields.io/badge/iCopy-Telegram%20BOT-red)  
+![iCopy-Telegram-Bot](https://img.shields.io/badge/iCopy-Telegram%20BOT-red)![iCopy](https://img.shields.io/github/license/fxxkrlab/iCopy)![python3.6+](https://img.shields.io/badge/Python-3.6%20%2B-infomation)  
 [iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
 [CHANGELOG](CHANGELOG.md)  
