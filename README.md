@@ -3,13 +3,13 @@
 [![iCopy Telegram-Bot](https://img.shields.io/badge/iCopy-Telegram%20BOT-red)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![Programming Language](https://img.shields.io/badge/Python-3.6%20%2B-infomation)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![Version](https://img.shields.io/badge/Version-0.1.3--beta.2-ff69b4)](https://bbs.jsu.net/c/official-project/icopy/6)
-![License](https://img.shields.io/github/license/fxxkrlab/iCopy)](https://bbs.jsu.net/c/official-project/icopy/6)  
+[![License](https://img.shields.io/github/license/fxxkrlab/iCopy)](https://bbs.jsu.net/c/official-project/icopy/6)  
 
 [iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
 [CHANGELOG](CHANGELOG.md)  
  
-Send commands to [Telegram](http://telegram.org) BOT for get a **_convience way to control_** [gclone](https://github.com/donwa/gclone) resources copy missions.  
+**Send commands to [Telegram](http://telegram.org) BOT for get a ####_convience way to control_ [gclone](https://github.com/donwa/gclone) resources copy missions.**  
 
 ## Install  
 1.Python 3.6+ is Required  
