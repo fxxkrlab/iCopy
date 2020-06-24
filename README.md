@@ -15,7 +15,7 @@
 1.Python 3.6+ is Required  
 2.Pre-install screen  
 3.Pre-install and Configured [gclone](https://github.com/donwa/gclone) is Reqired  
-&nbsp;&nbsp;&nbsp;For Linux directly use this command  
+&nbsp;&nbsp;&nbsp;&nbsp;For Linux directly use this command  
 &nbsp;&nbsp;&nbsp;`bash <(wget -qO- https://git.io/gclone.sh)`  
 4.`git clone https://github.com/fxxkrlab/iCopy.git && cd iCopy`  
 5.`python3 -m venv .`  
