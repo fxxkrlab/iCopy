@@ -16,7 +16,7 @@
 2.Pre-install screen  
 3.Pre-install and Configured [gclone](https://github.com/donwa/gclone) is Reqired  
   For Linux directly use this command  
-  `bash <(wget -qO- https://git.io/gclone.sh)`  
+&nbsp;`bash <(wget -qO- https://git.io/gclone.sh)`  
 4.`git clone https://github.com/fxxkrlab/iCopy.git && cd iCopy`  
 5.`python3 -m venv .`  
 6.`. ./bin/activate`  
