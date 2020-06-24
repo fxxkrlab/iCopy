@@ -1,5 +1,8 @@
 ### CHANGELOG
 
+* version 0.1.3  
+Pre-Release version 0.1.3  
+
 * version 0.1.3-beta.2  
 FixBug 修正命令分隔符问题 以 jsusplit 替代 空格  
 

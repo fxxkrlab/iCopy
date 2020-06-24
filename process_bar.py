@@ -1,6 +1,18 @@
 # -*- coding: utf-8
 import os, re
 
+# ############################## Program Description ##############################
+# Latest Modified DateTime : 202006250130 ,
+# Version = '0.1.3',
+# Author : 'FxxkrLab',
+# Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
+# Code_URL : 'https://github.com/fxxkrlab/iCopy',
+# Description= 'Copy GoogleDrive Resources via Telegram BOT',
+# Programming Language : Python3',
+# License : MIT License',
+# Operating System : Linux',
+# ############################## Program Description.END ###########################
+
 #转存进程动画设定
 #code from steve x
 def status(val):

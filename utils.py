@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006220250 ,
-# Version = '0.1.3-beta.2',
+# Latest Modified DateTime : 202006250130 ,
+# Version = '0.1.3',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -149,7 +149,7 @@ def pros_message():
 def cplt_message():
     return ("▣▣▣▣▣▣▣转存任务完成▣▣▣▣▣▣▣ \n {} \n {} \n{} \n "
             "本次转存任务已完成 \n"
-            "跳转至开始(START)命令 \n")
+            "跳转至帮助(HELP)命令 \n")
 
 
 def kill_message():
