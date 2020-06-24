@@ -9,7 +9,7 @@
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
 [CHANGELOG](CHANGELOG.md)  
  
-**Send commands to [Telegram](http://telegram.org) BOT for get a ####_convience way to control_ [gclone](https://github.com/donwa/gclone) resources copy missions.**  
+**Send commands to [Telegram](http://telegram.org) BOT for get a _convience way to control_ [gclone](https://github.com/donwa/gclone) resources copy missions.**  
 
 ## Install  
 1.Python 3.6+ is Required  
