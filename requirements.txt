@@ -1,0 +1,4 @@
+oauth2client==4.1.3
+chardet==3.0.4
+python_telegram_bot==12.7
+google_api_python_client==1.9.3
