@@ -34,8 +34,8 @@ from process_bar import status
 
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006251000 ,
-# Version = '0.1.4-beta.1',
+# Latest Modified DateTime : 202006252000 ,
+# Version = '0.1.5-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -203,7 +203,8 @@ def recived_mission(update, context):
         foldername = folder_name(settings.Remote, lid, lid)
     elif len(lid) != 28 and len(lid) != 33:
         d_id = lid
-        foldername = drive_get(d_id)
+        foldername = drive_get(d_id)['name']
+
 
     # get Target_folderName under quick mode
     if "quick" == mode:
@@ -213,7 +214,7 @@ def recived_mission(update, context):
             target_folder = folder_name(settings.Remote, tid, tid)
         elif len(tid) != 28 and len(tid) != 33:
             d_id = tid
-            target_folder = drive_get(d_id)
+            target_folder = drive_get(d_id)['name']
 
     # get Target_folderName under copy mode
     elif "copy" == mode:
@@ -221,7 +222,7 @@ def recived_mission(update, context):
             target_folder = folder_name(settings.Remote, tid, tid)
         elif len(tid) != 28 and len(tid) != 33:
             d_id = tid
-            target_folder = drive_get(d_id)
+            target_folder = drive_get(d_id)['name']
 
     # sendmsg Mission.INFO
     update.effective_message.reply_text(
