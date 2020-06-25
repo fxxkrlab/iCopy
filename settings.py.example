@@ -1,8 +1,8 @@
 import os
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006250130 ,
-# Version = '0.1.3',
+# Latest Modified DateTime : 202006251000 ,
+# Version = '0.1.4-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -17,12 +17,18 @@ TOKEN = os.environ.get("TELEGRAM_API_TOKEN", '填写bot Api Token')
 ENABLED_USERS = os.environ.get("ENABLED_USERS", '填写个人TG ID')
 ENABLED_USERS = set(int(e.strip()) for e in ENABLED_USERS.split(','))
 
-#iCopy设置中"jsusplit"为一个识别度高的命令分隔符请不要删除
-Remote = "填写gclone配置名"
-Pre_Dst_id = "预定的Dst Folder ID"
-Run_Mode = "--drive-server-side-across-configsjsusplit-Pjsusplit--ignore-existing"
+#iCopy设置中"' JSUSPLIT '"为一个识别度高的命令分隔符请不要删除
 #Run_Mode 中 "-P" 为必须参数, 请不要删除
-Parallel_NUM = "10"
+#Clone = "填写你使用的程序"
+Remote = "填写配置名"
+Pre_Dst_id = "预定的Dst ID"
+Run_Mode = "--drive-server-side-across-configs' JSUSPLIT '-P' JSUSPLIT '--ignore-existing"
+
 #自定义并行 Transfers 数
-TRANSFER = "--transfersjsusplit{}".format(Parallel_NUM)
-sa_path = "填入 Service_Account_Path 路径 结尾不需要 斜杠"
+Parallel_NUM = "10"
+TRANSFER = "--transfers' JSUSPLIT '{}".format(Parallel_NUM)
+
+#Service Accounts 所在文件夹路径
+sa_path = (
+    "Service Accounts 文件所在路径"
+)

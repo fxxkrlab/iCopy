@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006250130 ,
-# Version = '0.1.3',
+# Latest Modified DateTime : 202006251000 ,
+# Version = '0.1.4-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -75,8 +75,8 @@ def cron_task(sendmsg,bot,chat_id,mid,info,percent,prog,working):
 def folder_name(remote, lid, tid):
     f_name = (
         os.popen(
-            """gclone lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8"""
-                .format(remote, lid, lid)
+            """{} lsf {}:{{{}}} --dump bodies -vv 2>&1 | grep '"{}","name"' | cut -d '"' -f 8"""
+                .format(settings.Clone, remote, lid, lid)
         ).read().rstrip()
     )
     return f_name

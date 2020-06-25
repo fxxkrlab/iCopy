@@ -34,8 +34,8 @@ from process_bar import status
 
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006250130 ,
-# Version = '0.1.3',
+# Latest Modified DateTime : 202006251000 ,
+# Version = '0.1.4-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -230,7 +230,8 @@ def recived_mission(update, context):
 
     # Build Mission Command
     global command
-    commandstr = """gclonejsusplitcopyjsusplit{}:{{{}}}jsusplit{}:{{{}}}/{}jsusplit{}jsusplit{}""".format(
+    commandstr = """{}' JSUSPLIT 'copy' JSUSPLIT '{}:{{{}}}' JSUSPLIT '{}:{{{}}}/{}' JSUSPLIT '{}' JSUSPLIT '{}""".format(
+        settings.Clone,
         settings.Remote,
         lid,
         settings.Remote,
@@ -240,7 +241,7 @@ def recived_mission(update, context):
         settings.TRANSFER,
     )
 
-    command = commandstr.split("jsusplit")
+    command = commandstr.split("' JSUSPLIT '")
     print(command)
 
     return ConversationHandler.END, copyprocess(update, context, command)
