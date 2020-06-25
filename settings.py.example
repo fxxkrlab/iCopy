@@ -61,5 +61,8 @@ TRANSFER = "--transfers' JSUSPLIT '{}".format(Parallel_NUM)
 
 # ################################ unused variable ###############################
 
-#shared_drive IDs for future verion
+# Shared Drive IDs for future verion
 shared_drive = "Is not used in current version"
+
+# Authorized from Account Credentials via OAuth2
+cred_path = ""
