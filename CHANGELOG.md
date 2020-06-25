@@ -1,6 +1,6 @@
 ### CHANGELOG
 
-* version 0.1.4-beta.1
+* version 0.1.4-beta.1  
 **0.1.3 用户非必要立即升级 0.1.4-beta.1 ，若升级请同时使用新 settings 文件替换**  
 采纳建议分隔符调整为 ' JSUSPLIT ' , 更加清晰  
 添加命令前缀设置 settings.Clone 中可填入 rclone / gclone 不用再反复修改代码  
