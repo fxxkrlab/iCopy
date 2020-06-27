@@ -26,6 +26,7 @@ from utils import (
     kill_message,
     Mission_Done,
     Mission_kill,
+    kill_message_info
 )
 from drive import drive_get
 from threading import Timer, Thread
@@ -34,8 +35,8 @@ from process_bar import status
 
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006252000 ,
-# Version = '0.1.5-beta.1',
+# Latest Modified DateTime : 202006271300 ,
+# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -230,7 +231,6 @@ def recived_mission(update, context):
     )
 
     # Build Mission Command
-    global command
     commandstr = """{}' JSUSPLIT 'copy' JSUSPLIT '{}:{{{}}}' JSUSPLIT '{}:{{{}}}/{}' JSUSPLIT '{}' JSUSPLIT '{}""".format(
         settings.Clone,
         settings.Remote,
@@ -243,7 +243,7 @@ def recived_mission(update, context):
     )
 
     command = commandstr.split("' JSUSPLIT '")
-    print(command)
+    #print(command)
 
     return ConversationHandler.END, copyprocess(update, context, command)
 
@@ -309,18 +309,15 @@ def copyprocess(update, context, command):
             return help(update, context)
 
         elif utils.Mission_kill == "killed":
-            percent = "0%"
-            prog = status(0)
-            working = "本次转存任务已取消"
             cron_task(
                 sendmsg,
                 bot,
                 message.chat_id,
                 mid,
                 kill_message(),
-                percent,
-                prog,
-                working,
+                kill_message_info(),
+                "",
+                "",
             )
             utils.Mission_Done = ""
             utils.Mission_kill = ""
