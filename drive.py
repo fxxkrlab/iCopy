@@ -1,4 +1,4 @@
-import re
+import re, json
 from oauth2client.service_account import ServiceAccountCredentials
 from googleapiclient.discovery import build
 
@@ -7,8 +7,8 @@ from glob import glob
 from settings import sa_path
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006250130 ,
-# Version = '0.1.3',
+# Latest Modified DateTime : 202006252000 ,
+# Version = '0.1.5-beta.1',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -18,6 +18,8 @@ from settings import sa_path
 # Operating System : Linux',
 # ############################## Program Description.END ###########################
 
+d_callback = {}
+
 def credentials_from_file():
 
     SCOPES = [
@@ -25,7 +27,6 @@ def credentials_from_file():
     ]
 
     SERVICE_ACCOUNT_FILE = glob(sa_path + '/*.json')[0]
-    print(SERVICE_ACCOUNT_FILE)
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
             SERVICE_ACCOUNT_FILE, scopes=SCOPES)
@@ -33,11 +34,11 @@ def credentials_from_file():
     return credentials
 
 def drive_get(d_id):
+    global d_callback
     credentials = credentials_from_file()
     service = build('drive', 'v3', credentials=credentials)
     resp = service.drives().get(driveId="{}".format(d_id)).execute()
-    result = str(resp)
-    symbols = re.compile(r"[{}' ]",flags=re.UNICODE)
-    result = symbols.sub("",result).rsplit(":", 3)[3]
-    print(result)
+    result = str(resp).replace("'", '"')
+    result = json.loads(result)
+    d_callback[result['id']] = result
     return result
