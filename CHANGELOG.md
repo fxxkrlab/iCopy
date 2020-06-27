@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+* version 0.1.6  
+**0.1.3 用户推荐直接升级到 0.1.6 版本，升级时请务必替换新 settings 文件**  
+FixBug 修改任务完成与取消状态判定方式  
+Update 功能细微调整为后续版本准备  
+  
 * version 0.1.5-beta.1  
 Make adjustments for future versions  
 
