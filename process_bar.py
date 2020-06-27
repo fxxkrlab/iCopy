@@ -2,8 +2,8 @@
 import os, re
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006252000 ,
-# Version = '0.1.5-beta.1',
+# Latest Modified DateTime : 202006271300 ,
+# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',

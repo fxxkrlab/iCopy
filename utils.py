@@ -9,8 +9,8 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006252000 ,
-# Version = '0.1.5-beta.1',
+# Latest Modified DateTime : 202006271300 ,
+# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -102,7 +102,8 @@ def run(command):
     while True:
         line = icopyprocess.stdout.readline().rstrip()
         if not line:
-            Mission_Done = "finished"
+            if icopyprocess.poll() == 0 or icopyprocess.poll() == -9:
+                Mission_Done = "finished"
             break
         yield line
 
@@ -151,7 +152,10 @@ def cplt_message():
             "本次转存任务已完成 \n"
             "跳转至帮助(HELP)命令 \n")
 
-
 def kill_message():
-    return "✖✖✖✖✖✖任务已被取消✖✖✖✖✖✖ \n {} \n {} \n {} \n "
+    return "✖✖✖✖✖任务已被取消✖✖✖✖✖\n{} \n {} \n {} \n "
+
+def kill_message_info():
+    return ("\n"
+            "•  本次转存任务已取消\n")
 
