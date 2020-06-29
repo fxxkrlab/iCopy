@@ -1,5 +1,9 @@
 ### CHANGELOG
-
+  
+* version 0.1.7-beta.1  
+FixBug 修正任务进度判断功能,当 clone 工具未正常退出进程时  
+Update ADD "/ver" 查看版本号功能   
+  
 * version 0.1.6  
 **0.1.3 用户推荐直接升级到 0.1.6 版本，升级时请务必替换新 settings 文件**  
 FixBug 修改任务完成与取消状态判定方式  

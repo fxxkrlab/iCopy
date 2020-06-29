@@ -1,14 +1,12 @@
-import re, json
+import re, json, random
 from oauth2client.service_account import ServiceAccountCredentials
 from googleapiclient.discovery import build
-
+from telegram.ext.dispatcher import run_async
 from glob import glob
 
 from settings import sa_path
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006271300 ,
-# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -26,12 +24,15 @@ def credentials_from_file():
         'https://www.googleapis.com/auth/drive'
     ]
 
-    SERVICE_ACCOUNT_FILE = glob(sa_path + '/*.json')[0]
+    #_sas = glob(sa_path + '/*.json')
+
+    SERVICE_ACCOUNT_FILE = random.choice(glob(sa_path + '/*.json'))
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
             SERVICE_ACCOUNT_FILE, scopes=SCOPES)
             
     return credentials
+
 
 def drive_get(d_id):
     global d_callback
