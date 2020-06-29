@@ -1,4 +1,4 @@
-import os
+import os, requests, json, logging
 from functools import wraps
 from subprocess import Popen, PIPE
 from telegram import (
@@ -9,8 +9,6 @@ import settings
 from threading import Timer
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006271300 ,
-# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -20,6 +18,10 @@ from threading import Timer
 # Operating System : Linux',
 # ############################## Program Description.END ###########################
 
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
 
 # Mission is finished Judged via Mission_Done and Mission_kill
 Mission_Done = ""
@@ -102,6 +104,8 @@ def run(command):
     while True:
         line = icopyprocess.stdout.readline().rstrip()
         if not line:
+            icopyprocess.wait(timeout=1)
+            print(icopyprocess.returncode)
             if icopyprocess.poll() == 0 or icopyprocess.poll() == -9:
                 Mission_Done = "finished"
             break
@@ -113,7 +117,11 @@ def killmission():
     icopyprocess.kill()
     Mission_kill = "killed"
 
-
+def _get_ver():
+    _url = "https://api.github.com/repos/fxxkrlab/iCopy/releases"
+    _r_ver = requests.get(_url).json()
+    _latest_ver = _r_ver[0]["tag_name"]
+    return _latest_ver
 
 # ############################## Message ##############################
 def start_message():
@@ -126,7 +134,8 @@ def help_message():
             "/quick - 极速转存 \n"
             "/copy - 自定义转存 \n"
             "/cancel - 任务未开始前取消 \n"
-            "/kill - 任务进行中取消 \n")
+            "/kill - 任务进行中取消 \n"
+            "/ver - 查询版本号 \n")
 
 
 def mode_message():
@@ -159,3 +168,5 @@ def kill_message_info():
     return ("\n"
             "•  本次转存任务已取消\n")
 
+def drive_select_message():
+    return "请选择目标团队盘 \n"

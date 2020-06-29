@@ -26,7 +26,8 @@ from utils import (
     kill_message,
     Mission_Done,
     Mission_kill,
-    kill_message_info
+    kill_message_info,
+    _get_ver
 )
 from drive import drive_get
 from threading import Timer, Thread
@@ -35,8 +36,6 @@ from process_bar import status
 
 
 # ############################## Program Description ##############################
-# Latest Modified DateTime : 202006271300 ,
-# Version = '0.1.6',
 # Author : 'FxxkrLab',
 # Website: 'https://bbs.jsu.net/c/official-project/icopy/6',
 # Code_URL : 'https://github.com/fxxkrlab/iCopy',
@@ -46,6 +45,7 @@ from process_bar import status
 # Operating System : Linux',
 # ############################## Program Description.END ###########################
 
+_Version = 'v0.1.7-beta.1'
 
 # ############################## logging ##############################
 
@@ -153,10 +153,19 @@ def cancel(update, context):
 
 # kill function
 
-
 def kill(update, context):
     Thread(target=killmission).start()
     return cancel(update, context)
+
+
+# version
+
+def _version(update, context):
+    update.message.reply_text(
+        "Welcome to use iCopy-Bot\n"
+        "Current Version : {}\n"
+        "Latest Version : {}".format(_Version, _get_ver())
+    )
 
 
 # ################################ Service #################################
@@ -361,9 +370,11 @@ def main():
         fallbacks=[CommandHandler("cancel", cancel),],
     )
 
+    dp.add_handler(conv_handler, 2)
+
     dp.add_handler(CommandHandler("kill", kill), 1)
 
-    dp.add_handler(conv_handler, 2)
+    dp.add_handler(CommandHandler("ver", _version))
 
     dp.add_handler(CommandHandler("help", help))
 
