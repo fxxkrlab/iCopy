@@ -46,8 +46,8 @@ sa_path = "Service Accounts 文件所在路径"
 
 TOKEN = os.environ.get("TELEGRAM_API_TOKEN", "{}").format(_token)
 
-USER_LIST = _usr_id.split(",")
-ENABLED_USERS = os.environ.get("ENABLED_USERS", f"{for e in USER_LIST}")
+
+ENABLED_USERS = os.environ.get("ENABLED_USERS", _usr_id)
 
 # Run_Mode 中 "-P" 为必须参数, 请不要删除
 Run_Mode = "--drive-server-side-across-configs' JSUSPLIT '-P' JSUSPLIT '--ignore-existing"
