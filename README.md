@@ -1,4 +1,4 @@
-**_iCopy v0.1.x_ 不再接受 _bug_ 反馈以及未来不会再进行更新**
+**_iCopy v0.1.x_ 不再接受 _bug_ 反馈以及未来不会再进行更新**  
 **如果喜欢 _iCopy_ 请耐心等待 _v0.2.x_ 版本发布,预计10天内**  
 
 [<img src="https://f002.backblazeb2.com/file/jsuforum-upload/optimized/1X/cff2835c1652bb57a18aac42a3eee34b51cd9b89_2_1380x386.gif" width="50%" alt="jclone">](https://bbs.jsu.net/c/official-project/icopy/6)  
