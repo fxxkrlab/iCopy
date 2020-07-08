@@ -34,7 +34,7 @@ Mission_kill = ""
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
-        user_id = update.effective_user.id
+        user_id = str(update.effective_user.id)
         if user_id not in settings.ENABLED_USERS:
             print(f"Unauthorized access denied for {user_id}.")
             update.message.reply_text(
