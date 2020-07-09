@@ -45,7 +45,7 @@ from process_bar import status
 # Operating System : Linux',
 # ############################## Program Description.END ###########################
 
-_Version = 'v0.1.7-beta.2'
+_Version = 'v0.1.7-beta.3'
 
 # ############################## logging ##############################
 
