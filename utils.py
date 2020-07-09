@@ -56,7 +56,7 @@ def sendmsg(bot, chat_id, mid, context):
     bot.edit_message_text(chat_id=chat_id, message_id=mid, text=context),
 
 # Cron task
-def cron_task(sendmsg,bot,chat_id,mid,info,percent,prog,working):
+def cron_task(sendmsg,bot,chat_id,mid,info,percent,fps,prog,working):
     Timer(
         0,
         sendmsg,
@@ -65,7 +65,7 @@ def cron_task(sendmsg,bot,chat_id,mid,info,percent,prog,working):
             chat_id,
             mid,
             info.format(
-                percent, prog, working,
+                percent, fps, prog, working,
             ),
         ),
     ).start()
@@ -151,11 +151,11 @@ def task_message():
 
 
 def pros_message():
-    return "▣▣▣▣▣▣▣正在执行转存▣▣▣▣▣▣▣ \n {} \n {} \n {} \n "
+    return "▣▣▣▣▣▣▣正在执行转存▣▣▣▣▣▣▣ \n {} {}\n {} \n {} \n "
 
 
 def cplt_message():
-    return ("▣▣▣▣▣▣▣转存任务完成▣▣▣▣▣▣▣ \n {} \n {} \n{} \n "
+    return ("▣▣▣▣▣▣▣转存任务完成▣▣▣▣▣▣▣ \n {} {}\n {} \n{} \n "
             "本次转存任务已完成 \n"
             "跳转至帮助(HELP)命令 \n")
 

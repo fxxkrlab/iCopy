@@ -240,7 +240,7 @@ def recived_mission(update, context):
     )
 
     # Build Mission Command
-    commandstr = """{}' JSUSPLIT 'copy' JSUSPLIT '{}:{{{}}}' JSUSPLIT '{}:{{{}}}/{}' JSUSPLIT '{}' JSUSPLIT '{}""".format(
+    commandstr = """{}' JSUSPLIT 'copy' JSUSPLIT '{}:{{{}}}' JSUSPLIT '{}:{{{}}}/{}' JSUSPLIT '{}' JSUSPLIT '{}' JSUSPLIT '{}""".format(
         settings.Clone,
         settings.Remote,
         lid,
@@ -249,6 +249,7 @@ def recived_mission(update, context):
         foldername,
         settings.Run_Mode,
         settings.TRANSFER,
+        settings.CHECKERS,
     )
 
     command = commandstr.split("' JSUSPLIT '")
@@ -265,6 +266,7 @@ def copyprocess(update, context, command):
     mid = message.message_id
     percent = ""
     percent1 = ""
+    fps = ""
     working = ""
     working1 = ""
     prog = ""
@@ -280,6 +282,7 @@ def copyprocess(update, context, command):
             val = val.split(",")
             percent = str(val[1])
             statu = val[1].replace("%", "")
+            fps = str(val[2])
             if statu != " -":
                 statu = int(statu)
                 prog = status(statu)
@@ -298,6 +301,7 @@ def copyprocess(update, context, command):
                     mid,
                     pros_message(),
                     percent,
+                    fps,
                     prog,
                     working,
                 )
@@ -311,7 +315,7 @@ def copyprocess(update, context, command):
             percent = "100%"
             prog = status(100)
             cron_task(
-                sendmsg, bot, message.chat_id, mid, cplt_message(), percent, prog, ""
+                sendmsg, bot, message.chat_id, mid, cplt_message(), fps, percent, prog, ""
             )
             utils.Mission_Done = ""
 
@@ -325,6 +329,7 @@ def copyprocess(update, context, command):
                 mid,
                 kill_message(),
                 kill_message_info(),
+                "",
                 "",
                 "",
             )

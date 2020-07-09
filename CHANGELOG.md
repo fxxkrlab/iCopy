@@ -2,7 +2,6 @@
 
 * version 0.1.7-beta.2  
 FixBug fix timeout bug  
-FixBug var type error  
     
 * version 0.1.7-beta.1  
 FixBug 修正任务进度判断功能,当 clone 工具未正常退出进程时  

@@ -24,7 +24,7 @@ _usr_id = "这里填写个人 id 应为全数字"
 
 # ############################## Pre-Configuration ################################
 
-# rclone / gclone
+# rclone / gclone / fclone
 Clone = "填写你使用的程序"
 
 # e.g. "gc"
@@ -33,8 +33,9 @@ Remote = "填写配置名"
 # Folder Id / Drive Id
 Pre_Dst_id = "Quick 模式预定 Dst ID"
 
-# 自定义 Transfers 数,default = "10",
-Parallel_NUM = "10"
+# 自定义 Transfers 数,default = "10", 使用fclone可自行设置更高/低的数值。如果不使用fclone 请设置低数值,
+Parallel_NUM = "280"
+Checkers_NUM = "214"
 
 #Service Accounts 所在文件夹路径 尾部 "不" 需要 "/" 斜杠
 sa_path = "Service Accounts 文件所在路径"
@@ -50,10 +51,10 @@ TOKEN = os.environ.get("TELEGRAM_API_TOKEN", "{}").format(_token)
 ENABLED_USERS = os.environ.get("ENABLED_USERS", _usr_id)
 
 # Run_Mode 中 "-P" 为必须参数, 请不要删除
-Run_Mode = "--drive-server-side-across-configs' JSUSPLIT '-P' JSUSPLIT '--ignore-existing"
+Run_Mode = "--drive-server-side-across-configs' JSUSPLIT '--stats=1s' JSUSPLIT '-qP' JSUSPLIT '--drive-pacer-min-sleep=1ms' JSUSPLIT '--check-first' JSUSPLIT '--ignore-existing"
 
-TRANSFER = "--transfers' JSUSPLIT '{}".format(Parallel_NUM)
-
+TRANSFER = "--transfers={}".format(Parallel_NUM)
+CHECKERS = "--checkers={}".format(Checkers_NUM)
 # ################################ Load Settings.END ###############################
 
 
@@ -64,3 +65,4 @@ shared_drive = "Is not used in current version"
 
 # Authorized from Account Credentials via OAuth2
 cred_path = ""
+
