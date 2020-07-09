@@ -34,8 +34,8 @@ Remote = "填写配置名"
 Pre_Dst_id = "Quick 模式预定 Dst ID"
 
 # 自定义 Transfers 数,default = "10", 使用fclone可自行设置更高/低的数值。如果不使用fclone 请设置低数值,
-Parallel_NUM = "280"
-Checkers_NUM = "214"
+Parallel_NUM = "128"
+Checkers_NUM = "128"
 
 #Service Accounts 所在文件夹路径 尾部 "不" 需要 "/" 斜杠
 sa_path = "Service Accounts 文件所在路径"
