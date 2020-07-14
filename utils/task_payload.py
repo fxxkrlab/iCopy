@@ -23,7 +23,7 @@ message_info = ""
 prog_bar = ""
 current_working_file = ""
 now_elapsed_time = ""
-
+context_old = ""
 
 def task_buffer():
     while True:
@@ -195,8 +195,7 @@ def task_process(chat_id, command, task):
                     + "\n\n"
                     + message_info
                     + "\n\n"
-                    + current_working_file
-                    + "\n"
+                    + current_working_file[:20]
                     + "ETA : "
                     + str(task_eta_in_file),
                 ),
@@ -240,8 +239,9 @@ def task_process(chat_id, command, task):
 
 
 def task_message_box(bot, chat_id, message_id, context):
-
-    bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=context)
+    if context_old != context:
+        bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=context)
+        context_old = context
 
 
 def run(command):
