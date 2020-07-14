@@ -10,7 +10,7 @@ from utils.load import _lang, _text
 from telegram.ext import ConversationHandler
 from drive.gdrive import GoogleDrive as _gd
 from telegram import ParseMode
-from multiprocessing import Process as _mp
+from threading import Thread
 
 
 logging.basicConfig(
@@ -18,7 +18,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK = range(4)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST = range(5)
 
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"
@@ -147,8 +147,8 @@ def get_share_link(update, context):
                 }
             )
 
-    progress = _mp(target=_box.cook_task_to_db, args=(update, context, tmp_task_list))
-    progress.start()
+
+    Thread(target=_box.cook_task_to_db,args=(update, context, tmp_task_list)).start()
 
     return ConversationHandler.END
 
