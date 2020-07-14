@@ -180,7 +180,7 @@ def task_process(chat_id, command, task):
 
         if int(time.time()) - xtime > timeout and old_working_line != current_working_line:
             Timer(
-                3.5,
+                0,
                 task_message_box,
                 args=(
                     bot,
@@ -196,16 +196,19 @@ def task_process(chat_id, command, task):
                     + message_info
                     + "\n\n"
                     + current_working_file[:20]
+                    + "\n"
                     + "ETA : "
                     + str(task_eta_in_file),
                 ),
             ).start()
-            xtime = time.time()
             old_working_line = current_working_line
+            time.sleep(3.5)
+            xtime = time.time()
 
-    time.sleep(4.5)
-    prog_bar = _bar.status(100)
+
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    time.sleep(10)
+    prog_bar = _bar.status(100)
     bot.edit_message_text(
         chat_id=chat_id,
         message_id=message_id,
@@ -240,6 +243,7 @@ def task_process(chat_id, command, task):
 
 def task_message_box(bot, chat_id, message_id, context):
     global context_old
+    context_old = "iCopy"
     if context_old != context:
         bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=context)
         context_old = context
