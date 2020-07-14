@@ -1,0 +1,36 @@
+
+[tg]
+
+token = "Bot API Token HERE" # get from tg::botfather
+
+usr_id = "user id HERE" # get from tg::@get_id_bot
+
+[database]
+
+db_addr = "Your database address here" # mongodb host address
+
+db_port = 27017 # mongodb connect port,default is 27017
+
+db_name = "iCopy" # set Your mongodb collection_Name,default is "iCopy"
+
+db_user = "Your mongodb user_Name HERE" # mongodb username
+
+db_passwd = "Your mongodb user_Passwd HERE" # mongodb passwd
+
+[general]
+
+language = "cn" # cn / eng / jp,default is "cn"
+
+cloner = "fclone" # Only fclone is suitable now,Future supports: rclone / gclone / autorclone
+
+remote = "" # e.g. "fc" , "gc" , "rc", "sa" ,etc...
+
+parallel_c = "16" # customize checkers_NUM,default = "16"
+
+parallel_t = "32" # customize transfers_NUM,default = "32"
+
+min_sleep = "1ms" # customize drive-pacer-min-sleep,default = "1ms"
+
+sa_path = "/root/accounts" #Service_Accounts path,No slash at the end,default is "/root/accounts"
+
+run_args = ['--drive-server-side-across-configs', '-P','--stats=1s'] # status flags

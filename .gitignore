@@ -1,0 +1,10 @@
+__pycache__/
+.vscode/
+.DS_Store/
+test/
+lib/
+include/
+bin/
+pyvenv.cfg
+*/__pycache__/
+*/conf.toml
