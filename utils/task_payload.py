@@ -239,6 +239,7 @@ def task_process(chat_id, command, task):
 
 
 def task_message_box(bot, chat_id, message_id, context):
+    global context_old
     if context_old != context:
         bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=context)
         context_old = context
