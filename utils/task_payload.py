@@ -195,7 +195,7 @@ def task_process(chat_id, command, task):
                     + "\n\n"
                     + message_info
                     + "\n\n"
-                    + current_working_file[:20]
+                    + current_working_file[:30]
                     + "\n"
                     + "ETA : "
                     + str(task_eta_in_file),
