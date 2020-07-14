@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import re, time, pymongo, chardet
+import re, time, pymongo
 from utils import load, process_bar as _bar, get_functions as _func
 from multiprocessing import Process as _mp
 from telegram import Bot
