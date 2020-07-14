@@ -7,7 +7,6 @@ from multiprocessing import Process as _mp
 
 myclient = pymongo.MongoClient(f"mongodb+srv://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",port=load.cfg['database']['db_port'],connect=False)
 mydb = myclient[load.cfg['database']['db_name']]
-#task_col = mydb['task_col']
 task_list = mydb['task_list']
 db_counters = mydb['counters']
 future = task_list.find_one({"_id": "task_list_id"})
@@ -27,7 +26,6 @@ def cook_task_to_db(update, context, tmp_task_list):
         item["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         item["finished_time"] = ""
 
-    global task_list
-    insert_callback = task_list.insert_many(tmp_task_list)
-    if insert_callback.inserted_ids:
-        db_counters.update({"_id": "task_list_id"},{"future_id":future_id},upsert=True)
+        insert_callback = task_list.insert_one(item)
+        if insert_callback.inserted_ids:
+            db_counters.update({"_id": "task_list_id"},{"future_id":future_id},upsert=True)
