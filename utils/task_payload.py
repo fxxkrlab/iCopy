@@ -76,7 +76,7 @@ def task_process(chat_id, command, task):
     message = bot.send_message(chat_id=chat_id,text=_text[_lang]["ready_to_task"])
     message_id = message.message_id
 
-    timeout = 1
+    timeout = 0.1
     xtime = 0
     old_working_line = 0
     current_working_line = 0
@@ -180,7 +180,7 @@ def task_process(chat_id, command, task):
 
         if int(time.time()) - xtime > timeout and old_working_line != current_working_line:
             Timer(
-                0,
+                1.5,
                 task_message_box,
                 args=(
                     bot,
@@ -204,6 +204,7 @@ def task_process(chat_id, command, task):
             xtime = time.time()
             old_working_line = current_working_line
 
+    time.sleep(2.5)
     prog_bar = _bar.status(100)
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     bot.edit_message_text(
