@@ -180,7 +180,7 @@ def task_process(chat_id, command, task):
 
         if int(time.time()) - xtime > timeout and old_working_line != current_working_line:
             Timer(
-                1.5,
+                3.5,
                 task_message_box,
                 args=(
                     bot,
@@ -204,7 +204,7 @@ def task_process(chat_id, command, task):
             xtime = time.time()
             old_working_line = current_working_line
 
-    time.sleep(2.5)
+    time.sleep(4.5)
     prog_bar = _bar.status(100)
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     bot.edit_message_text(
