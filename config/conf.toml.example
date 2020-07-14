@@ -23,6 +23,8 @@ language = "cn" # cn / eng / jp,default is "cn"
 
 cloner = "fclone" # Only fclone is suitable now,Future supports: rclone / gclone / autorclone
 
+option = "copy" # cloner option,e.g. "copy" , "sync"
+
 remote = "" # e.g. "fc" , "gc" , "rc", "sa" ,etc...
 
 parallel_c = "16" # customize checkers_NUM,default = "16"
