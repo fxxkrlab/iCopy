@@ -1,6 +1,6 @@
 ### README
 
-* Python 3.7+
+* Python 3.6+
 * fclone
+* python3 -m pip install pymongo[srv]
 * requirements
-* python3 -m pip install pymongo[gssapi,aws,src,tls]
