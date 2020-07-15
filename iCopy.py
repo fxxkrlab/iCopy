@@ -45,7 +45,7 @@ def main():
             CommandHandler("set", _set._setting),
             CommandHandler("start", _start.start),
             CommandHandler("quick", _quick.quick),
-            # CommandHandler("copy", copy),
+            #CommandHandler("copy", _copy.copy),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -55,7 +55,7 @@ def main():
             _start.CHOOSE_MODE: [
                 # call function  judged via callback pattern
                 CallbackQueryHandler(_quick.quick, pattern="quick"),
-                # CallbackQueryHandler(copy, pattern="copy"),
+                #CallbackQueryHandler(_copy.copy, pattern="copy"),
             ],
             _quick.GET_LINK: [
                 # get Shared_Link states
@@ -66,6 +66,9 @@ def main():
                 CallbackQueryHandler(_func.cancel, pattern="not_cover_quick"),
                 MessageHandler(Filters.text, _func.cancel),
             ],
+            _copy.GET_DST: [
+                # request DST
+            ]
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )

@@ -27,13 +27,15 @@ context_old = ""
 
 def task_buffer():
     while True:
-        if _cfg["general"]["cloner"] == "fclone":
-            flags = ["--check-first"]
-        else:
-            flags = []
+
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
+            if _cfg["general"]["cloner"] == "fclone":
+                flags = ["--check-first"]
+            else:
+                flags = []
             command = []
+            
             cloner = _cfg["general"]["cloner"]
             option = _cfg["general"]["option"]
             remote = _cfg["general"]["remote"]
