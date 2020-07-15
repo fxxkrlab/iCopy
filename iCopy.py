@@ -21,7 +21,8 @@ from utils import (
     task_payload as _payload,
 )
 
-from workflow import start_workflow as _start, quick_workflow as _quick, copy_workflow as _copy
+from workflow import start_workflow as _start, quick_workflow as _quick
+#copy_workflow as _copy
 from multiprocessing import Process as _mp
 
 logging.basicConfig(
@@ -66,9 +67,9 @@ def main():
                 CallbackQueryHandler(_func.cancel, pattern="not_cover_quick"),
                 MessageHandler(Filters.text, _func.cancel),
             ],
-            _copy.GET_DST: [
+            #_copy.GET_DST: [
                 # request DST
-            ]
+            #]
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )
