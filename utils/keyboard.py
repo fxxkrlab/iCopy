@@ -26,3 +26,19 @@ def is_cover_keyboard():
     ]
 
     return InlineKeyboardMarkup(keyboard)
+
+def dst_keyboard(update, context):
+    favs = load.fav_col.find({"fav_type":"fav"})
+    button_list = []
+
+    for item in favs:
+        button_list.append(InlineKeyboardButton(item['G_name'], callback_data=item['G_id']+"id+name"+item['G_name']))
+    return InlineKeyboardMarkup(build_dst_keyboard(button_list,n_cols=2))
+    
+def build_dst_keyboard(buttons,n_cols,header_buttons=None,footer_buttons=None):
+    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    if header_buttons:
+        menu.insert(0, header_buttons)
+    if footer_buttons:
+        menu.append(footer_buttons)
+    return menu

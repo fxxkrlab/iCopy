@@ -21,12 +21,11 @@ from utils import (
     task_payload as _payload,
 )
 
-from workflow import start_workflow as _start, quick_workflow as _quick
-#copy_workflow as _copy
+from workflow import start_workflow as _start, quick_workflow as _quick,copy_workflow as _copy
 from multiprocessing import Process as _mp
 
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
 
@@ -46,7 +45,7 @@ def main():
             CommandHandler("set", _set._setting),
             CommandHandler("start", _start.start),
             CommandHandler("quick", _quick.quick),
-            #CommandHandler("copy", _copy.copy),
+            CommandHandler("copy", _copy.copy),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -56,20 +55,21 @@ def main():
             _start.CHOOSE_MODE: [
                 # call function  judged via callback pattern
                 CallbackQueryHandler(_quick.quick, pattern="quick"),
-                #CallbackQueryHandler(_copy.copy, pattern="copy"),
+                CallbackQueryHandler(_copy.copy, pattern="copy"),
             ],
             _quick.GET_LINK: [
                 # get Shared_Link states
                 MessageHandler(Filters.text, _func.get_share_link),
             ],
             _set.IS_COVER_QUICK: [
-                CallbackQueryHandler(_func.delete_in_db_quick, pattern="cover_quick"),
+                CallbackQueryHandler(_func.modify_quick_in_db, pattern="cover_quick"),
                 CallbackQueryHandler(_func.cancel, pattern="not_cover_quick"),
                 MessageHandler(Filters.text, _func.cancel),
             ],
-            #_copy.GET_DST: [
+            _copy.GET_DST: [
                 # request DST
-            #]
+                CallbackQueryHandler(_copy.request_srcinfo),
+            ]
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )

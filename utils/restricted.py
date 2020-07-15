@@ -28,7 +28,21 @@ def restricted_quick(func):
         if list(is_quick_cur) == []:
             print("fav quick directory is not set.")
             update.effective_message.reply_text(
-                _text[_lang]["null_fav_quick"], parse_mode=ParseMode.MARKDOWN_V2
+                _text[_lang]["null_fav_quick"],
+            )
+            return
+        return func(update, context, *args, **kwargs)
+    return wrapped
+
+def restricted_copy(func):
+    @wraps(func)
+    def wrapped(update, context, *args, **kwargs):
+        is_fav = {"fav_type": "fav"}
+        is_fav_cur = load.fav_col.find(is_fav)
+        if list(is_fav_cur) == []:
+            print("fav directory is not set.")
+            update.effective_message.reply_text(
+                _text[_lang]["null_fav"],
             )
             return
         return func(update, context, *args, **kwargs)

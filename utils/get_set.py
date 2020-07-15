@@ -7,14 +7,12 @@ from telegram import ParseMode
 from utils.load import _lang, _text
 from drive.gdrive import GoogleDrive as _gd
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK = range(4)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST = range(5)
 
 pick_quick = []
 unpick_quick = []
-pick_drive = []
-unpick_drive = []
-pick_folder = []
-unpick_folder = []
+pick_fav = []
+unpick_fav = []
 judge_folder_len = [28, 33]
 
 
@@ -29,16 +27,18 @@ def _setting(update, context):
         return SET_FAV_MULTI
 
     ### set single DST ID ###
-    elif "quick" or "drive" or "folder" in entry_cmd:
+    elif "quick" or "fav" in entry_cmd:
         ### single quick (drive or folder)
         if len(entry_cmd.splitlines()) == 1:
-            each = entry_cmd.replace(" ", "")[4:]
+            each = entry_cmd[4:]
+            if " " in entry_cmd:
+                each = entry_cmd.replace(" ", "")[4:]
             if "quick" == each[:5]:
                 if "quick+" == each[:6]:
                     global pick_quick
                     pick_quick = _func.get_name_from_id(update, each[6:], list_name=pick_quick)
                     insert_fav_quick = _func.insert_to_db_quick(pick_quick, update)
-                    if insert_fav_quick == "error":
+                    if insert_fav_quick == "is_cover":
                         update.effective_message.reply_text(
                             _text[_lang]["is_cover_quick_msg"],
                             parse_mode=ParseMode.MARKDOWN_V2,
@@ -49,24 +49,38 @@ def _setting(update, context):
 
             elif "quick-" == each[:6]:
                 unpick_quick.append(each[6:])
+    
 
-            ### single drive
-            elif "drive" == each[:5]:
-                if "drive+" == each[:6]:
-                    pick_drive.append(
-                        {"id": each[6:], "name": load.all_drive[each[6:]]}
-                    )
-                elif "drive-" == each[:6]:
-                    unpick_drive.append(each[6:])
 
-            ### single folder
-            elif "folder" == each[:6]:
-                if "folder+" == each[:7]:
-                    pick_folder.append(
-                        {"id": each[7:], "name": _gd().file_get_name(file_id=each[7:])}
-                    )
-                if "folder-" == each[:7]:
-                    unpick_folder.append(each[7:])
+            ### set fav folder(fav folder could be a drive or folder of GDrive)
+
+            elif "fav" == each[:3]:
+                fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
+                fav_sum = 0
+
+                if fav_count != None:
+                    fav_sum = fav_count['fav_sum']
+        
+                if "+" == each[3]:
+                    global pick_fav
+                    pick_fav = _func.get_name_from_id(update, each[4:], list_name=pick_fav)
+                    for item in pick_fav:
+                        item['fav_type'] = "fav"
+                        try:
+                            load.fav_col.insert_one(item)
+                        except:
+                            update.effective_message.reply_text(
+                                _text[_lang]["is_set_err"],
+                            )
+                        else:
+                            fav_sum += 1
+                            load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
+
+                    pick_fav = []
+
+                if "-" == each[3]:
+                    unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
+            
 
             ### single rule
             elif "rule" == entry_cmd.replace(" ", "")[4:8]:
@@ -75,6 +89,7 @@ def _setting(update, context):
                 )
 
                 return ConversationHandler.END
+
             else:
                 update.effective_message.reply_text(
                     _text[_lang]["get_single_fav_error"], parse_mode=ParseMode.MARKDOWN_V2
@@ -91,7 +106,7 @@ def _setting(update, context):
     else:
         update.effective_message.reply_text(
             _msg.set_help(_lang), parse_mode=ParseMode.MARKDOWN_V2
-        )
+            )
 
 
 
@@ -128,22 +143,35 @@ def _multi_settings_recieved(update, context):
                 update.effective_message.reply_text(_text[_lang]["get_quick_count_invaild"])
         elif "quick-" == each[:6]:
             unpick_quick.append(each[6:])
+        ### set fav folder(fav folder could be a drive or folder of GDrive)
 
-        ### modify drive DST
-        elif "drive" == each[:5]:
-            if "drive+" == each[:6]:
-                pick_drive.append({"id": each[6:], "name": load.all_drive[each[6:]]})
-            elif "drive-" == each[:6]:
-                unpick_drive.append(each[6:])
+        elif "fav" == each[:3]:
+            fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
+            fav_sum = 0
 
-        ### modify folder DST
-        elif "folder" == each[:6]:
-            if "folder+" == each[:7]:
-                pick_folder.append(
-                    {"id": each[7:], "name": _gd().file_get_name(file_id=each[7:])}
-                )
-            if "folder-" == each[:7]:
-                unpick_folder.append(each[7:])
+            if fav_count != None:
+                fav_sum = fav_count['fav_sum']
+    
+            if "+" == each[3]:
+                global pick_fav
+                pick_fav = _func.get_name_from_id(update, each[4:], list_name=pick_fav)
+                for item in pick_fav:
+                    item['fav_type'] = "fav"
+                    try:
+                        load.fav_col.insert_one(item)
+                    except:
+                        update.effective_message.reply_text(
+                            _text[_lang]["is_set_err"],
+                        )
+                    else:
+                        fav_sum += 1
+                        load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
+
+                pick_fav = []
+
+            if "-" == each[3]:
+                unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
+
         else:
             if "/cancel" == update.effective_message.text:
 

@@ -35,7 +35,7 @@ def task_buffer():
             else:
                 flags = []
             command = []
-            
+
             cloner = _cfg["general"]["cloner"]
             option = _cfg["general"]["option"]
             remote = _cfg["general"]["remote"]
@@ -151,11 +151,11 @@ def task_process(chat_id, command, task):
             + task["dst_name"]
             + ":"
             + "\n\n"
-            + "  📃"
+            + "    📃"
             + task["src_name"]
             + "\n"
             + "----------------------------------------"
-            + "\n\n\n"
+            + "\n\n"
             +_text[_lang]["task_start_time"]
             + start_time
             + "\n\n"

@@ -18,13 +18,13 @@ def restricted_msg(_lang,_first_name,_user_id):
 
 def start_msg(_lang, _first_name):
     if "cn" == _lang:
-        return(f"Hi\! {_first_name} 欢迎使用 *iCopy*\n"
+        return(f"Hi\! {_first_name} 欢迎使用 iCopy\n"
             "请选择转存模式")
     if "eng" == _lang:
-        return(f"Hi\! {_first_name} Welcome to use *iCopy*\n"
+        return(f"Hi\! {_first_name} Welcome to use iCopy\n"
             "Pls Choose the Transfer Mode")
     if "jp" == _lang:
-        return(f"Hi\! {_first_name} 欢迎使用 *iCopy*\n"
+        return(f"Hi\! {_first_name} 欢迎使用 iCopy\n"
             "ご覧のモードを選んでください")
 
 
@@ -41,11 +41,8 @@ def set_help(_lang):
 
 def set_multi_fav_rule():
     return ("\n "
-        "`quick \+ folder/drive ID` \n "
-        "`drive \+ drive id` \n "
-        "`drive \- drive id` \n "
-        "`folder \+ folder id` \n "
-        "`folder \- folder id` \n"
+        "`quick +\- folder_ID/drive_ID` \n "
+        "`fav +\- folder_ID/drive_ID` \n "
         "\n")
 
 def set_multi_fav_guide(_lang):
@@ -54,7 +51,7 @@ def set_multi_fav_guide(_lang):
         return ("*请输入需要修改的目标地址* \n "
             "\n"
             "例 : 如下 *\+/\-* \n "
-            "_quick \| drive \| folder_ 为对应前缀 \n "
+            "_quick \| fav_ 为对应前缀 \n "
             + set_multi_fav_rule() +
             "说明:"
             "随意组合排序: '*\+*' *_增加_*, '*\-*' *_取消_* \n "
@@ -80,7 +77,7 @@ def set_multi_fav_guide(_lang):
 
 def set_single_fav_rule():
     return ("\n "
-        "`/set quick\|drive\|folder \+/\- folder/drive ID` \n "
+        "`/set quick\|fav \+/\- folder/drive ID` \n "
         "\n")
 
 def set_single_fav_guide(_lang):

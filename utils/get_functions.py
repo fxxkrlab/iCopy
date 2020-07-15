@@ -6,6 +6,7 @@ from utils import (
     get_set as _set,
     task_box as _box,
 )
+from workflow import copy_workflow as _copy
 from utils.load import _lang, _text
 from telegram.ext import ConversationHandler
 from drive.gdrive import GoogleDrive as _gd
@@ -64,7 +65,7 @@ def cook_to_id(get_share_link):
 
 def get_name_from_id(update, taget_id, list_name):
     cook_list = list(list_name)
-    if len(taget_id) < 28:
+    if len(taget_id) >= 11 and len(taget_id) < 28:
         cook_list.append(
             {
                 "G_type": "G_drive", 
@@ -103,10 +104,21 @@ def insert_to_db_quick(pick_quick, update):
         return ConversationHandler.END
 
     else:
-        status = "error"
+        status = "is_cover"
 
         return status
 
+
+def modify_quick_in_db(update,context):
+    pick_quick = _set.pick_quick
+    for item in pick_quick:
+        load.fav_col.update({"_id": "fav_quick"},item,upsert=True)
+
+    update.effective_message.reply_text(
+            _text[_lang]["modify_quick_success"], parse_mode=ParseMode.MARKDOWN_V2
+        )
+
+    return ConversationHandler.END
 
 def delete_in_db_quick(update, context):
     pick_quick = _set.pick_quick
@@ -122,10 +134,16 @@ def get_share_link(update, context):
     src_id_list = cook_to_id(get_share_link)
     is_quick = {"_id": "fav_quick"}
     is_quick_cur = load.fav_col.find(is_quick)
+    is_dstinfo = _copy.current_dst_info
 
-    for doc in is_quick_cur:
-        dst_id = doc["G_id"]
-        dst_name = doc["G_name"]
+    if is_dstinfo != "":
+        dstinfo = is_dstinfo.split("id+name")
+        dst_id = dstinfo[0]
+        dst_name = dstinfo[1]      
+    else:
+        for doc in is_quick_cur:
+            dst_id = doc["G_id"]
+            dst_name = doc["G_name"]
 
     for item in src_id_list:
         src_name_list = get_name_from_id(update, item, list_name=src_name_list)
@@ -134,22 +152,21 @@ def get_share_link(update, context):
         src_id = item["G_id"]
         src_name = item["G_name"]
 
-        if mode == "quick":
-            tmp_task_list.append(
-                {
-                    "mode_type": mode,
-                    "src_id": src_id,
-                    "src_name": src_name,
-                    "dst_id": dst_id,
-                    "dst_name": dst_name,
-                    "chat_id": update.message.chat_id,
-                    "raw_message_id": update.message.message_id,
-                }
-            )
+        tmp_task_list.append(
+            {
+                "mode_type": mode,
+                "src_id": src_id,
+                "src_name": src_name,
+                "dst_id": dst_id,
+                "dst_name": dst_name,
+                "chat_id": update.message.chat_id,
+                "raw_message_id": update.message.message_id,
+            }
+        )
 
 
     Thread(target=_box.cook_task_to_db,args=(update, context, tmp_task_list)).start()
-
+    _copy.current_dst_info = ""
     return ConversationHandler.END
 
 
