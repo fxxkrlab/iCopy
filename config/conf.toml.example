@@ -7,6 +7,8 @@ usr_id = "user id HERE" # get from tg::@get_id_bot
 
 [database]
 
+db_connect_method = "mongodb+srv" # like "mongodb", "mongodb+srv",etc...
+
 db_addr = "Your database address here" # mongodb host address
 
 db_port = 27017 # mongodb connect port,default is 27017

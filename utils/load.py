@@ -8,7 +8,7 @@ from urllib import parse
 from drive import gdrive
 
 ### local version
-_version = 'v0.2.0-alpha.4'
+_version = 'v0.2.0-alpha.5'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)
@@ -25,7 +25,7 @@ ENABLED_USERS = os.environ.get("ENABLED_USERS", f"{cfg['tg']['usr_id']}")
 ### Mongodb
 user = parse.quote_plus(f"{cfg['database']['db_user']}")
 passwd = parse.quote_plus(f"{cfg['database']['db_passwd']}")
-myclient = pymongo.MongoClient(f"mongodb+srv://{user}:{passwd}@{cfg['database']['db_addr']}",port=cfg['database']['db_port'],connect=False)
+myclient = pymongo.MongoClient(f"{cfg['database']['db_connect_method']}://{user}:{passwd}@{cfg['database']['db_addr']}",port=cfg['database']['db_port'],connect=False)
 mydb = myclient[cfg['database']['db_name']]
 
 #main_col = mydb['main_col']
