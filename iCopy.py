@@ -79,7 +79,7 @@ def main():
     dp.add_handler(CommandHandler("ver", _func._version))
 
     updater.start_polling()
-    logger.info("Fxxkr LAB iCopy v0.2.0a1 Start")
+    logger.info(f"Fxxkr LAB iCopy {load._version} Start")
     updater.idle()
 
 
