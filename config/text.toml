@@ -30,6 +30,7 @@ get_multi_in_single = "多行设置请使用 '/set'"
 task_src_info = "[任务目标]:"
 task_dst_info = "[转存地址]:"
 is_set_dedupe = "设置收藏夹遇到错误"
+set_fav_success = "设置收藏夹成功"
 
 [eng]
 quick_mode = "QUICK MODE"
@@ -62,6 +63,7 @@ get_multi_in_single = "pls use '/set' while modify multi DST IDs"
 task_src_info = "[Resource From]:"
 task_dst_info = "[Transfer To]:"
 is_set_err = "SET FAV ERROR"
+set_fav_success = "set Favorites success"
 
 [jp]
 quick_mode = "「クイックモード」"
@@ -94,3 +96,4 @@ get_multi_in_single = "複数のフォルダーを設定する場合は、「/se
 task_src_info = "[任務目標]:"
 task_dst_info = "[保存場所]:"
 is_set_dedupe = "お気に入りを設定するとエラーが発生します"
+set_fav_success = "お気に入りを設定しました"

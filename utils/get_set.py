@@ -76,11 +76,16 @@ def _setting(update, context):
                             fav_sum += 1
                             load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
 
+                    update.effective_message.reply_text(
+                        _text[_lang]["set_fav_success"]
+                    )
+
                     pick_fav = []
+
 
                 if "-" == each[3]:
                     unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
-            
+
 
             ### single rule
             elif "rule" == entry_cmd.replace(" ", "")[4:8]:
@@ -96,6 +101,9 @@ def _setting(update, context):
                 )
 
                 return ConversationHandler.END
+
+            return ConversationHandler.END
+            
         else:
             update.effective_message.reply_text(
                 _text[_lang]["get_multi_in_single"], parse_mode=ParseMode.MARKDOWN_V2
@@ -107,7 +115,7 @@ def _setting(update, context):
         update.effective_message.reply_text(
             _msg.set_help(_lang), parse_mode=ParseMode.MARKDOWN_V2
             )
-
+        return ConversationHandler.END
 
 
 
@@ -167,6 +175,9 @@ def _multi_settings_recieved(update, context):
                         fav_sum += 1
                         load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
 
+                update.effective_message.reply_text(
+                    _text[_lang]["set_fav_success"]
+                )
                 pick_fav = []
 
             if "-" == each[3]:
