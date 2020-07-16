@@ -12,7 +12,7 @@ import subprocess
 from threading import Timer
 
 myclient = pymongo.MongoClient(
-    f"mongodb+srv://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
+    f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
     port=load.cfg["database"]["db_port"],
     connect=False,
 )
@@ -152,8 +152,8 @@ def task_process(chat_id, command, task):
             + "📁"
             + task["dst_name"]
             + ":"
-            + "\n\n"
-            + "    📃"
+            + "\n"
+            + "    ┕─📃"
             + task["src_name"]
             + "\n"
             + "----------------------------------------"
@@ -195,7 +195,7 @@ def task_process(chat_id, command, task):
                     + "🏳️"
                     +_text[_lang]["current_task_id"]
                     + str(task["_id"])
-                    + " | iCopy - v0.2.x"
+                    + " | iCopy🔆"
                     + "\n\n"
                     + message_info
                     + "\n\n"
