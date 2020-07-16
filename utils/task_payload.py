@@ -22,6 +22,7 @@ _cfg = load.cfg
 message_info = ""
 prog_bar = ""
 current_working_file = ""
+old_working_file = ""
 now_elapsed_time = ""
 context_old = ""
 
@@ -43,7 +44,7 @@ def task_buffer():
             src_name = task["src_name"]
             dst_id = task["dst_id"]
             src_block = remote + ":" + "{" + src_id + "}"
-            dst_block = remote + ":" + "{" + dst_id + "}" + src_name 
+            dst_block = remote + ":" + "{" + dst_id + "}" + "/" + src_name 
             checkers = "--checkers=" + f"{_cfg['general']['parallel_c']}"
             transfers = "--transfers=" + f"{_cfg['general']['parallel_t']}"
             sa_sleep = "--drive-pacer-min-sleep=" + f"{_cfg['general']['min_sleep']}"
@@ -78,7 +79,8 @@ def task_process(chat_id, command, task):
     message = bot.send_message(chat_id=chat_id,text=_text[_lang]["ready_to_task"])
     message_id = message.message_id
 
-    timeout = 0.1
+    interval = 0.1
+    timeout = 60
     xtime = 0
     old_working_line = 0
     current_working_line = 0
@@ -180,7 +182,7 @@ def task_process(chat_id, command, task):
             + str(prog_bar)
         )
 
-        if int(time.time()) - xtime > timeout and old_working_line != current_working_line:
+        if int(time.time()) - xtime > interval and old_working_line != current_working_line:
             Timer(
                 0,
                 task_message_box,
@@ -204,10 +206,15 @@ def task_process(chat_id, command, task):
                 ),
             ).start()
             old_working_line = current_working_line
+            global old_working_file
+            old_working_file = current_working_file
             time.sleep(3.5)
             xtime = time.time()
 
+        if int(time.time()) - xtime > timeout and current_working_file == old_working_file and task_percent > 5:
+            break
 
+    old_working_file = ""
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     time.sleep(10)
     prog_bar = _bar.status(100)
