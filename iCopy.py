@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import os, logging
+import os, sys, logging
 from utils import load
 from telegram import Bot
 from telegram.utils.request import Request as TGRequest
@@ -23,6 +23,7 @@ from utils import (
 
 from workflow import start_workflow as _start, quick_workflow as _quick,copy_workflow as _copy
 from multiprocessing import Process as _mp
+from threading import Thread
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
@@ -73,10 +74,22 @@ def main():
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )
+    
+    def stop_and_restart():
+        progress.terminate()
+        load.myclient.close()
+        updater.stop()
+        os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
+
+    def restart(update, context):
+        update.message.reply_text(load._text[load._lang]['is_restarting'])
+        Thread(target=stop_and_restart).start()
 
     dp.add_handler(conv_handler, 2)
 
     dp.add_handler(CommandHandler("ver", _func._version))
+
+    dp.add_handler(CommandHandler('restart', restart,filters=Filters.user(user_id=int(load.cfg['tg']['usr_id']))))
 
     updater.start_polling()
     logger.info(f"Fxxkr LAB iCopy {load._version} Start")
@@ -86,5 +99,4 @@ def main():
 if __name__ == "__main__":
     progress = _mp(target=_payload.task_buffer)
     progress.start()
-
     main()

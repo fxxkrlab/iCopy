@@ -8,7 +8,7 @@ from urllib import parse
 from drive import gdrive
 
 ### local version
-_version = 'v0.2.0-alpha.10'
+_version = 'v0.2.0-alpha.11'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)

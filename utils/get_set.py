@@ -13,11 +13,15 @@ pick_quick = []
 pick_fav = []
 unpick_fav = []
 judge_folder_len = [28, 33]
-
+showlist = []
+showitem = ""
 
 @_r.restricted
 def _setting(update, context):
     entry_cmd = update.effective_message.text
+    if " " in entry_cmd:
+        entry_cmd = entry_cmd.replace(" ","")
+
     if "/set" == entry_cmd.strip():
         update.effective_message.reply_text(
             _msg.set_multi_fav_guide(_lang), parse_mode=ParseMode.MARKDOWN_V2
@@ -25,13 +29,32 @@ def _setting(update, context):
 
         return SET_FAV_MULTI
 
+    if "/setlist" == entry_cmd:
+        global showitem
+        global showlist
+        fav_count = load.fav_col.find({"fav_type":"fav"})
+        for item in fav_count:
+            showitem = "type : " + item['G_type'] + " | name : " + item['G_name'] + "\nid : " + item['G_id'] + "\n" + "--------------------\n"
+            showlist.append(showitem)
+        
+        showlist = "".join(showlist)
+        if len(list(fav_count)) == 0:
+            update.effective_message.reply_text(
+                _text[_lang]["show_fav_list_null"]
+            )
+
+        update.effective_message.reply_text(
+            _text[_lang]["show_fav_list"] + "\n\n" + showlist
+        )
+
+        return ConversationHandler.END
+
+
     ### set single DST ID ###
     elif "quick" or "fav" in entry_cmd:
         ### single quick (drive or folder)
         if len(entry_cmd.splitlines()) == 1:
             each = entry_cmd[4:]
-            if " " in entry_cmd:
-                each = entry_cmd.replace(" ", "")[4:]
             if "quick" == each[:5]:
                 if "quick+" == each[:6]:
                     global pick_quick
@@ -88,7 +111,10 @@ def _setting(update, context):
                     for item in unpick_fav:
                         delete_request = {"G_id":item['G_id']}
                         _func.delete_in_db(delete_request)
-                    
+                        fav_count = load.fav_col.find({"fav_type":"fav"})
+                        fav_sum = len(list(fav_count))
+                        load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
+
                     update.effective_message.reply_text(
                         _text[_lang]["delete_fav_success"]
                     )
@@ -97,7 +123,7 @@ def _setting(update, context):
 
 
             ### single rule
-            elif "rule" == entry_cmd.replace(" ", "")[4:8]:
+            elif "rule" == entry_cmd[4:8]:
                 update.effective_message.reply_text(
                     _msg.set_single_fav_guide(_lang), parse_mode=ParseMode.MARKDOWN_V2
                 )
@@ -132,8 +158,7 @@ def _setting(update, context):
 def _multi_settings_recieved(update, context):
     _tmp_quick_counter = 0
     fav_msg = update.effective_message.text
-    print(fav_msg)
-    fav_msg = fav_msg.strip().replace(" ", "").splitlines()
+    fav_msg = fav_msg.replace(" ", "").splitlines()
     global pick_quick
     for each in fav_msg:
         print(each)
@@ -200,6 +225,9 @@ def _multi_settings_recieved(update, context):
                 for item in unpick_fav:
                     delete_request = {"G_id":item['G_id']}
                     _func.delete_in_db(delete_request)
+                    fav_count = load.fav_col.find({"fav_type":"fav"})
+                    fav_sum = len(list(fav_count))
+                    load.db_counters.update({"_id": "fav_count_list"},{"fav_sum":fav_sum},upsert=True)
                 
                 update.effective_message.reply_text(
                     _text[_lang]["delete_fav_success"]
