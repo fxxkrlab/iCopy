@@ -39,31 +39,40 @@ def _setting(update, context):
     if "/setlist" == entry_cmd:
         global showitem
         global showlist
-        fav_count = load.fav_col.find({"fav_type": "fav"})
-        if len(list(fav_count)) == 0:
-            update.effective_message.reply_text(_text[_lang]["show_fav_list_null"])
+        fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
+        fav_list = load.fav_col.find({"fav_type": "fav"})
+        if fav_count is not None:
+            if fav_count["fav_sum"] == 0:
+                update.effective_message.reply_text(_text[_lang]["show_fav_list_null"])
 
-            return ConversationHandler.END
+                return ConversationHandler.END
+
+            elif fav_count["fav_sum"] != 0:
+                for item in fav_list:
+                    showitem = (
+                        "type : "
+                        + item["G_type"]
+                        + " | name : "
+                        + item["G_name"]
+                        + "\nid : "
+                        + item["G_id"]
+                        + "\n"
+                        + "--------------------\n"
+                    )
+                    showlist.append(showitem)
+
+                showlist = "".join(showlist)
+
+                update.effective_message.reply_text(
+                    _text[_lang]["show_fav_list"] + "\n\n" + showlist
+                )
+
+                showlist = []
+
+                return ConversationHandler.END
 
         else:
-            for item in fav_count:
-                showitem = (
-                    "type : "
-                    + item["G_type"]
-                    + " | name : "
-                    + item["G_name"]
-                    + "\nid : "
-                    + item["G_id"]
-                    + "\n"
-                    + "--------------------\n"
-                )
-                showlist.append(showitem)
-
-            showlist = "".join(showlist)
-
-            update.effective_message.reply_text(
-                _text[_lang]["show_fav_list"] + "\n\n" + showlist
-            )
+            update.effective_message.reply_text(_text[_lang]["show_fav_list_null"])
 
             return ConversationHandler.END
 
@@ -129,11 +138,9 @@ def _setting(update, context):
 
                 if "-" == each[3]:
                     global unpick_fav
-                    unpick_fav = _func.get_name_from_id(
-                        update, each[4:], list_name=unpick_fav
-                    )
+                    unpick_fav.append(each[4:])
                     for item in unpick_fav:
-                        delete_request = {"G_id": item["G_id"]}
+                        delete_request = {"G_id": item}
                         _func.delete_in_db(delete_request)
                         fav_count = load.fav_col.find({"fav_type": "fav"})
                         fav_sum = len(list(fav_count))
@@ -245,11 +252,9 @@ def _multi_settings_recieved(update, context):
 
             if "-" == each[3]:
                 global unpick_fav
-                unpick_fav = _func.get_name_from_id(
-                    update, each[4:], list_name=unpick_fav
-                )
+                unpick_fav.append(each[4:])
                 for item in unpick_fav:
-                    delete_request = {"G_id": item["G_id"]}
+                    delete_request = {"G_id": item}
                     _func.delete_in_db(delete_request)
                     fav_count = load.fav_col.find({"fav_type": "fav"})
                     fav_sum = len(list(fav_count))
