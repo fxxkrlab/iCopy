@@ -3,10 +3,11 @@
 
 import re, time, pymongo
 from utils import load, process_bar as _bar, get_functions as _func
-from multiprocessing import Process as _mp
+from multiprocessing import Process as _mp, Manager
 from telegram import Bot
 from utils.load import _lang, _text
 from telegram.utils.request import Request as TGRequest
+
 # from subprocess import Popen, PIPE
 import subprocess
 from threading import Timer
@@ -25,10 +26,11 @@ current_working_file = ""
 old_working_file = ""
 now_elapsed_time = ""
 context_old = ""
+icopyprocess = subprocess.Popen
 
-def task_buffer():
+
+def task_buffer(ns):
     while True:
-
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
             if _cfg["general"]["cloner"] == "fclone":
@@ -43,15 +45,15 @@ def task_buffer():
             src_id = task["src_id"]
             src_name = task["src_name"]
             if "/" in src_name:
-                src_name = src_name.replace("/","|")
+                src_name = src_name.replace("/", "|")
             if "'" in src_name:
-                src_name = src_name.replace("'","")
+                src_name = src_name.replace("'", "")
             if '"' in src_name:
-                src_name = src_name.replace('"','')
-                
+                src_name = src_name.replace('"', "")
+
             dst_id = task["dst_id"]
             src_block = remote + ":" + "{" + src_id + "}"
-            dst_block = remote + ":" + "{" + dst_id + "}" + "/" + src_name 
+            dst_block = remote + ":" + "{" + dst_id + "}" + "/" + src_name
             checkers = "--checkers=" + f"{_cfg['general']['parallel_c']}"
             transfers = "--transfers=" + f"{_cfg['general']['parallel_t']}"
             sa_sleep = "--drive-pacer-min-sleep=" + f"{_cfg['general']['min_sleep']}"
@@ -62,10 +64,12 @@ def task_buffer():
             command = [cloner, option, src_block, dst_block]
 
             command += flags
-            
-            chat_id = task['chat_id']
 
-            task_process(chat_id, command, task)
+            chat_id = task["chat_id"]
+
+            task_process(chat_id, command, task, ns)
+
+            ns.x = 0
 
             flags = []
 
@@ -73,17 +77,17 @@ def task_buffer():
             global current_working_line
             old_working_line = 0
             current_working_line = 0
-            time.sleep(5)
+            time.sleep(3)
 
-        time.sleep(30)
+        time.sleep(5)
 
 
-def task_process(chat_id, command, task):
+def task_process(chat_id, command, task, ns):
     print(command)
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
     chat_id = chat_id
-    message = bot.send_message(chat_id=chat_id,text=_text[_lang]["ready_to_task"])
+    message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
     message_id = message.message_id
 
     interval = 0.1
@@ -102,14 +106,19 @@ def task_process(chat_id, command, task):
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     for toutput in run(command):
-        
+        if ns.x == 1:
+            global icopyprocess
+            icopyprocess.kill()
+
         regex_working_file = r"^ * "
         regex_elapsed_time = r"^Elapsed time:"
-        regex_total_files = r'Transferred:\s+(\d+) / (\d+), (\d+)%(?:,\s*([\d.]+\sFiles/s))?'
-        regex_total_size = r'Transferred:[\s]+([\d.]+\s*[kMGTP]?) / ([\d.]+[\s]?[kMGTP]?Bytes),' \
-                            r'\s*(?:\-|(\d+)\%),\s*([\d.]+\s*[kMGTP]?Bytes/s),\s*ETA\s*([\-0-9hmsdwy]+)'
-
-
+        regex_total_files = (
+            r"Transferred:\s+(\d+) / (\d+), (\d+)%(?:,\s*([\d.]+\sFiles/s))?"
+        )
+        regex_total_size = (
+            r"Transferred:[\s]+([\d.]+\s*[kMGTP]?) / ([\d.]+[\s]?[kMGTP]?Bytes),"
+            r"\s*(?:\-|(\d+)\%),\s*([\d.]+\s*[kMGTP]?Bytes/s),\s*ETA\s*([\-0-9hmsdwy]+)"
+        )
 
         output = toutput
 
@@ -138,7 +147,9 @@ def task_process(chat_id, command, task):
             if task_working_file:
                 global current_working_file
                 current_working_line += 1
-                current_working_file = output.lstrip("*  ").rsplit(":")[0].rstrip("Transferred")
+                current_working_file = (
+                    output.lstrip("*  ").rsplit(":")[0].rstrip("Transferred")
+                )
 
         global prog_bar
         prog_bar = _bar.status(0)
@@ -154,7 +165,7 @@ def task_process(chat_id, command, task):
             + "\n"
             + "----------------------------------------"
             + "\n"
-            +_text[_lang]["task_dst_info"]
+            + _text[_lang]["task_dst_info"]
             + "\n"
             + "📁"
             + task["dst_name"]
@@ -165,7 +176,7 @@ def task_process(chat_id, command, task):
             + "\n"
             + "----------------------------------------"
             + "\n\n"
-            +_text[_lang]["task_start_time"]
+            + _text[_lang]["task_start_time"]
             + start_time
             + "\n\n"
             + _text[_lang]["task_files_size"]
@@ -189,7 +200,10 @@ def task_process(chat_id, command, task):
             + str(prog_bar)
         )
 
-        if int(time.time()) - xtime > interval and old_working_line != current_working_line:
+        if (
+            int(time.time()) - xtime > interval
+            and old_working_line != current_working_line
+        ):
             Timer(
                 0,
                 task_message_box,
@@ -200,7 +214,7 @@ def task_process(chat_id, command, task):
                     _text[_lang]["doing"]
                     + " | "
                     + "🏳️"
-                    +_text[_lang]["current_task_id"]
+                    + _text[_lang]["current_task_id"]
                     + str(task["_id"])
                     + " | iCopy🔆"
                     + "\n\n"
@@ -218,43 +232,106 @@ def task_process(chat_id, command, task):
             time.sleep(3.5)
             xtime = time.time()
 
-        if int(time.time()) - xtime > timeout and current_working_file == old_working_file and task_percent > 5:
+        if (
+            int(time.time()) - xtime > timeout
+            and current_working_file == old_working_file
+            and task_percent > 5
+        ):
             break
 
     old_working_file = ""
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    time.sleep(10)
-    prog_bar = _bar.status(100)
-    bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=message_id,
-        text=_text[_lang]["done"]
-        + " | "
-        + "🏳️"
-        +_text[_lang]["current_task_id"]
-        + str(task["_id"])
-        + " | iCopy - v0.2.x"
-        + "\n\n"
-        + message_info
-        + "\n"
-        + _text[_lang]["task_finished_time"]
-        + finished_time
-        + "\n"
-        + _text[_lang]["elapsed_time"]
-        + str(now_elapsed_time),
-    )
+    if ns.x == 0:
+        time.sleep(5)
+        prog_bar = _bar.status(100)
+        bot.edit_message_text(
+            chat_id=chat_id,
+            message_id=message_id,
+            text=_text[_lang]["done"]
+            + " | "
+            + "🏳️"
+            + _text[_lang]["current_task_id"]
+            + str(task["_id"])
+            + " | iCopy🔆"
+            + "\n\n"
+            + message_info
+            + "\n"
+            + _text[_lang]["task_finished_time"]
+            + finished_time
+            + "\n"
+            + _text[_lang]["elapsed_time"]
+            + str(now_elapsed_time),
+        )
+        task_list.update_one(
+            {"_id": task["_id"]},
+            {
+                "$set": {
+                    "status": 1,
+                    "start_time": start_time,
+                    "finished_time": finished_time,
+                }
+            },
+        )
+
+    if ns.x == 1:
+        bot.edit_message_text(
+            chat_id=chat_id,
+            message_id=message_id,
+            text=_text[_lang]["killed"]
+            + " | "
+            + "🏳️"
+            + _text[_lang]["current_task_id"]
+            + str(task["_id"])
+            + " | iCopy🔆"
+            + "\n\n"
+            + _text[_lang]["task_src_info"]
+            + "\n"
+            + "📃"
+            + task["src_name"]
+            + "\n"
+            + "----------------------------------------"
+            + "\n"
+            + _text[_lang]["task_dst_info"]
+            + "\n"
+            + "📁"
+            + task["dst_name"]
+            + ":"
+            + "\n"
+            + "    ┕─📃"
+            + task["src_name"]
+            + "\n"
+            + "----------------------------------------"
+            + "\n\n"
+            + _text[_lang]["task_files_size"]
+            + str(task_current_prog_size)
+            + "/"
+            + str(task_total_prog_size)
+            + "\n"
+            + _text[_lang]["task_files_num"]
+            + str(task_current_prog_num)
+            + "/"
+            + str(task_total_prog_num)
+            + "\n\n"
+            + str(task_percent)
+            + "%"
+            + str(prog_bar)
+            + "\n"
+            + _text[_lang]["is_killed_by_user"],
+        )
+
+        task_list.update_one(
+            {"_id": task["_id"]}, 
+            {
+                "$set": {
+                    "status": 1,
+                    "error": 9,
+                    "start_time": start_time,
+                    "finished_time": finished_time,
+                }
+            }
+        )
 
     prog_bar = _bar.status(0)
-    task_list.update_one(
-        {"_id": task["_id"]},
-        {
-            "$set": {
-                "status": 1,
-                "start_time": start_time,
-                "finished_time": finished_time,
-            }
-        },
-    )
 
 
 def task_message_box(bot, chat_id, message_id, context):
@@ -266,6 +343,7 @@ def task_message_box(bot, chat_id, message_id, context):
 
 
 def run(command):
+    global icopyprocess
     icopyprocess = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,

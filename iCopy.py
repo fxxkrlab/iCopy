@@ -22,8 +22,9 @@ from utils import (
 )
 
 from workflow import start_workflow as _start, quick_workflow as _quick,copy_workflow as _copy
-from multiprocessing import Process as _mp
+from multiprocessing import Process as _mp, Manager
 from threading import Thread
+from utils.load import ns
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
@@ -85,8 +86,8 @@ def main():
         update.message.reply_text(load._text[load._lang]['is_restarting'])
         Thread(target=stop_and_restart).start()
 
-    dp.add_handler(conv_handler, 2)
-
+    dp.add_handler(conv_handler)
+    dp.add_handler(CommandHandler("kill", _func.taskill))
     dp.add_handler(CommandHandler("ver", _func._version))
 
     dp.add_handler(CommandHandler('restart', restart,filters=Filters.user(user_id=int(load.cfg['tg']['usr_id']))))
@@ -97,6 +98,7 @@ def main():
 
 
 if __name__ == "__main__":
-    progress = _mp(target=_payload.task_buffer)
+    ns.x = 0
+    progress = _mp(target=_payload.task_buffer,args=(ns,))
     progress.start()
     main()

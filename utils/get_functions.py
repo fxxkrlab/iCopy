@@ -5,6 +5,7 @@ from utils import (
     restricted as _r,
     get_set as _set,
     task_box as _box,
+    task_payload as _payload
 )
 from workflow import copy_workflow as _copy
 from utils.load import _lang, _text
@@ -12,6 +13,7 @@ from telegram.ext import ConversationHandler
 from drive.gdrive import GoogleDrive as _gd
 from telegram import ParseMode
 from threading import Thread
+from utils.load import ns
 
 
 logging.basicConfig(
@@ -185,3 +187,6 @@ def _get_ver():
     _r_ver = requests.get(_url).json()
     _latest_ver = _r_ver[0]["tag_name"]
     return _latest_ver
+
+def taskill(update, context):
+    ns.x = 1

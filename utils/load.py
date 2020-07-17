@@ -6,9 +6,10 @@ import os, sys, toml
 import pymongo
 from urllib import parse
 from drive import gdrive
+from multiprocessing import Manager
 
 ### local version
-_version = 'v0.2.0-alpha.11'
+_version = 'v0.2.0-alpha.12'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)
@@ -35,4 +36,8 @@ db_counters = mydb['counters']
 
 ### drive().list
 all_drive = gdrive.GoogleDrive().drive_list()
+
+### ns
+manager = Manager()
+ns = manager.Namespace()
 
