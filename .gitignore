@@ -9,3 +9,4 @@ pyvenv.cfg
 */__pycache__/
 */conf.toml
 note.md
+element.md
