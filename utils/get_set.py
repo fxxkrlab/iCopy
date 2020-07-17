@@ -10,7 +10,6 @@ from drive.gdrive import GoogleDrive as _gd
 SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST = range(5)
 
 pick_quick = []
-unpick_quick = []
 pick_fav = []
 unpick_fav = []
 judge_folder_len = [28, 33]
@@ -48,9 +47,10 @@ def _setting(update, context):
                         return IS_COVER_QUICK
 
             elif "quick-" == each[:6]:
-                unpick_quick.append(each[6:])
-    
-
+                _func.delete_in_db_quick
+                update.effective_message.reply_text(
+                    _text[_lang]["delete_quick_success"]
+                )
 
             ### set fav folder(fav folder could be a drive or folder of GDrive)
 
@@ -84,7 +84,17 @@ def _setting(update, context):
 
 
                 if "-" == each[3]:
+                    global unpick_fav
                     unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
+                    for item in unpick_fav:
+                        delete_request = {"G_ID":item['G_id']}
+                        _func.delete_in_db(delete_request)
+                    
+                    update.effective_message.reply_text(
+                        _text[_lang]["delete_fav_success"]
+                    )
+
+                    unpick_fav = []
 
 
             ### single rule
@@ -150,7 +160,12 @@ def _multi_settings_recieved(update, context):
                 print("error!")
                 update.effective_message.reply_text(_text[_lang]["get_quick_count_invaild"])
         elif "quick-" == each[:6]:
-            unpick_quick.append(each[6:])
+            _func.delete_in_db_quick
+            update.effective_message.reply_text(
+                _text[_lang]["delete_quick_success"]
+            )
+
+
         ### set fav folder(fav folder could be a drive or folder of GDrive)
 
         elif "fav" == each[:3]:
@@ -181,7 +196,17 @@ def _multi_settings_recieved(update, context):
                 pick_fav = []
 
             if "-" == each[3]:
+                global unpick_fav
                 unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
+                for item in unpick_fav:
+                    delete_request = {"G_ID":item['G_id']}
+                    _func.delete_in_db(delete_request)
+                
+                update.effective_message.reply_text(
+                    _text[_lang]["delete_fav_success"]
+                )
+
+                unpick_fav = []
 
         else:
             if "/cancel" == update.effective_message.text:

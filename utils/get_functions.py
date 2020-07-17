@@ -120,12 +120,15 @@ def modify_quick_in_db(update,context):
 
     return ConversationHandler.END
 
-def delete_in_db_quick(update, context):
-    pick_quick = _set.pick_quick
-    is_quick = {"_id": "fav_quick"}
-    load.fav_col.delete_one(is_quick)
+def delete_in_db_quick():
+    load.fav_col.delete_one({"_id": "fav_quick"})
 
-    return insert_to_db_quick(pick_quick, update)
+    return
+
+def delete_in_db(delete_request):
+    load.fav_col.delete_one(delete_request)
+
+    return
 
 def get_share_link(update, context):
     get_share_link = update.effective_message.text
