@@ -42,6 +42,13 @@ def task_buffer():
             remote = _cfg["general"]["remote"]
             src_id = task["src_id"]
             src_name = task["src_name"]
+            if "/" in src_name:
+                src_name = src_name.replace("/","|")
+            if "'" in src_name:
+                src_name = src_name.replace("'","")
+            if '"' in src_name:
+                src_name = src_name.replace('"','')
+                
             dst_id = task["dst_id"]
             src_block = remote + ":" + "{" + src_id + "}"
             dst_block = remote + ":" + "{" + dst_id + "}" + "/" + src_name 
