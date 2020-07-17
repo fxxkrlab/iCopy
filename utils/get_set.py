@@ -53,7 +53,6 @@ def _setting(update, context):
                 )
 
             ### set fav folder(fav folder could be a drive or folder of GDrive)
-
             elif "fav" == each[:3]:
                 fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
                 fav_sum = 0
@@ -87,7 +86,7 @@ def _setting(update, context):
                     global unpick_fav
                     unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
                     for item in unpick_fav:
-                        delete_request = {"G_ID":item['G_id']}
+                        delete_request = {"G_id":item['G_id']}
                         _func.delete_in_db(delete_request)
                     
                     update.effective_message.reply_text(
@@ -199,7 +198,7 @@ def _multi_settings_recieved(update, context):
                 global unpick_fav
                 unpick_fav = _func.get_name_from_id(update, each[4:], list_name=unpick_fav)
                 for item in unpick_fav:
-                    delete_request = {"G_ID":item['G_id']}
+                    delete_request = {"G_id":item['G_id']}
                     _func.delete_in_db(delete_request)
                 
                 update.effective_message.reply_text(

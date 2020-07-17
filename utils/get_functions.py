@@ -175,8 +175,8 @@ def get_share_link(update, context):
 
 def _version(update, context):
     update.message.reply_text(
-        "Welcome to use iCopy Telegram BOT\n"
-        f"Current Version : {load._version}\n"
+        "Welcome to use iCopy Telegram BOT\n\n"
+        f"Current Version : {load._version}\n\n"
         f"Latest Version : {_get_ver()}"
     )
 
