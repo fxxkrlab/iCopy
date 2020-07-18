@@ -18,6 +18,7 @@ from utils import (
     restricted as _r,
     get_set as _set,
     get_functions as _func,
+    task_box as _box,
     task_payload as _payload,
 )
 
@@ -48,6 +49,7 @@ def main():
             CommandHandler("start", _start.start),
             CommandHandler("quick", _quick.quick),
             CommandHandler("copy", _copy.copy),
+            CommandHandler("task", _box.taskinfo),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -64,6 +66,7 @@ def main():
                 MessageHandler(Filters.text, _func.get_share_link),
             ],
             _set.IS_COVER_QUICK: [
+                # cover quick setting
                 CallbackQueryHandler(_func.modify_quick_in_db, pattern="cover_quick"),
                 CallbackQueryHandler(_func.cancel, pattern="not_cover_quick"),
                 MessageHandler(Filters.text, _func.cancel),

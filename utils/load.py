@@ -9,7 +9,7 @@ from drive import gdrive
 from multiprocessing import Manager
 
 ### local version
-_version = 'v0.2.0-alpha.13'
+_version = 'v0.2.0-alpha.14'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)

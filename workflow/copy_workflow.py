@@ -43,7 +43,7 @@ def copy(update, context):
 def request_srcinfo(update, context):
     global current_dst_info
     current_dst_info = update.callback_query.data
-    update.effective_message.reply_text(
+    update.callback_query.edit_message_text(
         _text[_lang]["request_share_link"]
     )
 

@@ -27,6 +27,7 @@ old_working_file = ""
 now_elapsed_time = ""
 context_old = ""
 icopyprocess = subprocess.Popen
+interruption = 0
 
 
 def task_buffer(ns):
@@ -83,7 +84,15 @@ def task_buffer(ns):
 
 
 def task_process(chat_id, command, task, ns):
-    print(command)
+    # mark is in processing in db
+    task_list.update_one(
+        {"_id": task["_id"]}, 
+        {
+            "$set": {
+                "status": 2,
+            }
+        }
+    )
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
     chat_id = chat_id
@@ -216,7 +225,7 @@ def task_process(chat_id, command, task, ns):
                     + "🏳️"
                     + _text[_lang]["current_task_id"]
                     + str(task["_id"])
-                    + " | iCopy🔆"
+                    + " | ༺ ｡iCopy｡ ༻ "
                     + "\n\n"
                     + message_info
                     + "\n\n"
@@ -237,6 +246,8 @@ def task_process(chat_id, command, task, ns):
             and current_working_file == old_working_file
             and task_percent > 5
         ):
+            global interruption
+            interruption = 1
             break
 
     old_working_file = ""
@@ -252,7 +263,7 @@ def task_process(chat_id, command, task, ns):
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
-            + " | iCopy🔆"
+            + " | ༺ ｡iCopy｡ ༻ "
             + "\n\n"
             + message_info
             + "\n"
@@ -273,6 +284,40 @@ def task_process(chat_id, command, task, ns):
             },
         )
 
+    interrupted_msg = (
+        _text[_lang]["task_src_info"]
+        + "\n"
+        + "📃"
+        + task["src_name"]
+        + "\n"
+        + "----------------------------------------"
+        + "\n"
+        + _text[_lang]["task_dst_info"]
+        + "\n"
+        + "📁"
+        + task["dst_name"]
+        + ":"
+        + "\n"
+        + "    ┕─📃"
+        + task["src_name"]
+        + "\n"
+        + "----------------------------------------"
+        + "\n\n"
+        + _text[_lang]["task_files_size"]
+        + str(task_current_prog_size)
+        + "/"
+        + str(task_total_prog_size)
+        + "\n"
+        + _text[_lang]["task_files_num"]
+        + str(task_current_prog_num)
+        + "/"
+        + str(task_total_prog_num)
+        + "\n\n"
+        + str(task_percent)
+        + "%"
+        + str(prog_bar)
+    )
+
     if ns.x == 1:
         bot.edit_message_text(
             chat_id=chat_id,
@@ -282,39 +327,9 @@ def task_process(chat_id, command, task, ns):
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
-            + " | iCopy🔆"
+            + " | ༺ ｡iCopy｡ ༻ "
             + "\n\n"
-            + _text[_lang]["task_src_info"]
-            + "\n"
-            + "📃"
-            + task["src_name"]
-            + "\n"
-            + "----------------------------------------"
-            + "\n"
-            + _text[_lang]["task_dst_info"]
-            + "\n"
-            + "📁"
-            + task["dst_name"]
-            + ":"
-            + "\n"
-            + "    ┕─📃"
-            + task["src_name"]
-            + "\n"
-            + "----------------------------------------"
-            + "\n\n"
-            + _text[_lang]["task_files_size"]
-            + str(task_current_prog_size)
-            + "/"
-            + str(task_total_prog_size)
-            + "\n"
-            + _text[_lang]["task_files_num"]
-            + str(task_current_prog_num)
-            + "/"
-            + str(task_total_prog_num)
-            + "\n\n"
-            + str(task_percent)
-            + "%"
-            + str(prog_bar)
+            + interrupted_msg
             + "\n"
             + _text[_lang]["is_killed_by_user"],
         )
@@ -330,6 +345,35 @@ def task_process(chat_id, command, task, ns):
                 }
             }
         )
+    
+    if interruption == 1:
+        bot.edit_message_text(
+            chat_id=chat_id,
+            message_id=message_id,
+            text=_text[_lang]["interrupted"]
+            + " | "
+            + "🏳️"
+            + _text[_lang]["current_task_id"]
+            + str(task["_id"])
+            + " | ༺ ｡iCopy｡ ༻ "
+            + "\n\n"
+            + interrupted_msg
+            + "\n"
+            + _text[_lang]["is_interrupted_error"],
+        )
+
+        task_list.update_one(
+            {"_id": task["_id"]}, 
+            {
+                "$set": {
+                    "status": 1,
+                    "error": 1,
+                    "start_time": start_time,
+                    "finished_time": finished_time,
+                }
+            }
+        )
+
 
     prog_bar = _bar.status(0)
 
