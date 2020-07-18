@@ -32,16 +32,19 @@ def cook_task_to_db(update, context, tmp_task_list):
 
 def taskinfo(update, context):
     entry_cmd = update.effective_message.text
-    current_task = load.task_list.find_one({"status":2})
-    current_task_id = current_task['_id']
-    current_task_src_name = current_task['src_name']
-    current_task_dst_name = current_task['dst_name']
+    if " " in entry_cmd:
+        entry_cmd = entry_cmd.replace(" ","")
+
     if entry_cmd == "/task":
+        current_task = load.task_list.find_one({"status":2})
         if current_task is not None:
-            update.effective_message.text(
+            current_task_id = current_task['_id']
+            current_task_src_name = current_task['src_name']
+            current_task_dst_name = current_task['dst_name']
+            update.effective_message.reply_text(
                 _text[_lang]["is_current_task"]
                 + _text[_lang]["current_task_id"]
-                + current_task_id
+                + str(current_task_id)
                 + "\n"
                 + _text[_lang]["current_task_src_name"]
                 + current_task_src_name
@@ -53,23 +56,22 @@ def taskinfo(update, context):
             return ConversationHandler.END
 
         else:
-            update.effective_message.text(
-                _text[_lang]["is_not_current_task"]
+            update.effective_message.reply_text(
+                _text[_lang]['is_not_current_task']
             )
 
             return ConversationHandler.END
 
-    if context.args[0] == "list":
+    elif entry_cmd[5:] == "list":
         global waititem
         global waitlist
         task_list = load.task_list.find({"status":0}).limit(10)
-
-        if task_list is not None:
+        if list(task_list) != []:
             wait_num = len(list(task_list))
-            for item in wait_num:
+            for item in task_list:
                 waititem = (
                     _text[_lang]["current_task_id"]
-                    + item['_id']
+                    + str(item['_id'])
                     + _text[_lang]["current_task_src_name"]
                     + item['src_name']
                     + "\n--------------------\n"
@@ -78,18 +80,21 @@ def taskinfo(update, context):
 
             waitlist = "".join(waitlist)
 
-            update.effective_message.text(
-                wait_num
+            update.effective_message.reply_text(
+                str(wait_num)
                 +_text[_lang]["show_wait_list"] 
                 + "\n\n" 
                 + waitlist
             )
+            waitlist = []
 
             return ConversationHandler.END
 
         else:
-            update.effective_message.text(
+            update.effective_message.reply_text(
                 _text[_lang]["show_wait_list_null"]
             )
 
             return ConversationHandler.END
+    else:
+        return ConversationHandler.END

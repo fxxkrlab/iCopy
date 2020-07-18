@@ -9,7 +9,7 @@ from drive import gdrive
 from multiprocessing import Manager
 
 ### local version
-_version = 'v0.2.0-alpha.14'
+_version = 'v0.2.0-alpha.15'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)
@@ -41,3 +41,5 @@ all_drive = gdrive.GoogleDrive().drive_list()
 manager = Manager()
 ns = manager.Namespace()
 
+### Restore Unexpected Interrupted Task status 2 --> 0
+task_list.update_one({"status": 2},{"$set": {"status": 0,}},)

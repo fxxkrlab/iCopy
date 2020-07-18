@@ -22,13 +22,17 @@ from utils import (
     task_payload as _payload,
 )
 
-from workflow import start_workflow as _start, quick_workflow as _quick,copy_workflow as _copy
+from workflow import (
+    start_workflow as _start,
+    quick_workflow as _quick,
+    copy_workflow as _copy,
+)
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
 from utils.load import ns
 
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
@@ -74,11 +78,11 @@ def main():
             _copy.GET_DST: [
                 # request DST
                 CallbackQueryHandler(_copy.request_srcinfo),
-            ]
+            ],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )
-    
+
     def stop_and_restart():
         progress.terminate()
         load.myclient.close()
@@ -86,14 +90,20 @@ def main():
         os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
 
     def restart(update, context):
-        update.message.reply_text(load._text[load._lang]['is_restarting'])
+        update.message.reply_text(load._text[load._lang]["is_restarting"])
         Thread(target=stop_and_restart).start()
 
     dp.add_handler(conv_handler)
     dp.add_handler(CommandHandler("kill", _func.taskill))
     dp.add_handler(CommandHandler("ver", _func._version))
 
-    dp.add_handler(CommandHandler('restart', restart,filters=Filters.user(user_id=int(load.cfg['tg']['usr_id']))))
+    dp.add_handler(
+        CommandHandler(
+            "restart",
+            restart,
+            filters=Filters.user(user_id=int(load.cfg["tg"]["usr_id"])),
+        )
+    )
 
     updater.start_polling()
     logger.info(f"Fxxkr LAB iCopy {load._version} Start")
@@ -102,6 +112,6 @@ def main():
 
 if __name__ == "__main__":
     ns.x = 0
-    progress = _mp(target=_payload.task_buffer,args=(ns,))
+    progress = _mp(target=_payload.task_buffer, args=(ns,))
     progress.start()
     main()
