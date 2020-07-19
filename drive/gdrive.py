@@ -42,8 +42,7 @@ class GoogleDrive:
                 page_token = drives.get('nextPageToken')
                 if not page_token:
                     break
-            except errors.HttpError as error:
-                logger.warning('An error occurred: %s' % error)
+            except:
                 break
 
         for item in result:

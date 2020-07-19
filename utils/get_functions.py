@@ -5,7 +5,7 @@ from utils import (
     restricted as _r,
     get_set as _set,
     task_box as _box,
-    task_payload as _payload
+    task_payload as _payload,
 )
 from workflow import copy_workflow as _copy
 from utils.load import _lang, _text
@@ -69,11 +69,7 @@ def get_name_from_id(update, taget_id, list_name):
     cook_list = list(list_name)
     if len(taget_id) >= 11 and len(taget_id) < 28:
         cook_list.append(
-            {
-                "G_type": "G_drive", 
-                "G_id": taget_id, 
-                "G_name": load.all_drive[taget_id],
-            }
+            {"G_type": "G_drive", "G_id": taget_id, "G_name": load.all_drive[taget_id],}
         )
     elif len(taget_id) in judge_folder_len:
         cook_list.append(
@@ -111,26 +107,29 @@ def insert_to_db_quick(pick_quick, update):
         return status
 
 
-def modify_quick_in_db(update,context):
+def modify_quick_in_db(update, context):
     pick_quick = _set.pick_quick
     for item in pick_quick:
-        load.fav_col.update({"_id": "fav_quick"},item,upsert=True)
+        load.fav_col.update({"_id": "fav_quick"}, item, upsert=True)
 
     update.effective_message.reply_text(
-            _text[_lang]["modify_quick_success"], parse_mode=ParseMode.MARKDOWN_V2
-        )
+        _text[_lang]["modify_quick_success"], parse_mode=ParseMode.MARKDOWN_V2
+    )
 
     return ConversationHandler.END
+
 
 def delete_in_db_quick():
     load.fav_col.delete_one({"_id": "fav_quick"})
 
     return
 
+
 def delete_in_db(delete_request):
     load.fav_col.delete_one(delete_request)
 
     return
+
 
 def get_share_link(update, context):
     get_share_link = update.effective_message.text
@@ -144,7 +143,7 @@ def get_share_link(update, context):
     if is_dstinfo != "":
         dstinfo = is_dstinfo.split("id+name")
         dst_id = dstinfo[0]
-        dst_name = dstinfo[1]      
+        dst_name = dstinfo[1]
     else:
         for doc in is_quick_cur:
             dst_id = doc["G_id"]
@@ -169,8 +168,7 @@ def get_share_link(update, context):
             }
         )
 
-
-    Thread(target=_box.cook_task_to_db,args=(update, context, tmp_task_list)).start()
+    Thread(target=_box.cook_task_to_db, args=(update, context, tmp_task_list)).start()
     _copy.current_dst_info = ""
     return ConversationHandler.END
 
@@ -182,11 +180,28 @@ def _version(update, context):
         f"Latest Version : {_get_ver()}"
     )
 
+
 def _get_ver():
     _url = "https://api.github.com/repos/fxxkrlab/iCopy/releases"
     _r_ver = requests.get(_url).json()
     _latest_ver = _r_ver[0]["tag_name"]
     return _latest_ver
 
+
 def taskill(update, context):
     ns.x = 1
+
+
+def check_restart(bot):
+    check_restart = load.db_counters.find_one({"_id": "is_restart"})
+    chat_id = check_restart["chat_id"]
+    message_id = check_restart["message_id"]
+    load.db_counters.update_one({"_id": "is_restart"}, {"$set": {"status": 0,}}, True)
+    bot.edit_message_text(
+        chat_id=chat_id, message_id=message_id, text=_text[_lang]["restart_success"]
+    )
+
+
+def error(update, context):
+    """Log Errors caused by Updates."""
+    logger.warning('Update "%s" caused error "%s"', update, context.error)

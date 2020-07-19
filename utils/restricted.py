@@ -6,7 +6,6 @@ from utils.load import _lang, _text
 from utils import messages as _msg, load
 from telegram import ParseMode
 
-
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):

@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import os, sys, toml
-#json
 import pymongo
 from urllib import parse
 from drive import gdrive
 from multiprocessing import Manager
 
+
 ### local version
-_version = 'v0.2.0-alpha.15'
+_version = 'v0.2.0-beta.1'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)

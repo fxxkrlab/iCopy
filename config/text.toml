@@ -46,6 +46,7 @@ show_wait_list = "个任务正在队列中"
 show_wait_list_null = "等待队列为空"
 interrupted = "任务中断"
 is_interrupted_error = "任务意外中断"
+restart_success = "iCopy 重启完成"
 
 [eng]
 quick_mode = "QUICK MODE"
@@ -94,6 +95,7 @@ show_wait_list = "task in the queue"
 show_wait_list_null = "There is no task in waiting"
 interrupted = "Interrupted"
 is_interrupted_error = "Unexpected interruption"
+restart_success = "iCopy restart is complete"
 
 [jp]
 quick_mode = "「クイックモード」"
@@ -142,3 +144,4 @@ show_wait_list = "タスクが待機しています"
 show_wait_list_null = "待機中のタスクはありません"
 interrupted = "タスク中断"
 is_interrupted_error = "予期しない中断"
+restart_success = "iCopyの再開が完了する"
