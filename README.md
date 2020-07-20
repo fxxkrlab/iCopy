@@ -4,8 +4,8 @@
 [![Programming Language](https://img.shields.io/badge/LANGUAGE-Python%203.6%2B-success?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![Version](https://img.shields.io/badge/Version-0.2.0--beta.2-ff69b4?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![License](https://img.shields.io/github/license/fxxkrlab/iCopy?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
-[![Stars](https://img.shields.io/github/stars/fxxkrlab/iCopy?style=flat-square)](https://github.com/fxxkrlab/iCopy)
-[![DATABASE](https://img.shields.io/badge/DATABASE-MongoDB-brightgreen?style=flat-square&logo=appveyor)](https://github.com/mongodb/mongo)  
+[![DATABASE](https://img.shields.io/badge/DATABASE-MongoDB-brightgreen?style=flat-square&logo=appveyor)](https://github.com/mongodb/mongo)
+[![Stars](https://img.shields.io/github/stars/fxxkrlab/iCopy?style=flat-square&logo=appveyor)](https://github.com/fxxkrlab/iCopy)  
 
 [iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
