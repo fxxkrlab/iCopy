@@ -8,7 +8,7 @@
 [iCopy Forum](https://bbs.jsu.net/c/official-project/icopy/6) |
 [TELEGRAM GROUP](https://t.me/sharegdrive) |
 [CHANGELOG](docs/CHANGELOG.md) |
-[Future Version](https://github.com/fxxkrlab/iCopy/projects/1) |  
+[Future Version](https://github.com/fxxkrlab/iCopy/projects/1) |
 [TODO](docs/TODO.md)  
  
 **Send commands to [Telegram](http://telegram.org) BOT for get a _convience way_ to control [fclone](https://github.com/mawaya/rclone/releases/tag/fclone-v0.3.1) resources copy missions.**  
