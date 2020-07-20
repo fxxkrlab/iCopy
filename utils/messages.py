@@ -16,19 +16,6 @@ def restricted_msg(_lang,_first_name,_user_id):
             f"ユーザーID:{_user_id}は許可されていない"
             "正しい方法で追加してください")
 
-def start_msg(_lang, _first_name):
-    if "cn" == _lang:
-        return(f"Hi\! {_first_name} 欢迎使用 iCopy\n"
-            "请选择转存模式")
-    if "eng" == _lang:
-        return(f"Hi\! {_first_name} Welcome to use iCopy\n"
-            "Pls Choose the Transfer Mode")
-    if "jp" == _lang:
-        return(f"Hi\! {_first_name} 欢迎使用 iCopy\n"
-            "ご覧のモードを選んでください")
-
-
-
 # ##### /set Messages #####
 
 def set_help(_lang):

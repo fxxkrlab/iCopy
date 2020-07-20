@@ -66,7 +66,7 @@ def main():
         entry_points=[
             # Entry Points
             CommandHandler("set", _set._setting),
-            CommandHandler("start", _start.start),
+            CommandHandler("menu", _start.menu),
             CommandHandler("quick", _quick.quick),
             CommandHandler("copy", _copy.copy),
             CommandHandler("task", _box.taskinfo),
@@ -123,6 +123,7 @@ def main():
         Thread(target=stop_and_restart).start()
 
     dp.add_handler(conv_handler)
+    dp.add_handler(CommandHandler("start", _start.start))
     dp.add_handler(CommandHandler("kill", _func.taskill))
     dp.add_handler(CommandHandler("ver", _func._version))
 
