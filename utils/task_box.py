@@ -28,6 +28,9 @@ def cook_task_to_db(update, context, tmp_task_list):
     insert_callback = load.task_list.insert_many(tmp_task_list)
     if insert_callback.inserted_ids:
         load.db_counters.update({"_id": "task_list_id"},{"future_id":future_id},upsert=True)
+        update.effective_message.reply_text(
+            _text[_lang]["add_task_successful"]
+        )
 
 
 def taskinfo(update, context):

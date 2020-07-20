@@ -220,12 +220,12 @@ def task_process(chat_id, command, task, ns):
                     bot,
                     chat_id,
                     message_id,
-                    _text[_lang]["doing"]
+                    " ༺ ✪iCopy✪ ༻ \n"
+                    + _text[_lang]["doing"]
                     + " | "
                     + "🏳️"
                     + _text[_lang]["current_task_id"]
                     + str(task["_id"])
-                    + " | ༺ ｡iCopy｡ ༻ "
                     + "\n\n"
                     + message_info
                     + "\n\n"
@@ -258,12 +258,12 @@ def task_process(chat_id, command, task, ns):
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text=_text[_lang]["done"]
+            text=" ༺ ✪iCopy✪ ༻ \n"
+            + _text[_lang]["done"]
             + " | "
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
-            + " | ༺ ｡iCopy｡ ༻ "
             + "\n\n"
             + message_info
             + "\n"
@@ -322,12 +322,12 @@ def task_process(chat_id, command, task, ns):
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text=_text[_lang]["killed"]
+            text=" ༺ ✪iCopy✪ ༻ \n"
+            +_text[_lang]["killed"]
             + " | "
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
-            + " | ༺ ｡iCopy｡ ༻ "
             + "\n\n"
             + interrupted_msg
             + "\n"
@@ -350,12 +350,12 @@ def task_process(chat_id, command, task, ns):
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text=_text[_lang]["interrupted"]
+            text=" ༺ ✪iCopy✪ ༻ \n"
+            + _text[_lang]["interrupted"]
             + " | "
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
-            + " | ༺ ｡iCopy｡ ༻ "
             + "\n\n"
             + interrupted_msg
             + "\n"
