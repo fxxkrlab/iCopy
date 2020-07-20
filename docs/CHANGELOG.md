@@ -1,7 +1,9 @@
 ### iCopy v0.2 CHANGELOG
 
 * version 0.2.0-beta.2  
-  Update : send confirm msg after task added
+  Update : send confirm msg after task added  
+  Update : '/start' is not in Conversation Handle any more  
+  Update : Use '/menu' to select run mode instead of '/start'  
 
 * version 0.2.0-beta.1  
 The first beta version of v0.2  
