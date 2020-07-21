@@ -13,7 +13,7 @@ from telegram import ParseMode
 from utils.load import _lang, _text
 from drive.gdrive import GoogleDrive as _gd
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST = range(5)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID = range(6)
 
 pick_quick = []
 pick_fav = []
@@ -226,7 +226,7 @@ def _multi_settings_recieved(update, context):
             _tmp_quick_counter += 1
             if _tmp_quick_counter == 1:
                 global pick_quick
-                pick_quick = _func.get_name_from_id(
+                pick_quick += _func.get_name_from_id(
                     update, each[6:], list_name=pick_quick
                 )
                 insert_fav_quick = _func.insert_to_db_quick(pick_quick, update)
@@ -261,7 +261,7 @@ def _multi_settings_recieved(update, context):
 
             if "+" == each[3]:
                 global pick_fav
-                pick_fav = _func.get_name_from_id(update, each[4:], list_name=pick_fav)
+                pick_fav += _func.get_name_from_id(update, each[4:], list_name=pick_fav)
                 for item in pick_fav:
                     item["fav_type"] = "fav"
                     try:

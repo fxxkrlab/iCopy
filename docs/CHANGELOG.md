@@ -1,5 +1,16 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.4  
+
++ Update :  
+  + ADD "/size" a function to get simple size info  
+  
++ Fixbugs :  
+  + FIX : "/reset" send notice msg error
+  + FIX : get shared drive name failed when the shared drive is temporarily granted permission for an outside party.  
+
+***
+
 ## version 0.2.0-beta.3  
 
 Notice : The new "conf.toml" should be replaced or you could modify the "conf.toml" by referring to the "example" one.  

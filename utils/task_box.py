@@ -110,7 +110,7 @@ def task_reset(update, context):
         check_query = load.db_counters.find_one({"_id": "last_task"})
         load.task_list.update_one({"_id": check_query['task_id']}, {"$set": {"status": 0,}})
         update.effective_message.reply_text(
-            _text[_lang]["reset_successful"].replace("replace",check_query['task_id'])
+            _text[_lang]["reset_successful"].replace("replace",str(check_query['task_id']))
         )
 
     if match_cmd:
@@ -118,7 +118,7 @@ def task_reset(update, context):
         check_query = match_cmd.group(1)
 
         if int(check_query) <= limit_query['future_id']:
-            print("22")
+
             load.task_list.update_one({"_id": check_query}, {"$set": {"status": 0,}})
             update.effective_message.reply_text(
                 _text[_lang]["reset_successful"].replace("replace",check_query)

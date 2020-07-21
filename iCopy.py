@@ -26,6 +26,7 @@ from workflow import (
     start_workflow as _start,
     quick_workflow as _quick,
     copy_workflow as _copy,
+    size_workflow as _size,
 )
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
@@ -70,6 +71,7 @@ def main():
             CommandHandler("quick", _quick.quick),
             CommandHandler("copy", _copy.copy),
             CommandHandler("task", _box.taskinfo),
+            CommandHandler("size", _size.size),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -94,6 +96,10 @@ def main():
             _copy.GET_DST: [
                 # request DST
                 CallbackQueryHandler(_copy.request_srcinfo),
+            ],
+            _size.COOK_ID: [
+                # request to COOK ID
+                MessageHandler(Filters.text,_size.size_handle),
             ],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],

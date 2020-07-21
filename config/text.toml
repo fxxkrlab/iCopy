@@ -55,6 +55,11 @@ purge_fav = "清空收藏夹 (不包含 quick目录)"
 reset_successful = "任务 ID : replace 已被成功重置" #replace==待替换占位符
 over_limit_error = "超出最大可重置任务序号"
 global_command_error = "输入的命令或者命令格式不存在"
+ready_to_size = "正在准备统计"
+sizing = "正在统计中，请耐心等待\n如果同时存在复制任务，则会影响复制与统计双方的准确性"
+total_file_num = "总文件数 : "
+total_file_size = "总大小 : "
+sizing_done = "统计完成"
 
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
@@ -112,6 +117,11 @@ purge_fav = "purge Favorites (except Quick path)"
 reset_successful = "Task ID: replace has been reset successfully" #replace==symbolic placeholder
 over_limit_error = "Exceeded maximum resettable task number"
 global_command_error = "The input command or command format does not exist"
+ready_to_size = "Preparing statistics"
+sizing = "In statistics, pls wait \nIf there is a copy task, it will affect the accuracy of both copy and statistics"
+total_file_num = "Total Files : "
+total_file_size = "Total Size : "
+sizing_done = "Size Finished"
 
 [jp]
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
@@ -169,3 +179,8 @@ purge_fav = "お気に入りをクリア（クイックフォルダーを除く�
 reset_successful = "タスク ID: replace がリセットされた"#replace==置き換え指示記号
 over_limit_error = "最大リセット可能タスク番号を超える"
 global_command_error = "入力するコマンドやコマンドフォーマットは存在しない"
+ready_to_size = "統計を準備している"
+sizing = "統計中ですので、お待ちください\nコピータスクが同時に存在する場合,コピーと統計の双方の正確さに影響する"
+total_file_num = "総 ファイル 数 : "
+total_file_size = "総 サイズ : "
+sizing_done = "統計終了"

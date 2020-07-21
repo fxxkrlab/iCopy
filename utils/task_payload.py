@@ -7,8 +7,6 @@ from multiprocessing import Process as _mp, Manager
 from telegram import Bot
 from utils.load import _lang, _text
 from telegram.utils.request import Request as TGRequest
-
-# from subprocess import Popen, PIPE
 import subprocess
 from threading import Timer
 

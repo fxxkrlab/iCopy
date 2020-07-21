@@ -61,3 +61,11 @@ class GoogleDrive:
         file_name = raw_file_info['name']
 
         return file_name
+
+    def drive_get(self, drive_id):
+        param = {
+            'driveId': drive_id,
+        }
+        drive_info = self.service.drives().get(**param).execute()
+        
+        return drive_info

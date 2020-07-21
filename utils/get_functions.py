@@ -21,24 +21,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST = range(5)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID = range(6)
 
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"
 judge_folder_len = [28, 33]
 pick_quick = []
 mode = ""
-
-
-@_r.restricted
-def cancel(update, context):
-    user = update.effective_user.first_name
-    logger.info("User %s canceled the conversation.", user)
-    update.effective_message.reply_text(
-        f"Bye! {update.effective_user.first_name} ," + _text[_lang]["cancel_msg"]
-    )
-    return ConversationHandler.END
-
 
 def cook_to_id(get_share_link):
     share_id_list = []
@@ -70,6 +59,29 @@ def get_name_from_id(update, taget_id, list_name):
     if len(taget_id) >= 11 and len(taget_id) < 28:
         cook_list.append(
             {"G_type": "G_drive", "G_id": taget_id, "G_name": load.all_drive[taget_id],}
+        )
+    elif len(taget_id) in judge_folder_len:
+        cook_list.append(
+            {
+                "G_type": "G_Folder",
+                "G_id": taget_id,
+                "G_name": _gd().file_get_name(file_id=taget_id),
+            }
+        )
+    else:
+        update.effective_message.reply_text(_msg.get_fav_len_invaild(_lang, taget_id))
+
+        return ConversationHandler.END
+
+    return cook_list
+
+def get_src_name_from_id(update, taget_id, list_name):
+    cook_list = []
+    cook_list = list(list_name)
+    if len(taget_id) >= 11 and len(taget_id) < 28:
+        target_info = _gd.drive_get(taget_id)
+        cook_list.append(
+            {"G_type": "G_drive", "G_id": taget_id, "G_name": target_info['name'],}
         )
     elif len(taget_id) in judge_folder_len:
         cook_list.append(
@@ -150,7 +162,7 @@ def get_share_link(update, context):
             dst_name = doc["G_name"]
 
     for item in src_id_list:
-        src_name_list = get_name_from_id(update, item, list_name=src_name_list)
+        src_name_list += get_src_name_from_id(update, item, list_name=src_name_list)
 
     for item in src_name_list:
         src_id = item["G_id"]
@@ -172,22 +184,6 @@ def get_share_link(update, context):
     _copy.current_dst_info = ""
     return ConversationHandler.END
 
-
-def _version(update, context):
-    update.message.reply_text(
-        "Welcome to use iCopy Telegram BOT\n\n"
-        f"Current Version : {load._version}\n\n"
-        f"Latest Version : {_get_ver()}"
-    )
-
-
-def _get_ver():
-    _url = "https://api.github.com/repos/fxxkrlab/iCopy/releases"
-    _r_ver = requests.get(_url).json()
-    _latest_ver = _r_ver[0]["tag_name"]
-    return _latest_ver
-
-
 def taskill(update, context):
     ns.x = 1
 
@@ -201,6 +197,27 @@ def check_restart(bot):
         chat_id=chat_id, message_id=message_id, text=_text[_lang]["restart_success"]
     )
 
+def _version(update, context):
+    update.message.reply_text(
+        "Welcome to use iCopy Telegram BOT\n\n"
+        f"Current Version : {load._version}\n\n"
+        f"Latest Version : {_get_ver()}"
+    )
+
+def _get_ver():
+    _url = "https://api.github.com/repos/fxxkrlab/iCopy/releases"
+    _r_ver = requests.get(_url).json()
+    _latest_ver = _r_ver[0]["tag_name"]
+    return _latest_ver
+
+@_r.restricted
+def cancel(update, context):
+    user = update.effective_user.first_name
+    logger.info("User %s canceled the conversation.", user)
+    update.effective_message.reply_text(
+        f"Bye! {update.effective_user.first_name} ," + _text[_lang]["cancel_msg"]
+    )
+    return ConversationHandler.END
 
 def error(update, context):
     """Log Errors caused by Updates."""
