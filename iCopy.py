@@ -124,6 +124,7 @@ def main():
 
     dp.add_handler(conv_handler)
     dp.add_handler(CommandHandler("start", _start.start))
+    dp.add_handler(CommandHandler("reset", _box.task_reset))
     dp.add_handler(CommandHandler("kill", _func.taskill))
     dp.add_handler(CommandHandler("ver", _func._version))
 

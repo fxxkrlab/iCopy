@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import time, pymongo
+import time, pymongo, re
 from utils import load,task_payload as _payload
 from telegram.ext import ConversationHandler
 from utils.load import _lang, _text
@@ -101,3 +101,35 @@ def taskinfo(update, context):
             return ConversationHandler.END
     else:
         return ConversationHandler.END
+
+def task_reset(update, context):
+    entry_cmd = update.effective_message.text
+    match_cmd = re.search(r'^\/RESET ([1-9]\d*)$', entry_cmd, flags=re.I)
+
+    if "/reset" == entry_cmd:
+        check_query = load.db_counters.find_one({"_id": "last_task"})
+        load.task_list.update_one({"_id": check_query['task_id']}, {"$set": {"status": 0,}})
+        update.effective_message.reply_text(
+            _text[_lang]["reset_successful"].replace("replace",check_query['task_id'])
+        )
+
+    if match_cmd:
+        limit_query = load.db_counters.find_one({"_id":"task_list_id"})
+        check_query = match_cmd.group(1)
+
+        if int(check_query) <= limit_query['future_id']:
+            print("22")
+            load.task_list.update_one({"_id": check_query}, {"$set": {"status": 0,}})
+            update.effective_message.reply_text(
+                _text[_lang]["reset_successful"].replace("replace",check_query)
+            )
+        
+        else:
+            update.effective_message.reply_text(
+                _text[_lang]["over_limit_error"]
+            )
+
+    else:
+        update.effective_message.reply_text(
+            _text[_lang]["global_command_error"]
+        )

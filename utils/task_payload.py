@@ -19,6 +19,7 @@ myclient = pymongo.MongoClient(
 )
 mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
+db_counters = mydb['counters']
 _cfg = load.cfg
 message_info = ""
 prog_bar = ""
@@ -35,9 +36,9 @@ def task_buffer(ns):
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
             if _cfg["general"]["cloner"] == "fclone":
-                flags = ["--check-first"]
+                flags = ['--drive-server-side-across-configs', '--check-first']
             else:
-                flags = []
+                flags = ['--drive-server-side-across-configs']
             command = []
 
             cloner = _cfg["general"]["cloner"]
@@ -85,14 +86,8 @@ def task_buffer(ns):
 
 def task_process(chat_id, command, task, ns):
     # mark is in processing in db
-    task_list.update_one(
-        {"_id": task["_id"]}, 
-        {
-            "$set": {
-                "status": 2,
-            }
-        }
-    )
+    task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
+    db_counters.update({"_id": "last_task"},{"task_id",task["_id"]},upsert=True)
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
     chat_id = chat_id

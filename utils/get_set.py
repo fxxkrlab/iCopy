@@ -36,6 +36,33 @@ def _setting(update, context):
 
         return SET_FAV_MULTI
 
+    if "purge" == entry_cmd[4:]:
+        fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
+        if fav_count is not None and fav_count['fav_sum'] != 0:
+            fav_sum = fav_count['fav_sum']
+            query = { "fav_type": {"$regex": "^fav"} }
+            del_query = load.fav_col.delete_many(query)    
+            fav_sum -= int(del_query.deleted_count)
+            load.db_counters.update(
+                {"_id": "fav_count_list"},
+                {"fav_sum": fav_sum},
+                upsert=True,
+            )
+
+            update.effective_message.reply_text(
+                _text[_lang]["purge_fav"]
+            )
+
+            return ConversationHandler.END
+
+        else:
+            update.effective_message.reply_text(
+                _text[_lang]["show_fav_list_null"]
+            )
+
+            return ConversationHandler.END
+
+
     if "/setlist" == entry_cmd:
         global showitem
         global showlist

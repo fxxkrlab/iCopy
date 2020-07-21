@@ -51,6 +51,10 @@ interrupted = "任务中断"
 is_interrupted_error = "任务意外中断"
 restart_success = "iCopy 重启完成"
 add_task_successful = "添加任务成功"
+purge_fav = "清空收藏夹 (不包含 quick目录)"
+reset_successful = "任务 ID : replace 已被成功重置" #replace==待替换占位符
+over_limit_error = "超出最大可重置任务序号"
+global_command_error = "输入的命令或者命令格式不存在"
 
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
@@ -104,6 +108,10 @@ interrupted = "Interrupted"
 is_interrupted_error = "Unexpected interruption"
 restart_success = "iCopy restart is complete"
 add_task_successful = "Add Task Successful"
+purge_fav = "purge Favorites (except Quick path)"
+reset_successful = "Task ID: replace has been reset successfully" #replace==symbolic placeholder
+over_limit_error = "Exceeded maximum resettable task number"
+global_command_error = "The input command or command format does not exist"
 
 [jp]
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
@@ -157,3 +165,7 @@ interrupted = "タスク中断"
 is_interrupted_error = "予期しない中断"
 restart_success = "iCopyの再開が完了する"
 add_task_successful = "タスク追加成功"
+purge_fav = "お気に入りをクリア（クイックフォルダーを除く）"
+reset_successful = "タスク ID: replace がリセットされた"#replace==置き換え指示記号
+over_limit_error = "最大リセット可能タスク番号を超える"
+global_command_error = "入力するコマンドやコマンドフォーマットは存在しない"
