@@ -21,7 +21,7 @@ db_passwd = "Your mongodb user_Passwd HERE" # mongodb passwd
 
 [general]
 
-language = "cn" # cn / eng / jp,default is "cn"
+language = "cn" # cn / eng / jp / br,default is "cn"
 
 cloner = "fclone" # Only fclone is suitable now,Future supports: rclone / gclone / autorclone
 
