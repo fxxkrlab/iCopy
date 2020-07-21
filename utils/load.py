@@ -9,7 +9,7 @@ from multiprocessing import Manager
 
 
 ### local version
-_version = 'v0.2.0-beta.3'
+_version = 'v0.2.0-beta.4'
 
 _cfgFile_RAW = os.path.abspath(os.path.join('config','conf.toml'))
 cfg = toml.load(_cfgFile_RAW)
