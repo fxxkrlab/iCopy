@@ -87,7 +87,7 @@ def task_buffer(ns):
 def task_process(chat_id, command, task, ns):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
-    db_counters.update({"_id": "last_task"},{"task_id",task["_id"]},upsert=True)
+    db_counters.update({"_id": "last_task"},{"task_id": task["_id"]},upsert=True)
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
     chat_id = chat_id
