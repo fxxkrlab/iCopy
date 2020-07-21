@@ -15,6 +15,10 @@ def restricted_msg(_lang,_first_name,_user_id):
         return(f"HI ! {_first_name} こんにちは"
             f"ユーザーID:{_user_id}は許可されていない"
             "正しい方法で追加してください")
+    if "br" == _lang:
+      return(f"Olá ! {_first_name}\n"
+            f"Seu ID de usuário:{_user_id} não é autorizado\n"
+            "Por favor, configure da maneira correta")
 
 # ##### /set Messages #####
 
@@ -25,6 +29,8 @@ def set_help(_lang):
         return("Only rules in '/set' and '/set rule' is vaild")
     if "jp" == _lang:
         return("'/set'または'/set rule'のルールに準拠する必要がある")
+    if "br" == _lang:
+        return("Somente regras em '/set' e '/set regra' são válidas")
 
 def set_multi_fav_rule():
     return ("\n "
@@ -61,6 +67,15 @@ def set_multi_fav_guide(_lang):
             "説明:"
             "順番は関係ない: '*\+*' *_增加する_*, '*\-*' *_キャンセル_* \n "
             "「クイックモード」は1つしか存在できません")
+    if "br" == _lang:
+        return ("*Por favor, altere o caminho de destino\\_ID List* \n "
+            "\n"
+            "e\.x. : *\+/\-* \n "
+            "_rápido \| drive \| pasta_ é o prefixo \n "
+            + set_multi_fav_rule() +
+            "explicação:"
+            "Não interessa a ordem: '*\+*' *_seleciona_*, '*\-*' *_remove_* \n "
+            "_Apenas uma pasta\\_id pode existir para o modo\\_rápido_")
 
 def set_single_fav_rule():
     return ("\n "
@@ -84,6 +99,11 @@ def set_single_fav_guide(_lang):
             "\n"
             "例 : 接頭辞 *\+/\-* ID\n "
             + set_single_fav_rule())
+    if "br" == _lang:
+        return ("**Por favor, altere o caminho de destino\\_ID List* \n "
+            "\n"
+            "e\.x : *\+/\-* \n "
+            + set_single_fav_rule())
 
 def get_fav_len_invaild(_lang, each):
     if "cn" == _lang:
@@ -92,3 +112,5 @@ def get_fav_len_invaild(_lang, each):
         return(f"ID:{each[6:]} is not vaild")
     if "jp" == _lang:
         return(f"入力したID:{each[6:]}は無効です")
+    if "br" == _lang:
+        return(f"ID:{each[6:]} não é válido")
