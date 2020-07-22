@@ -119,7 +119,7 @@ def task_reset(update, context):
 
         if int(check_query) <= limit_query['future_id']:
 
-            load.task_list.update_one({"_id": check_query}, {"$set": {"status": 0,}})
+            load.task_list.update_one({"_id": int(check_query)}, {"$set": {"status": 0}})
             update.effective_message.reply_text(
                 _text[_lang]["reset_successful"].replace("replace",check_query)
             )
