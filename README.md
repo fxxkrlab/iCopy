@@ -25,11 +25,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;For Linux directly use this command  
 &nbsp;&nbsp;&nbsp;`bash <(wget -qO- https://git.io/JJYE0)`  
 4.`git clone https://github.com/fxxkrlab/iCopy.git && cd iCopy`  
-5.`python3 -m venv .`  
-6.`. ./bin/activate`  
-7.`pip3 install -r requirements.txt`  
-8.`cp config/conf.toml.example config/conf.toml`  
-9.&nbsp;Edit config/conf.toml  
+5.`chmod +x iCopy.py`  
+6.`pip3 install -r requirements.txt`  
+7.`cp config/conf.toml.example config/conf.toml`  
+8.&nbsp;Edit config/conf.toml  
 
 ## Start iCopy BOT
 
