@@ -1,5 +1,10 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.4.1  
+
++ Fixbugs :  
+  + FIX : "/reset task_id" Database operation error
+
 ## version 0.2.0-beta.4  
 
 + Update :  
