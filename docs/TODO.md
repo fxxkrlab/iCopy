@@ -1,6 +1,7 @@
 # TODO
 
 Judge info from database
+Initialize all args in database
 
 -------
 
