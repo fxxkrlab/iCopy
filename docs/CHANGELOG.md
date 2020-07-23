@@ -12,6 +12,35 @@
   + FIX : "/task list" error
   Now "/task list" will display up to 10 tasks pending
 
++ Root Command：
+
+  + start - nothing just say hello  
+  + menu - main entry point  
+quick - quick mode  
+copy - full mode  
+set - customize settings  
+task - task query  
+reset - restore task  
+size - just size task  
+cancel - cancel TG conversation  
+kill - kill task which is in processing  
+ver - check iCopy version  
+restart - restart iCopy  
+
+  + Child Command:
+
+    + set - customize settings  
+    ┖ set - batch way  
+    ┖ set rule - rules  
+    ┖ fav|quick +/- id - single way  
+    ┖ set purge - purge favorites
+    + task - task query  
+    ┖ task - task in processing  
+    ┖ task list - future 10 tasks  
+    + reset - restore task  
+    ┖ reset - restore current task  
+    ┖ reset id  - restore the specified task  
+
 ## version 0.2.0-beta.5
 
 + Update :  
