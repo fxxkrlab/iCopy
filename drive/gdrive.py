@@ -69,3 +69,30 @@ class GoogleDrive:
         drive_info = self.service.drives().get(**param).execute()
         
         return drive_info
+
+    def get_dst_endpoint_id(self, dst_id, src_name):
+        page_token = None
+        result = []
+        while True:
+            try:
+                param = {
+                    'q': r"name = '{}' and "
+                         r"mimeType = 'application/vnd.google-apps.folder' and "
+                         r"'{}' in parents and trashed = false".format(src_name, dst_id),
+                    'includeItemsFromAllDrives': True,
+                    'supportsAllDrives': True,
+                    'fields': 'nextPageToken, files(id, name)',
+                    'pageSize': 1000,
+                }
+                if page_token:
+                    param['pageToken'] = page_token
+
+                all_files = self.service.files().list(**param).execute()
+                result = all_files['files'][0]
+                page_token = all_files.get('nextPageToken')
+
+                if not page_token:
+                    break
+            except:
+                break
+        return result

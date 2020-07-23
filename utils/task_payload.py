@@ -7,8 +7,8 @@ from multiprocessing import Process as _mp, Manager
 from utils.load import _lang, _text
 import subprocess
 from threading import Timer
-#from telegram import Bot
-#from telegram.utils.request import Request as TGRequest
+from drive.gdrive import GoogleDrive as _gd
+from telegram import ParseMode
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -27,9 +27,12 @@ now_elapsed_time = ""
 context_old = ""
 icopyprocess = subprocess.Popen
 interruption = 0
-
+dst_id = ""
+src_name = ""
 
 def task_buffer(ns):
+    global dst_id
+    global src_name
     while True:
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
@@ -86,8 +89,6 @@ def task_process(chat_id, command, task, ns):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
     db_counters.update({"_id": "last_task"},{"task_id": task["_id"]},upsert=True)
-    #request = TGRequest(con_pool_size=8)
-    #bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
     bot = load.bot
     chat_id = chat_id
     message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
@@ -246,6 +247,11 @@ def task_process(chat_id, command, task, ns):
 
     old_working_file = ""
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    dst_endpoint_id = _gd.get_dst_endpoint_id(_gd(), dst_id, src_name)
+    if dst_endpoint_id:
+        dst_endpoint_link = r'https://drive.google.com/open?id={}'.format(dst_endpoint_id['id'])
+
     if ns.x == 0:
         time.sleep(5)
         prog_bar = _bar.status(100)
@@ -259,13 +265,15 @@ def task_process(chat_id, command, task, ns):
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
             + "\n\n"
-            + message_info
+            + message_info.replace("    ┕─📃" + task["src_name"] + "\n","    ┕─📃" + '<a href="{}">{}</a>'.format(dst_endpoint_link,task["src_name"]) + "\n")
             + "\n"
             + _text[_lang]["task_finished_time"]
             + finished_time
             + "\n"
             + _text[_lang]["elapsed_time"]
             + str(now_elapsed_time),
+            parse_mode=ParseMode.HTML, 
+            disable_web_page_preview=True
         )
         task_list.update_one(
             {"_id": task["_id"]},
@@ -278,6 +286,7 @@ def task_process(chat_id, command, task, ns):
                     "task_total_prog_num": task_total_prog_num,
                     "task_current_prog_size": task_current_prog_size,
                     "task_total_prog_size" : task_total_prog_size,
+                    "dst_endpoint_link": dst_endpoint_link,
                 }
             },
         )
