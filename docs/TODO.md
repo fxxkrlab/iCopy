@@ -1,6 +1,7 @@
 # TODO
 
-regex_in --> botten delete
+Judge info from database
+
 -------
 
 * Modify task info function  
