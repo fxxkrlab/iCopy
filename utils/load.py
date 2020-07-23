@@ -6,10 +6,12 @@ import pymongo
 from urllib import parse
 from drive import gdrive
 from multiprocessing import Manager
+from telegram.utils.request import Request as TGRequest
+from telegram import Bot
 
 
 ### local version
-_version = "v0.2.0-beta.5"
+_version = "v0.2.0-beta.5.1"
 
 _cfgFile_RAW = os.path.abspath(os.path.join("config", "conf.toml"))
 cfg = toml.load(_cfgFile_RAW)
@@ -52,3 +54,6 @@ task_list.update_one(
 
 ### regex entry pattern
 regex_entry_pattern = r"https://drive\.google\.com/(?:drive/(?:u/[\d]+/)?(?:mobile/)?folders/([\w.\-_]+)(?:\?[\=\w]+)?|folderview\?id=([\w.\-_]+)(?:\&[=\w]+)?|open\?id=([\w.\-_]+)(?:\&[=\w]+)?|(?:a/[\w.\-_]+/)?file/d/([\w.\-_]+)|(?:a/[\w.\-_]+/)?uc\?id\=([\w.\-_]+)&?)"
+
+request = TGRequest(con_pool_size=8)
+bot = Bot(token=f"{cfg['tg']['token']}", request=request)

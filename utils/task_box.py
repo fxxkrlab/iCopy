@@ -69,26 +69,17 @@ def taskinfo(update, context):
         global waititem
         global waitlist
         task_list = load.task_list.find({"status":0}).limit(10)
-        if list(task_list) != []:
-            wait_num = len(list(task_list))
-            for item in task_list:
-                waititem = (
-                    _text[_lang]["current_task_id"]
-                    + str(item['_id'])
-                    + _text[_lang]["current_task_src_name"]
-                    + item['src_name']
-                    + "\n--------------------\n"
-                )
+
+        if task_list != []:
+            for doc in task_list:
+                waititem = _text[_lang]["current_task_id"] + str(doc['_id']) + _text[_lang]["current_task_src_name"] + doc['src_name'] + "\n--------------------\n"
                 waitlist.append(waititem)
 
+            task_wait_num = len(waitlist)
             waitlist = "".join(waitlist)
 
-            update.effective_message.reply_text(
-                str(wait_num)
-                +_text[_lang]["show_wait_list"] 
-                + "\n\n" 
-                + waitlist
-            )
+            update.effective_message.reply_text(str(task_wait_num) +_text[_lang]["show_wait_list"] + waitlist)
+
             waitlist = []
 
             return ConversationHandler.END

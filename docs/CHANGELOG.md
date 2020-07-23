@@ -1,5 +1,17 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.5.1
+
++ Update :
+  + ADD : More task info into Database  
+
++ Fixbugs :
+  + FIX : delete "directly in" mode keyboard after selection is choosen
+  + FIX : Purge local var after Conversation END
+  The task will not be committed twice now
+  + FIX : "/task list" error
+  Now "/task list" will display up to 10 tasks pending
+
 ## version 0.2.0-beta.5
 
 + Update :  

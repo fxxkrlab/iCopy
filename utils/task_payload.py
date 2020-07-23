@@ -4,11 +4,11 @@
 import re, time, pymongo
 from utils import load, process_bar as _bar, get_functions as _func
 from multiprocessing import Process as _mp, Manager
-from telegram import Bot
 from utils.load import _lang, _text
-from telegram.utils.request import Request as TGRequest
 import subprocess
 from threading import Timer
+#from telegram import Bot
+#from telegram.utils.request import Request as TGRequest
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -86,8 +86,9 @@ def task_process(chat_id, command, task, ns):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
     db_counters.update({"_id": "last_task"},{"task_id": task["_id"]},upsert=True)
-    request = TGRequest(con_pool_size=8)
-    bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
+    #request = TGRequest(con_pool_size=8)
+    #bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
+    bot = load.bot
     chat_id = chat_id
     message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
     message_id = message.message_id
@@ -273,6 +274,10 @@ def task_process(chat_id, command, task, ns):
                     "status": 1,
                     "start_time": start_time,
                     "finished_time": finished_time,
+                    "task_current_prog_num": task_current_prog_num,
+                    "task_total_prog_num": task_total_prog_num,
+                    "task_current_prog_size": task_current_prog_size,
+                    "task_total_prog_size" : task_total_prog_size,
                 }
             },
         )

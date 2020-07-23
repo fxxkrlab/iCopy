@@ -14,11 +14,13 @@ regex_in_context = None
 @_r.restricted
 def regex_entry(update, context):
     global src_id_list
+    global src_name_list
+    src_id_list = []
+    src_name_list = []
     tmp_src_name_list = ""
     get_share_link = update.effective_message.text
     src_id_list = _func.cook_to_id(get_share_link)
     for item in src_id_list:
-        global src_name_list
         src_name_list += _func.get_src_name_from_id(update, taget_id=item, list_name=tmp_src_name_list)
         tmp_src_name_list = ""
     
@@ -36,6 +38,13 @@ def regex_entry(update, context):
 
 def regex_callback(update, context):
     if "quick" == update.callback_query.data:
+        load.bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
+                        message_id=update.callback_query.message.message_id,
+                        text=_text[_lang]["mode_select_msg"].replace(
+                            "replace", _text[_lang]["quick_mode"]
+                            ),
+                        reply_markup=None)
+
         regex_in_chat_id = regex_in_update.effective_message.chat_id
         regex_in_message_id = regex_in_update.effective_message.message_id
         tmp_task_list = []
@@ -65,7 +74,7 @@ def regex_callback(update, context):
             )
 
         Thread(target=_box.cook_task_to_db, args=(regex_in_update, regex_in_context, tmp_task_list)).start()
-
+        tmp_task_list = []
         return ConversationHandler.END
 
     if "copy" == update.callback_query.data:
@@ -77,13 +86,17 @@ def regex_callback(update, context):
             + _text[_lang]["request_dst_target"],
             reply_markup=_KB.dst_keyboard(update, context),
         )
+        
 
         return REGEX_GET_DST
 
     if "size" == update.callback_query.data:
 
         for item in src_id_list:
-            size_msg = update.effective_message.reply_text(_text[_lang]["ready_to_size"])
+            size_msg = load.bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
+                        message_id=update.callback_query.message.message_id,
+                        text=_text[_lang]["ready_to_size"],
+                        reply_markup=None)
             size_chat_id = size_msg.chat_id
             size_message_id = size_msg.message_id
 
@@ -98,6 +111,14 @@ def regex_callback(update, context):
         return ConversationHandler.END
 
 def regex_copy_end(update, context):
+
+    load.bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
+                           message_id=update.callback_query.message.message_id,
+                           text=_text[_lang]["mode_select_msg"].replace(
+                               "replace", _text[_lang]["copy_mode"]
+                               ),
+                           reply_markup=None)
+
     mode = "copy"
     regex_in_chat_id = regex_in_update.effective_message.chat_id
     regex_in_message_id = regex_in_update.effective_message.message_id
@@ -125,6 +146,6 @@ def regex_copy_end(update, context):
         )
 
     Thread(target=_box.cook_task_to_db, args=(regex_in_update, regex_in_context, tmp_task_list)).start()
-
+    dstinfo = ""
     return ConversationHandler.END
 
