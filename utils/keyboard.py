@@ -17,6 +17,17 @@ def start_keyboard():
 
     return InlineKeyboardMarkup(keyboard)
 
+def regex_in_keyboard():
+    keyboard = [
+        [
+            InlineKeyboardButton(_langtext['quick_mode'], callback_data="quick"),
+            InlineKeyboardButton(_langtext['copy_mode'], callback_data="copy"),
+            InlineKeyboardButton(_langtext['size_mode'], callback_data="size"),
+        ],
+    ]
+
+    return InlineKeyboardMarkup(keyboard)
+
 def is_cover_keyboard():
     keyboard = [
         [

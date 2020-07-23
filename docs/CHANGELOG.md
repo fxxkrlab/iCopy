@@ -1,5 +1,15 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.5
+
++ Update :  
+  + ADD : directly input sharelink then choose mode.
+
++ Fixbugs :
+  + FIX : get shared drive name failed when the shared drive is temporarily granted permission for an outside party.
+  + FIX : Fix the error of repeated tasks when entering multiple tasks at the same time.  
+  + FIX : "reset" notice msg error
+  
 ## version 0.2.0-beta.4.1  
 
 + Fixbugs :  

@@ -113,7 +113,7 @@ def task_reset(update, context):
             _text[_lang]["reset_successful"].replace("replace",str(check_query['task_id']))
         )
 
-    if match_cmd:
+    elif match_cmd:
         limit_query = load.db_counters.find_one({"_id":"task_list_id"})
         check_query = match_cmd.group(1)
 

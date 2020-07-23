@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID = range(6)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
 
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"
@@ -79,7 +79,7 @@ def get_src_name_from_id(update, taget_id, list_name):
     cook_list = []
     cook_list = list(list_name)
     if len(taget_id) >= 11 and len(taget_id) < 28:
-        target_info = _gd.drive_get(taget_id)
+        target_info = _gd.drive_get(_gd(),drive_id=taget_id)
         cook_list.append(
             {"G_type": "G_drive", "G_id": taget_id, "G_name": target_info['name'],}
         )
@@ -145,6 +145,7 @@ def delete_in_db(delete_request):
 
 def get_share_link(update, context):
     get_share_link = update.effective_message.text
+    tmp_src_name_list = ""
     tmp_task_list = []
     src_name_list = []
     src_id_list = cook_to_id(get_share_link)
@@ -162,7 +163,8 @@ def get_share_link(update, context):
             dst_name = doc["G_name"]
 
     for item in src_id_list:
-        src_name_list += get_src_name_from_id(update, item, list_name=src_name_list)
+        src_name_list += get_src_name_from_id(update, item, list_name=tmp_src_name_list)
+        tmp_src_name_list = ""
 
     for item in src_name_list:
         src_id = item["G_id"]

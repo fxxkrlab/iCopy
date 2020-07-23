@@ -8,7 +8,7 @@ from utils import load, restricted as _r, get_functions as _func, task_box as _b
 from drive.gdrive import GoogleDrive as _gd
 from multiprocessing import Process as _mp
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID = range(6)
+SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
 
 def size(update, context):
     entry_cmd = update.effective_message.text
@@ -20,6 +20,7 @@ def size(update, context):
         return COOK_ID
 
 def size_handle(update, context):
+    tmp_share_name_list = ""
     share_id_list = []
     share_name_list = []
     share_id = update.effective_message.text
@@ -29,7 +30,8 @@ def size_handle(update, context):
 
         size_chat_id = size_msg.chat_id
         size_message_id = size_msg.message_id
-        share_name_list += _func.get_src_name_from_id(update, item, list_name=share_name_list)
+        share_name_list += _func.get_src_name_from_id(update, item, list_name=tmp_share_name_list)
+        tmp_share_name_list = ""
         progress = _mp(target=_s_payload.simple_size, args=(update, context, item, size_chat_id, size_message_id, share_name_list))
         progress.start()
 

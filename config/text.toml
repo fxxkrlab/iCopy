@@ -2,9 +2,10 @@
 [cn]
 start = "Hi! replace ~ 欢迎使用 iCopy" #replace==待替换占位符
 guide_to_menu = "请输入 '/menu' 选择模式"
-menu_msg = "请选择转存模式"
+menu_msg = "请选择模式"
 quick_mode = "极速模式"
 copy_mode = "自定义模式"
+size_mode = "文件统计"
 mode_select_msg = "本次转存任务您选择了 ┋replace┋" #replace==待替换占位符
 request_share_link = "请输入 Google Drive 分享链接 或 分享ID"
 request_dst_target = "请选择文件保存位置"
@@ -64,9 +65,10 @@ sizing_done = "统计完成"
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
 guide_to_menu = "Please Input '/menu' to Choose run mode"
-menu_msg = "Pls Choose the Transfer Mode"
+menu_msg = "Pls Choose the Mode"
 quick_mode = "QUICK MODE"
 copy_mode = "COPY MODE"
+size_mode = "Size"
 mode_select_msg = "┋replace┋ has be choosen" #replace==symbolic placeholder
 request_share_link = "Pls input Shared_Link or Shared_ID"
 request_dst_target = "Please select the destination path for the task"
@@ -127,8 +129,9 @@ sizing_done = "Size Finished"
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
 guide_to_menu = "実行モードを選択するには、'/menu' を入力してください"
 menu_msg = "ご覧のモードを選んでください"
-quick_mode = "「クイックモード」"
-copy_mode = "「カスタマイズ　モード」"
+quick_mode = "「クイック」"
+copy_mode = "「カスタマイズ」"
+size_mode = "「サイズ」"
 mode_select_msg = "┋replace┋が選択されました" #replace==置き換え指示記号
 request_share_link = "共有リンクまたは共有IDを入力してください"
 request_dst_target = "ファイルの保存場所を選択してください"

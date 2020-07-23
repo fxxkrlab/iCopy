@@ -27,6 +27,7 @@ from workflow import (
     quick_workflow as _quick,
     copy_workflow as _copy,
     size_workflow as _size,
+    regex_workflow as _regex,
 )
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
@@ -61,7 +62,7 @@ def main():
         )
 
     dp = updater.dispatcher
-
+    
     # Entry Conversation
     conv_handler = ConversationHandler(
         entry_points=[
@@ -72,6 +73,7 @@ def main():
             CommandHandler("copy", _copy.copy),
             CommandHandler("task", _box.taskinfo),
             CommandHandler("size", _size.size),
+            MessageHandler(Filters.regex(pattern=load.regex_entry_pattern), _regex.regex_entry),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -99,7 +101,15 @@ def main():
             ],
             _size.COOK_ID: [
                 # request to COOK ID
-                MessageHandler(Filters.text,_size.size_handle),
+                MessageHandler(Filters.text, _size.size_handle),
+            ],
+            _regex.REGEX_IN: [
+                # regex in choose mode
+                CallbackQueryHandler(_regex.regex_callback, pattern=r'quick|copy|size'),
+            ],
+            _regex.REGEX_GET_DST: [
+                CallbackQueryHandler(_regex.regex_copy_end),
+
             ],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
