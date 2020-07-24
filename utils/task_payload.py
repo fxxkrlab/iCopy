@@ -290,8 +290,8 @@ def task_process(chat_id, command, task, ns):
                     "task_total_prog_num": int(task_total_prog_num),
                     "task_current_prog_size": int(task_current_prog_size),
                     "task_total_prog_size" : int(task_total_prog_size),
-                    "task_current_prog_size_tail" : task_current_prog_size_tail
-                    "task_total_prog_size_tail" :task_total_prog_size_tail
+                    "task_current_prog_size_tail" : task_current_prog_size_tail,
+                    "task_total_prog_size_tail" :task_total_prog_size_tail,
                     "dst_endpoint_link": dst_endpoint_link,
                 }
             },
