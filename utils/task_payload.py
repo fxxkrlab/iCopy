@@ -17,7 +17,7 @@ myclient = pymongo.MongoClient(
 )
 mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
-db_counters = mydb['counters']
+db_counters = mydb["counters"]
 _cfg = load.cfg
 message_info = ""
 prog_bar = ""
@@ -30,6 +30,7 @@ interruption = 0
 dst_id = ""
 src_name = ""
 
+
 def task_buffer(ns):
     global dst_id
     global src_name
@@ -37,9 +38,9 @@ def task_buffer(ns):
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
             if _cfg["general"]["cloner"] == "fclone":
-                flags = ['--drive-server-side-across-configs', '--check-first']
+                flags = ["--drive-server-side-across-configs", "--check-first"]
             else:
-                flags = ['--drive-server-side-across-configs']
+                flags = ["--drive-server-side-across-configs"]
             command = []
 
             cloner = _cfg["general"]["cloner"]
@@ -88,7 +89,7 @@ def task_buffer(ns):
 def task_process(chat_id, command, task, ns):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
-    db_counters.update({"_id": "last_task"},{"task_id": task["_id"]},upsert=True)
+    db_counters.update({"_id": "last_task"}, {"task_id": task["_id"]}, upsert=True)
     bot = load.bot
     chat_id = chat_id
     message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
@@ -187,10 +188,10 @@ def task_process(chat_id, command, task, ns):
             + "\n\n"
             + _text[_lang]["task_files_size"]
             + str(task_current_prog_size)
-            + task_current_prog_size_tail 
+            + task_current_prog_size_tail
             + "/"
             + str(task_total_prog_size)
-            + task_total_prog_size_tail 
+            + task_total_prog_size_tail
             + "\n"
             + _text[_lang]["task_files_num"]
             + str(task_current_prog_num)
@@ -254,7 +255,9 @@ def task_process(chat_id, command, task, ns):
 
     dst_endpoint_id = _gd.get_dst_endpoint_id(_gd(), dst_id, src_name)
     if dst_endpoint_id:
-        dst_endpoint_link = r'https://drive.google.com/open?id={}'.format(dst_endpoint_id['id'])
+        dst_endpoint_link = r"https://drive.google.com/open?id={}".format(
+            dst_endpoint_id["id"]
+        )
 
     if ns.x == 0:
         time.sleep(5)
@@ -269,88 +272,87 @@ def task_process(chat_id, command, task, ns):
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
             + "\n\n"
-            + message_info.replace("    ┕─📃" + task["src_name"] + "\n","    ┕─📃" + '<a href="{}">{}</a>'.format(dst_endpoint_link,task["src_name"]) + "\n")
+            + message_info.replace(
+                "    ┕─📃" + task["src_name"],
+                "    ┕─📃"
+                + '<a href="{}">{}</a>'.format(dst_endpoint_link, task["src_name"]),
+            )
             + "\n"
             + _text[_lang]["task_finished_time"]
             + finished_time
             + "\n"
             + _text[_lang]["elapsed_time"]
             + str(now_elapsed_time),
-            parse_mode=ParseMode.HTML, 
-            disable_web_page_preview=True
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
         )
-        task_list.update_one(
-            {"_id": task["_id"]},
-            {
-                "$set": {
-                    "status": 1,
-                    "start_time": start_time,
-                    "finished_time": finished_time,
-                    "task_current_prog_num": int(task_current_prog_num),
-                    "task_total_prog_num": int(task_total_prog_num),
-                    "task_current_prog_size": float(task_current_prog_size),
-                    "task_total_prog_size" : float(task_total_prog_size),
-                    "task_current_prog_size_tail" : task_current_prog_size_tail,
-                    "task_total_prog_size_tail" :task_total_prog_size_tail,
-                    "dst_endpoint_link": dst_endpoint_link,
-                }
-            },
-        )
+        check_is_reset = task_list.find_one({"_id": task["_id"]})
+        if check_is_reset['is_reset'] == 0:
+            task_list.update_one(
+                {"_id": task["_id"]},
+                {
+                    "$set": {
+                        "status": 1,
+                        "start_time": start_time,
+                        "finished_time": finished_time,
+                        "task_current_prog_num": int(task_current_prog_num),
+                        "task_total_prog_num": int(task_total_prog_num),
+                        "task_current_prog_size": float(task_current_prog_size),
+                        "task_total_prog_size": float(task_total_prog_size),
+                        "task_current_prog_size_tail": task_current_prog_size_tail,
+                        "task_total_prog_size_tail": task_total_prog_size_tail,
+                        "dst_endpoint_link": dst_endpoint_link,
+                    }
+                },
+            )
 
-    interrupted_msg = (
-        _text[_lang]["task_src_info"]
-        + "\n"
-        + "📃"
-        + task["src_name"]
-        + "\n"
-        + "----------------------------------------"
-        + "\n"
-        + _text[_lang]["task_dst_info"]
-        + "\n"
-        + "📁"
-        + task["dst_name"]
-        + ":"
-        + "\n"
-        + "    ┕─📃"
-        + task["src_name"]
-        + "\n"
-        + "----------------------------------------"
-        + "\n\n"
-        + _text[_lang]["task_files_size"]
-        + str(task_current_prog_size)
-        + task_current_prog_size_tail
-        + "/"
-        + str(task_total_prog_size)
-        + task_total_prog_size_tail 
-        + "\n"
-        + _text[_lang]["task_files_num"]
-        + str(task_current_prog_num)
-        + "/"
-        + str(task_total_prog_num)
-        + "\n\n"
-        + str(task_percent)
-        + "%"
-        + str(prog_bar)
-    )
+        if check_is_reset['is_reset'] == 1:
+            task_list.update_one(
+                {"_id": task["_id"]},
+                {
+                    "$set": {
+                        "status": 1,
+                        "start_time": start_time,
+                        "finished_time": finished_time,
+                        "task_current_prog_num": int(task_current_prog_num) + check_is_reset['task_current_prog_num'],
+                        "task_total_prog_num": int(task_total_prog_num) + check_is_reset['task_total_prog_num'],
+                        "task_current_prog_size": 0,
+                        "task_total_prog_size": 0,
+                        "task_current_prog_size_tail": "",
+                        "task_total_prog_size_tail": "",
+                        "dst_endpoint_link": dst_endpoint_link,
+                    }
+                },
+            )
 
     if ns.x == 1:
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
             text=" ༺ ✪iCopy✪ ༻ \n"
-            +_text[_lang]["killed"]
+            + _text[_lang]["killed"]
             + " | "
             + "🏳️"
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
             + "\n\n"
-            + interrupted_msg
+            + message_info.replace(
+                "\n\n" + _text[_lang]["task_start_time"] + start_time, ""
+            ).replace(
+                "\n"
+                + _text[_lang]["task_status"]
+                + "\n\n"
+                + str(task_in_size_speed)
+                + "  |  "
+                + str(task_in_file_speed),
+                "",
+            )
             + "\n"
             + _text[_lang]["is_killed_by_user"],
         )
 
         task_list.update_one(
-            {"_id": task["_id"]}, 
+            {"_id": task["_id"]},
             {
                 "$set": {
                     "status": 1,
@@ -358,9 +360,9 @@ def task_process(chat_id, command, task, ns):
                     "start_time": start_time,
                     "finished_time": finished_time,
                 }
-            }
+            },
         )
-    
+
     if interruption == 1:
         bot.edit_message_text(
             chat_id=chat_id,
@@ -372,13 +374,23 @@ def task_process(chat_id, command, task, ns):
             + _text[_lang]["current_task_id"]
             + str(task["_id"])
             + "\n\n"
-            + interrupted_msg
+            + message_info.replace(
+                "\n\n" + _text[_lang]["task_start_time"] + start_time, ""
+            ).replace(
+                "\n"
+                + _text[_lang]["task_status"]
+                + "\n\n"
+                + str(task_in_size_speed)
+                + "  |  "
+                + str(task_in_file_speed),
+                "",
+            )
             + "\n"
             + _text[_lang]["is_interrupted_error"],
         )
 
         task_list.update_one(
-            {"_id": task["_id"]}, 
+            {"_id": task["_id"]},
             {
                 "$set": {
                     "status": 1,
@@ -386,9 +398,8 @@ def task_process(chat_id, command, task, ns):
                     "start_time": start_time,
                     "finished_time": finished_time,
                 }
-            }
+            },
         )
-
 
     prog_bar = _bar.status(0)
 
