@@ -14,7 +14,17 @@ from telegram.ext import (
 from utils.load import _lang, _text
 from utils import messages as _msg, restricted as _r, keyboard as _KB
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
+(
+    SET_FAV_MULTI,
+    CHOOSE_MODE,
+    GET_LINK,
+    IS_COVER_QUICK,
+    GET_DST,
+    COOK_ID,
+    REGEX_IN,
+    REGEX_GET_DST,
+    COOK_FAV_TO_SIZE,
+) = range(9)
 
 def start(update, context):
     _first_name = update.effective_user.first_name

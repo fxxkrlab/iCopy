@@ -6,7 +6,17 @@ from telegram.ext import ConversationHandler
 from utils import messages as _msg, restricted as _r, get_functions as _func, task_box as _box, keyboard as _KB
 
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
+(
+    SET_FAV_MULTI,
+    CHOOSE_MODE,
+    GET_LINK,
+    IS_COVER_QUICK,
+    GET_DST,
+    COOK_ID,
+    REGEX_IN,
+    REGEX_GET_DST,
+    COOK_FAV_TO_SIZE,
+) = range(9)
 
 current_dst_info = ""
 

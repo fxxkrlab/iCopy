@@ -108,8 +108,11 @@ def main():
                 CallbackQueryHandler(_regex.regex_callback, pattern=r'quick|copy|size'),
             ],
             _regex.REGEX_GET_DST: [
+                # regex copy end
                 CallbackQueryHandler(_regex.regex_copy_end),
-
+            ],
+            _size.COOK_FAV_TO_SIZE: [
+                CallbackQueryHandler(_size.pre_cook_fav_to_size),
             ],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],

@@ -33,6 +33,7 @@ def cook_task_to_db(update, context, tmp_task_list):
         item["task_current_prog_size_tail"] = ""
         item["task_total_prog_size_tail"] = ""
         item["dst_endpoint_link"] = ""
+        item["dst_endpoint_id"] = ""
         item["is_reset"] = 0
 
     insert_callback = load.task_list.insert_many(tmp_task_list)

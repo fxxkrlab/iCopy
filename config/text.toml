@@ -65,6 +65,7 @@ sizing_done = "统计完成"
 task_is_in_queue = "任务正在队列中"
 finished_could_be_check = "只能查询已完成的任务"
 support_error = "指定的任务不支持查询"
+request_target_folder = "请选择目标盘 或 文件夹"
 
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
@@ -132,6 +133,7 @@ sizing_done = "Size Finished"
 task_is_in_queue = "Task is in the queue"
 finished_could_be_check = "You could only check the task which is finished"
 support_error = "The specified task does not support queries"
+request_target_folder = "Pls choose the TARGET drive or folder"
 
 [jp]
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
@@ -199,3 +201,4 @@ sizing_done = "統計終了"
 task_is_in_queue = "タスクが列に並んでいる"
 finished_could_be_check = "既に完了した任務しか調べられない"
 support_error = "指定の任務の照会を支持しない"
+request_target_folder = "目標フォルダーを選んでください"

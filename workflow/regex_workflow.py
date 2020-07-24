@@ -4,7 +4,17 @@ from telegram.ext import CallbackQueryHandler, ConversationHandler
 from threading import Thread
 from multiprocessing import Process as _mp
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
+(
+    SET_FAV_MULTI,
+    CHOOSE_MODE,
+    GET_LINK,
+    IS_COVER_QUICK,
+    GET_DST,
+    COOK_ID,
+    REGEX_IN,
+    REGEX_GET_DST,
+    COOK_FAV_TO_SIZE,
+) = range(9)
 
 src_name_list = []
 src_id_list = []

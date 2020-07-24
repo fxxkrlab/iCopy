@@ -302,6 +302,7 @@ def task_process(chat_id, command, task, ns):
                         "task_current_prog_size_tail": task_current_prog_size_tail,
                         "task_total_prog_size_tail": task_total_prog_size_tail,
                         "dst_endpoint_link": dst_endpoint_link,
+                        "dst_endpoint_id": dst_endpoint_id["id"],
                     }
                 },
             )
@@ -321,6 +322,7 @@ def task_process(chat_id, command, task, ns):
                         "task_current_prog_size_tail": "",
                         "task_total_prog_size_tail": "",
                         "dst_endpoint_link": dst_endpoint_link,
+                        "dst_endpoint_id": dst_endpoint_id["id"],
                     }
                 },
             )
