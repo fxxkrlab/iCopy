@@ -1,13 +1,15 @@
 # TODO
 
-Judge info from database
-Initialize all args in database
++ before beta6  
+size id / del trash / dedupe / modify task info  
+
++ before beta7  
+del fav keyboard  
+choose fav keyboard  
+del Task info in MongoDB  
 
 -------
 
-* Modify task info function  
-* Support vaild folder len[28,33,72]  
-* Task details to MongoDB  
-* Dedupe function  
-* del Task info in MongoDB
-* Web DASHBOARD  
++ future  
+Support vaild folder len[28,33,72]  
+Web DASHBOARD  
