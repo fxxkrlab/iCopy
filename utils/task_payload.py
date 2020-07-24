@@ -139,9 +139,9 @@ def task_process(chat_id, command, task, ns):
                 task_in_file_speed = task_total_files.group(4)
 
             if task_total_size:
-                task_current_prog_size = task_total_size.group(1)
+                task_current_prog_size = task_total_size.group(1).strip()
                 task_current_prog_size_tail = task_total_size.group(2)
-                task_total_prog_size = task_total_size.group(3)
+                task_total_prog_size = task_total_size.group(3).strip()
                 task_total_prog_size_tail = task_total_size.group(4)
                 task_in_size_speed = task_total_size.group(6)
                 task_eta_in_file = task_total_size.group(7)
@@ -288,8 +288,8 @@ def task_process(chat_id, command, task, ns):
                     "finished_time": finished_time,
                     "task_current_prog_num": int(task_current_prog_num),
                     "task_total_prog_num": int(task_total_prog_num),
-                    "task_current_prog_size": int(task_current_prog_size),
-                    "task_total_prog_size" : int(task_total_prog_size),
+                    "task_current_prog_size": float(task_current_prog_size),
+                    "task_total_prog_size" : float(task_total_prog_size),
                     "task_current_prog_size_tail" : task_current_prog_size_tail,
                     "task_total_prog_size_tail" :task_total_prog_size_tail,
                     "dst_endpoint_link": dst_endpoint_link,
