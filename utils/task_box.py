@@ -24,6 +24,15 @@ def cook_task_to_db(update, context, tmp_task_list):
         item["error"] = 0
         item["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         item["finished_time"] = ""
+        item["start_time"] = ""
+        item["task_current_prog_num"] = 0
+        item["task_total_prog_num"] = 0
+        item["task_current_prog_size"] = 0
+        item["task_total_prog_size"] = 0
+        item["task_current_prog_size_tail"] = ""
+        item["task_total_prog_size_tail"] = ""
+        item["dst_endpoint_link"] = ""
+        item["is_reset"] = 0
 
     insert_callback = load.task_list.insert_many(tmp_task_list)
     if insert_callback.inserted_ids:
