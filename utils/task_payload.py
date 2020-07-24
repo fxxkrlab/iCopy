@@ -120,7 +120,7 @@ def task_process(chat_id, command, task, ns):
             r"Transferred:\s+(\d+) / (\d+), (\d+)%(?:,\s*([\d.]+\sFiles/s))?"
         )
         regex_total_size = (
-            r"Transferred:[\s]+([\d.])+(\s*[kMGTP]?) / ([\d.])+([\s]?[kMGTP]?Bytes),"
+            r"Transferred:[\s]+([\d.]+\s*)([kMGTP]?) / ([\d.]+[\s]?)([kMGTP]?Bytes),"
             r"\s*(?:\-|(\d+)\%),\s*([\d.]+\s*[kMGTP]?Bytes/s),\s*ETA\s*([\-0-9hmsdwy]+)"
         )
 
