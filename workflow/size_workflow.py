@@ -25,11 +25,12 @@ from multiprocessing import Process as _mp
     REGEX_IN,
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
-) = range(9)
+    COOK_FAV_PURGE,
+) = range(10)
 
 bot = load.bot
 
-
+@_r.restricted
 def size(update, context):
     entry_cmd = update.effective_message.text
     match_cmd = re.search(r"^\/size ([1-9]\d*)$", entry_cmd, flags=re.I)
@@ -69,6 +70,12 @@ def size(update, context):
                     )
                     progress.start()
 
+                    context.bot.edit_message_text(
+                        chat_id=size_chat_id,
+                        message_id=size_message_id,
+                        text=_text[_lang]["sizing"],
+                    )
+
                     return ConversationHandler.END
 
                 else:
@@ -107,6 +114,12 @@ def size(update, context):
                             ),
                         )
                         progress.start()
+
+                        context.bot.edit_message_text(
+                            chat_id=size_chat_id,
+                            message_id=size_message_id,
+                            text=_text[_lang]["sizing"],
+                        )
 
                         return ConversationHandler.END
 
@@ -191,6 +204,12 @@ def pre_cook_fav_to_size(update, context):
         ),
     )
     progress.start()
+
+    context.bot.edit_message_text(
+        chat_id=size_chat_id,
+        message_id=size_message_id,
+        text=_text[_lang]["sizing"],
+    )
 
     return ConversationHandler.END
 

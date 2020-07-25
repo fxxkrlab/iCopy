@@ -15,7 +15,8 @@ from utils import restricted as _r, get_functions as _func, task_box as _box
     REGEX_IN,
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
-) = range(9)
+    COOK_FAV_PURGE,
+) = range(10)
 
 @_r.restricted
 @_r.restricted_quick

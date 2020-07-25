@@ -28,6 +28,7 @@ from workflow import (
     copy_workflow as _copy,
     size_workflow as _size,
     regex_workflow as _regex,
+    purge_workflow as _purge,
 )
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
@@ -62,7 +63,7 @@ def main():
         )
 
     dp = updater.dispatcher
-    
+
     # Entry Conversation
     conv_handler = ConversationHandler(
         entry_points=[
@@ -73,7 +74,10 @@ def main():
             CommandHandler("copy", _copy.copy),
             CommandHandler("task", _box.taskinfo),
             CommandHandler("size", _size.size),
-            MessageHandler(Filters.regex(pattern=load.regex_entry_pattern), _regex.regex_entry),
+            CommandHandler("purge", _purge.purge),
+            MessageHandler(
+                Filters.regex(pattern=load.regex_entry_pattern), _regex.regex_entry
+            ),
         ],
         states={
             _set.SET_FAV_MULTI: [
@@ -105,15 +109,14 @@ def main():
             ],
             _regex.REGEX_IN: [
                 # regex in choose mode
-                CallbackQueryHandler(_regex.regex_callback, pattern=r'quick|copy|size'),
+                CallbackQueryHandler(_regex.regex_callback, pattern=r"quick|copy|size"),
             ],
             _regex.REGEX_GET_DST: [
                 # regex copy end
                 CallbackQueryHandler(_regex.regex_copy_end),
             ],
-            _size.COOK_FAV_TO_SIZE: [
-                CallbackQueryHandler(_size.pre_cook_fav_to_size),
-            ],
+            _size.COOK_FAV_TO_SIZE: [CallbackQueryHandler(_size.pre_cook_fav_to_size),],
+            _purge.COOK_FAV_PURGE: [CallbackQueryHandler(_purge.pre_to_purge),],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )

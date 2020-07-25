@@ -31,7 +31,8 @@ logger = logging.getLogger(__name__)
     REGEX_IN,
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
-) = range(9)
+    COOK_FAV_PURGE,
+) = range(10)
 
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"

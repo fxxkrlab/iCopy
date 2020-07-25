@@ -23,7 +23,8 @@ from drive.gdrive import GoogleDrive as _gd
     REGEX_IN,
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
-) = range(9)
+    COOK_FAV_PURGE,
+) = range(10)
 
 pick_quick = []
 pick_fav = []

@@ -6,7 +6,8 @@ menu_msg = "请选择模式"
 quick_mode = "极速模式"
 copy_mode = "自定义模式"
 size_mode = "文件统计"
-mode_select_msg = "本次转存任务您选择了 ┋replace┋" #replace==待替换占位符
+purge_mode = "回收站清理"
+mode_select_msg = "本次任务您选择了 ┋replace┋" #replace==待替换占位符
 request_share_link = "请输入 Google Drive 分享链接 或 分享ID"
 request_dst_target = "请选择文件保存位置"
 is_cover = "覆盖"
@@ -66,6 +67,9 @@ task_is_in_queue = "任务正在队列中"
 finished_could_be_check = "只能查询已完成的任务"
 support_error = "指定的任务不支持查询"
 request_target_folder = "请选择目标盘 或 文件夹"
+ready_to_purge = "正在准备清空回收站"
+purging = "正在清空回收站，请耐心等待\n如果同时存在复制任务，则会影响复制与清空回收站双方的准确性"
+purging_done = "已清空回收站"
 
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
@@ -74,6 +78,7 @@ menu_msg = "Pls Choose the Mode"
 quick_mode = "QUICK MODE"
 copy_mode = "COPY MODE"
 size_mode = "Size"
+purge_mode = "Empty Recycle bin"
 mode_select_msg = "┋replace┋ has be choosen" #replace==symbolic placeholder
 request_share_link = "Pls input Shared_Link or Shared_ID"
 request_dst_target = "Please select the destination path for the task"
@@ -134,6 +139,9 @@ task_is_in_queue = "Task is in the queue"
 finished_could_be_check = "You could only check the task which is finished"
 support_error = "The specified task does not support queries"
 request_target_folder = "Pls choose the TARGET drive or folder"
+ready_to_purge = "Ready to Purge"
+purging = "In empty recycle bin, pls wait \nIf there is a copy task, it will affect the accuracy of both copy and recyle bin empting"
+purging_done = "The recycle bin has been emptied"
 
 [jp]
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
@@ -142,6 +150,7 @@ menu_msg = "ご覧のモードを選んでください"
 quick_mode = "「クイック」"
 copy_mode = "「カスタマイズ」"
 size_mode = "「サイズ」"
+purge_mode = "ごみ箱を空にする"
 mode_select_msg = "┋replace┋が選択されました" #replace==置き換え指示記号
 request_share_link = "共有リンクまたは共有IDを入力してください"
 request_dst_target = "ファイルの保存場所を選択してください"
@@ -202,3 +211,6 @@ task_is_in_queue = "タスクが列に並んでいる"
 finished_could_be_check = "既に完了した任務しか調べられない"
 support_error = "指定の任務の照会を支持しない"
 request_target_folder = "目標フォルダーを選んでください"
+ready_to_purge = "空のごみ箱を清算する準備をしています"
+purging = "空のごみ箱をクリアしています。\nが同時にコピーの任務がある場合、コピーと空のごみ箱の両方の正確さに影響します"
+purging_done = "既にごみ箱を空にした"
