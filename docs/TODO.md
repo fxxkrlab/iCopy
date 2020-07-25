@@ -1,8 +1,8 @@
 # TODO
 
 + before beta6  
-del trash / dedupe / modify task info  
-kill size  
+dedupe / modify task info  
+kill size  /  purge
 
 + before beta7  
 del fav keyboard  

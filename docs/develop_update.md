@@ -6,3 +6,5 @@
 + ADD : "/task id" only support the task which is start after v0.2.0b6  
 + ADD : mark tasks that have been reset in the database  
 + ADD : "/size id" & "/size fav"  
++ ADD : "/purge" to empty shared drive trash bin  
+  
