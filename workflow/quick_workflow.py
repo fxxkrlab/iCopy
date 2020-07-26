@@ -5,7 +5,19 @@ from utils.load import _lang, _text
 from telegram.ext import ConversationHandler
 from utils import restricted as _r, get_functions as _func, task_box as _box
 
-SET_FAV_MULTI, CHOOSE_MODE, GET_LINK, IS_COVER_QUICK, GET_DST, COOK_ID, REGEX_IN, REGEX_GET_DST = range(8)
+(
+    SET_FAV_MULTI,
+    CHOOSE_MODE,
+    GET_LINK,
+    IS_COVER_QUICK,
+    GET_DST,
+    COOK_ID,
+    REGEX_IN,
+    REGEX_GET_DST,
+    COOK_FAV_TO_SIZE,
+    COOK_FAV_PURGE,
+    COOK_ID_DEDU,
+) = range(11)
 
 @_r.restricted
 @_r.restricted_quick

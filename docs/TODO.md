@@ -1,11 +1,17 @@
 # TODO
 
-regex_in --> botten delete
++ before beta6  
+null & fixbugs
+
++ before beta7  
+kill size  /  purge  /  dedupe
+del fav keyboard  
+choose fav keyboard  
+del Task info in MongoDB  
+
 -------
 
-* Modify task info function  
-* Support vaild folder len[28,33,72]  
-* Task details to MongoDB  
-* Dedupe function  
-* del Task info in MongoDB
-* Web DASHBOARD  
++ future  
+modify task info  
+Support vaild folder len[28,33,72]  
+Web DASHBOARD  

@@ -10,3 +10,5 @@ pyvenv.cfg
 */conf.toml
 note.md
 element.md
+.VSCodeCounter/
+now_work.md
