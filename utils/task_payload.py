@@ -9,6 +9,8 @@ import subprocess
 from threading import Timer
 from drive.gdrive import GoogleDrive as _gd
 from telegram import ParseMode
+from telegram.utils.request import Request as TGRequest
+from telegram import Bot
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -18,7 +20,12 @@ myclient = pymongo.MongoClient(
 mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
 db_counters = mydb["counters"]
+
 _cfg = load.cfg
+
+request = TGRequest(con_pool_size=8)
+bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
+
 message_info = ""
 prog_bar = ""
 current_working_file = ""
@@ -90,7 +97,6 @@ def task_process(chat_id, command, task, ns):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
     db_counters.update({"_id": "last_task"}, {"task_id": task["_id"]}, upsert=True)
-    bot = load.bot
     chat_id = chat_id
     message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
     message_id = message.message_id

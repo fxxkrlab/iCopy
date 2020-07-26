@@ -2,6 +2,8 @@ import re, time, pymongo
 from utils import load
 from utils.load import _lang, _text
 import subprocess
+from telegram.utils.request import Request as TGRequest
+from telegram import Bot
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -11,9 +13,10 @@ myclient = pymongo.MongoClient(
 mydb = myclient[load.cfg["database"]["db_name"]]
 fav_col = mydb["fav_col"]
 
-bot = load.bot
 _cfg = load.cfg
 
+request = TGRequest(con_pool_size=8)
+bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
 
 def purge_fav(purge_chat_id, purge_message_id, fav_id, fav_name):
     cloner = _cfg["general"]["cloner"]

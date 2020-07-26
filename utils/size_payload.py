@@ -4,6 +4,8 @@ from utils.load import _lang, _text
 from threading import Thread
 import subprocess
 from telegram import ParseMode
+from telegram.utils.request import Request as TGRequest
+from telegram import Bot
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -14,8 +16,11 @@ mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
 fav_col = mydb["fav_col"]
 
-bot = load.bot
 _cfg = load.cfg
+
+request = TGRequest(con_pool_size=8)
+bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
+
 size_object = ""
 size_size = ""
 size_info = ""
