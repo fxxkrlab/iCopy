@@ -3,6 +3,8 @@ from utils import load
 from utils.load import _lang, _text
 import subprocess
 from telegram import ParseMode
+from telegram.utils.request import Request as TGRequest
+from telegram import Bot
 
 myclient = pymongo.MongoClient(
     f"{load.cfg['database']['db_connect_method']}://{load.user}:{load.passwd}@{load.cfg['database']['db_addr']}",
@@ -12,8 +14,10 @@ myclient = pymongo.MongoClient(
 mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
 
-bot = load.bot
 _cfg = load.cfg
+
+request = TGRequest(con_pool_size=8)
+bot = Bot(token=f"{_cfg['tg']['token']}", request=request)
 
 
 def dedupe_task(
@@ -36,12 +40,20 @@ def dedupe_task(
     transfers = "--transfers=" + f"{_cfg['general']['parallel_t']}"
     flags = ["-q"]
     sa_sleep_suffix = "--drive-pacer-min-sleep"
-    sa_sleep = _cfg['general']['min_sleep']
+    sa_sleep = _cfg["general"]["min_sleep"]
 
-    command = [cloner, option, mode_suffix, mode, src_block, checkers, transfers, sa_sleep_suffix, sa_sleep]
+    command = [
+        cloner,
+        option,
+        mode_suffix,
+        mode,
+        src_block,
+        checkers,
+        transfers,
+        sa_sleep_suffix,
+        sa_sleep,
+    ]
     command += flags
-
-    print(command)
 
     deduping_process = subprocess.Popen(
         command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False,
@@ -55,15 +67,14 @@ def dedupe_task(
     )
 
     deduped_msg = (
-        " ༺ ✪iCopy✪ ༻ | "
-        + "🏳️"
-        + _text[_lang]["current_task_id"]
-        + str(dedu_task_id)
-        + "\n\n"
-        + '<a href="{}">{}</a>'.format(dedu_link, dedu_name)
-        + "\n["
-        + dedu_id
-        + "]\n\n"
+        " ༺ ✪iCopy✪ ༻ | " 
+        + "🏳️" + _text[_lang]["current_task_id"] 
+        + str(dedu_task_id) 
+        + "\n\n" 
+        + '<a href="{}">{}</a>'.format(dedu_link, dedu_name) 
+        + "\n[" 
+        + dedu_id 
+        + "]\n\n" 
         + _text[_lang]["deduping_done"]
     )
 
