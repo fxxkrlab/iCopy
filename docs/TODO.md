@@ -1,10 +1,10 @@
 # TODO
 
 + before beta6  
-dedupe / modify task info  
-kill size  /  purge
+null & fixbugs
 
 + before beta7  
+kill size  /  purge  /  dedupe
 del fav keyboard  
 choose fav keyboard  
 del Task info in MongoDB  
@@ -12,5 +12,6 @@ del Task info in MongoDB
 -------
 
 + future  
+modify task info  
 Support vaild folder len[28,33,72]  
 Web DASHBOARD  

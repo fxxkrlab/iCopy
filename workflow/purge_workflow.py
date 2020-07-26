@@ -14,7 +14,8 @@ from telegram.ext import ConversationHandler
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
-) = range(10)
+    COOK_ID_DEDU,
+) = range(11)
 
 bot = load.bot
 
@@ -58,7 +59,7 @@ def pre_to_purge(update, context):
 
     progress.start()
 
-    context.bot.edit_message_text(
+    bot.edit_message_text(
         chat_id=purge_chat_id,
         message_id=purge_message_id,
         text=_text[_lang]["purging"],

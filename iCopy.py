@@ -29,6 +29,7 @@ from workflow import (
     size_workflow as _size,
     regex_workflow as _regex,
     purge_workflow as _purge,
+    dedupe_workflow as _dedupe,
 )
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
@@ -75,6 +76,7 @@ def main():
             CommandHandler("task", _box.taskinfo),
             CommandHandler("size", _size.size),
             CommandHandler("purge", _purge.purge),
+            CommandHandler("dedupe", _dedupe.dedupe),
             MessageHandler(
                 Filters.regex(pattern=load.regex_entry_pattern), _regex.regex_entry
             ),
@@ -117,6 +119,7 @@ def main():
             ],
             _size.COOK_FAV_TO_SIZE: [CallbackQueryHandler(_size.pre_cook_fav_to_size),],
             _purge.COOK_FAV_PURGE: [CallbackQueryHandler(_purge.pre_to_purge),],
+            _dedupe.COOK_ID_DEDU: [CallbackQueryHandler(_dedupe.dedupe_mode),],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )

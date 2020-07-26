@@ -1,7 +1,6 @@
 import re, time, pymongo
 from utils import load
 from utils.load import _lang, _text
-from threading import Thread
 import subprocess
 
 myclient = pymongo.MongoClient(

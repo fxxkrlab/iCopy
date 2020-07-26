@@ -25,7 +25,8 @@ from utils import messages as _msg, restricted as _r, keyboard as _KB
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
-) = range(10)
+    COOK_ID_DEDU,
+) = range(11)
 
 def start(update, context):
     _first_name = update.effective_user.first_name

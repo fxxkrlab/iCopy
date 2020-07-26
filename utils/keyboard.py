@@ -38,6 +38,23 @@ def is_cover_keyboard():
 
     return InlineKeyboardMarkup(keyboard)
 
+def dedupe_mode_keyboard():
+    keyboard = [
+        [
+            InlineKeyboardButton("first", callback_data="first"),
+        ],
+        [
+            InlineKeyboardButton("newest", callback_data="newest"),
+            InlineKeyboardButton("oldest", callback_data="oldest"),
+        ],
+        [
+            InlineKeyboardButton("largest", callback_data="largest"),
+            InlineKeyboardButton("smallest", callback_data="smallest"),
+        ],
+    ]
+
+    return InlineKeyboardMarkup(keyboard)
+
 def dst_keyboard(update, context):
     favs = load.fav_col.find({"fav_type":"fav"})
     button_list = []

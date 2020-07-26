@@ -49,8 +49,6 @@ class GoogleDrive:
             raw_drives[item['id']] = item['name']
         return raw_drives
 
-
-
     def file_get_name(self, file_id):
         param = {
             'fileId': file_id,

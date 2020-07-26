@@ -17,7 +17,8 @@ from utils import messages as _msg, restricted as _r, get_functions as _func, ta
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
-) = range(10)
+    COOK_ID_DEDU,
+) = range(11)
 
 current_dst_info = ""
 

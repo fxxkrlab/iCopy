@@ -24,7 +24,8 @@ from drive.gdrive import GoogleDrive as _gd
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
-) = range(10)
+    COOK_ID_DEDU,
+) = range(11)
 
 pick_quick = []
 pick_fav = []

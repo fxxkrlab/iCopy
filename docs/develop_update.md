@@ -7,4 +7,5 @@
 + ADD : mark tasks that have been reset in the database  
 + ADD : "/size id" & "/size fav"  
 + ADD : "/purge" to empty shared drive trash bin  
++ ADD : "/dedupe id" to dedupe task  
   

@@ -15,7 +15,8 @@ from multiprocessing import Process as _mp
     REGEX_GET_DST,
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
-) = range(10)
+    COOK_ID_DEDU,
+) = range(11)
 
 src_name_list = []
 src_id_list = []
