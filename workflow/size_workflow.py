@@ -11,10 +11,11 @@ from utils import (
     task_box as _box,
     size_payload as _s_payload,
     keyboard as _KB,
+    callback_stage as _stage,
 )
 from drive.gdrive import GoogleDrive as _gd
 from multiprocessing import Process as _mp
-
+'''
 (
     SET_FAV_MULTI,
     CHOOSE_MODE,
@@ -27,8 +28,9 @@ from multiprocessing import Process as _mp
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
     COOK_ID_DEDU,
-) = range(11)
-
+    COOK_FAV_DEDU,
+) = range(12)
+'''
 bot = load.bot
 
 @_r.restricted
@@ -38,7 +40,7 @@ def size(update, context):
     if "/size" == entry_cmd:
         update.effective_message.reply_text(_text[_lang]["request_share_link"])
 
-        return COOK_ID
+        return _stage.COOK_ID
 
     elif match_cmd:
         limit_query = load.db_counters.find_one({"_id": "task_list_id"})
@@ -170,7 +172,7 @@ def size(update, context):
             reply_markup=_KB.dst_keyboard(update, context),
         )
 
-        return COOK_FAV_TO_SIZE
+        return _stage.COOK_FAV_TO_SIZE
 
 
 def pre_cook_fav_to_size(update, context):

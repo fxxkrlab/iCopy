@@ -20,6 +20,7 @@ from utils import (
     get_functions as _func,
     task_box as _box,
     task_payload as _payload,
+    callback_stage as _stage,
 )
 
 from workflow import (
@@ -45,6 +46,13 @@ logger = logging.getLogger(__name__)
 
 
 def main():
+    '''
+    defualt path:
+    _set.SET_FAV_MULTI,_start.CHOOSE_MODE,_quick.GET_LINK,_set.IS_COVER_QUICK,
+    _copy.GET_DST,_size.COOK_ID,_regex.REGEX_IN,_regex.REGEX_GET_DST,
+    _size.COOK_FAV_TO_SIZE,_purge.COOK_FAV_PURGE,_dedupe.COOK_ID_DEDU,
+    _dedupe.COOK_FAV_DEDU,_stage.FAV_PRE_DEDU_INFO
+    '''
     ### bot define
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{load.cfg['tg']['token']}", request=request)
@@ -81,45 +89,48 @@ def main():
                 Filters.regex(pattern=load.regex_entry_pattern), _regex.regex_entry
             ),
         ],
+
         states={
-            _set.SET_FAV_MULTI: [
+            _stage.SET_FAV_MULTI: [
                 # fav settings function
                 MessageHandler(Filters.text, _set._multi_settings_recieved),
             ],
-            _start.CHOOSE_MODE: [
+            _stage.CHOOSE_MODE: [
                 # call function  judged via callback pattern
                 CallbackQueryHandler(_quick.quick, pattern="quick"),
                 CallbackQueryHandler(_copy.copy, pattern="copy"),
             ],
-            _quick.GET_LINK: [
+            _stage.GET_LINK: [
                 # get Shared_Link states
                 MessageHandler(Filters.text, _func.get_share_link),
             ],
-            _set.IS_COVER_QUICK: [
+            _stage.IS_COVER_QUICK: [
                 # cover quick setting
                 CallbackQueryHandler(_func.modify_quick_in_db, pattern="cover_quick"),
                 CallbackQueryHandler(_func.cancel, pattern="not_cover_quick"),
                 MessageHandler(Filters.text, _func.cancel),
             ],
-            _copy.GET_DST: [
+            _stage.GET_DST: [
                 # request DST
                 CallbackQueryHandler(_copy.request_srcinfo),
             ],
-            _size.COOK_ID: [
+            _stage.COOK_ID: [
                 # request to COOK ID
                 MessageHandler(Filters.text, _size.size_handle),
             ],
-            _regex.REGEX_IN: [
+            _stage.REGEX_IN: [
                 # regex in choose mode
                 CallbackQueryHandler(_regex.regex_callback, pattern=r"quick|copy|size"),
             ],
-            _regex.REGEX_GET_DST: [
+            _stage.REGEX_GET_DST: [
                 # regex copy end
                 CallbackQueryHandler(_regex.regex_copy_end),
             ],
-            _size.COOK_FAV_TO_SIZE: [CallbackQueryHandler(_size.pre_cook_fav_to_size),],
-            _purge.COOK_FAV_PURGE: [CallbackQueryHandler(_purge.pre_to_purge),],
-            _dedupe.COOK_ID_DEDU: [CallbackQueryHandler(_dedupe.dedupe_mode),],
+            _stage.COOK_FAV_TO_SIZE: [CallbackQueryHandler(_size.pre_cook_fav_to_size),],
+            _stage.COOK_FAV_PURGE: [CallbackQueryHandler(_purge.pre_to_purge),],
+            _stage.COOK_ID_DEDU: [CallbackQueryHandler(_dedupe.dedupe_mode),],
+            _stage.COOK_FAV_DEDU: [CallbackQueryHandler(_dedupe.dedupe_fav_mode),],
+            _stage.FAV_PRE_DEDU_INFO: [CallbackQueryHandler(_dedupe.pre_favdedu_info)],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )

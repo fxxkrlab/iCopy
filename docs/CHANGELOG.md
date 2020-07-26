@@ -1,5 +1,54 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.6.1
+
++ Update :  
+  + ADD : "/dedupe" Now you can choose favorites to dedupe  
+  + CHANGE : Move the stage tag uniformly to new file “utils/callback_stage.py"  
+
++ Fixbugs :  
+  + Judge select favorites if is shared drive when you use "/purge" mode.  
+  + Separately define bot variables in asynchronous-process to prevent errors in connecting Telegram.  
+
++ Root Command：
+
+  + start - nothing just say hello  
+  + menu - main entry point  
+quick - quick mode  
+copy - full mode  
+set - customize settings  
+task - task query  
+reset - restore task  
+size - just size task  
+dedupe - dedupe drives and folders  
+purge - delete files and folder in specified fav trash bin  
+cancel - cancel TG conversation  
+kill - kill task which is in processing  
+ver - check iCopy version  
+restart - restart iCopy  
+
+  + Child Command:
+
+    + set - customize settings  
+    ┖ set - batch way  
+    ┖ set rule - rules  
+    ┖ fav|quick +/- id - single way  
+    ┖ set purge - purge favorites  
+    + size - size query  
+    ┖ size - size the shared resource  
+    ┖ size id - size specified task  
+    ┖ size fav - size specified favorites  
+    + dedupe - dedupe drives and folders  
+    ┖ dedupe - dedupe specified favorites  
+    ┖ dedupe id - dedupe specified task via task id  
+    + task - task query  
+    ┖ task - task in processing  
+    ┖ task list - future 10 tasks  
+    ┖ task id - show the specified task
+    + reset - restore task  
+    ┖ reset - restore current task  
+    ┖ reset id  - restore the specified task  
+
 ## version 0.2.0-beta.6
 
 + Update :  
