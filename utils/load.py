@@ -11,7 +11,7 @@ from telegram import Bot
 
 
 ### local version
-_version = "v0.2.0-beta.6.dev10"
+_version = "v0.2.0-beta.6"
 
 _cfgFile_RAW = os.path.abspath(os.path.join("config", "conf.toml"))
 cfg = toml.load(_cfgFile_RAW)

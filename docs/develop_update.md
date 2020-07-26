@@ -1,5 +1,7 @@
 # DEVELOP UPDATE CHANGELOG
 
+## v0.2.0-beta.6 finished
+
 + ADD : insert more details into Database and more initialization data  
 + ADD : feedback dst endpoint link when task end normally  
 + ADD : 2 Group in RegEX  
