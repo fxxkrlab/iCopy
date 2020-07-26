@@ -66,17 +66,31 @@ def dedupe_task(
         {"_id": int(dedu_task_id)}, {"$set": {"last_dedupe_time": last_dedupe_time,}},
     )
 
-    deduped_msg = (
-        " ༺ ✪iCopy✪ ༻ | " 
-        + "🏳️" + _text[_lang]["current_task_id"] 
-        + str(dedu_task_id) 
-        + "\n\n" 
-        + '<a href="{}">{}</a>'.format(dedu_link, dedu_name) 
-        + "\n[" 
-        + dedu_id 
-        + "]\n\n" 
-        + _text[_lang]["deduping_done"]
-    )
+    if dedu_task_id == 0:
+        deduped_msg = (
+            " ༺ ✪iCopy✪ ༻ | " 
+            + "🏳️"
+            + " FAVORITES"
+            + "\n\n" 
+            + '<a href="{}">{}</a>'.format(dedu_link, dedu_name) 
+            + "\n[" 
+            + dedu_id 
+            + "]\n\n" 
+            + _text[_lang]["deduping_done"]
+        )
+
+    else:
+        deduped_msg = (
+            " ༺ ✪iCopy✪ ༻ | " 
+            + "🏳️" + _text[_lang]["current_task_id"] 
+            + str(dedu_task_id) 
+            + "\n\n" 
+            + '<a href="{}">{}</a>'.format(dedu_link, dedu_name) 
+            + "\n[" 
+            + dedu_id 
+            + "]\n\n" 
+            + _text[_lang]["deduping_done"]
+        )
 
     bot.edit_message_text(
         chat_id=dedu_chat_id,

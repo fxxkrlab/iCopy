@@ -7,12 +7,13 @@ from utils import (
     messages as _msg,
     restricted as _r,
     keyboard as _KB,
+    callback_stage as stage,
 )
 from telegram.ext import ConversationHandler
 from telegram import ParseMode
 from utils.load import _lang, _text
 from drive.gdrive import GoogleDrive as _gd
-
+'''
 (
     SET_FAV_MULTI,
     CHOOSE_MODE,
@@ -25,8 +26,9 @@ from drive.gdrive import GoogleDrive as _gd
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
     COOK_ID_DEDU,
-) = range(11)
-
+    COOK_FAV_DEDU,
+) = range(12)
+'''
 pick_quick = []
 pick_fav = []
 unpick_fav = []
@@ -46,7 +48,7 @@ def _setting(update, context):
             _msg.set_multi_fav_guide(_lang), parse_mode=ParseMode.MARKDOWN_V2
         )
 
-        return SET_FAV_MULTI
+        return _stage.SET_FAV_MULTI
 
     if "purge" == entry_cmd[4:]:
         fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
@@ -134,7 +136,7 @@ def _setting(update, context):
                             reply_markup=_KB.is_cover_keyboard(),
                         )
 
-                        return IS_COVER_QUICK
+                        return _stage.IS_COVER_QUICK
 
             elif "quick-" == each[:6]:
                 _func.delete_in_db_quick
@@ -249,7 +251,7 @@ def _multi_settings_recieved(update, context):
                         reply_markup=_KB.is_cover_keyboard(),
                     )
 
-                    return IS_COVER_QUICK
+                    return _stage.IS_COVER_QUICK
 
             elif _tmp_quick_counter < 1:
                 pass

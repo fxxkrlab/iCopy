@@ -6,6 +6,7 @@ from utils import (
     get_set as _set,
     task_box as _box,
     task_payload as _payload,
+    callback_stage as _stage,
 )
 from workflow import copy_workflow as _copy
 from utils.load import _lang, _text
@@ -20,7 +21,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-
+'''
 (
     SET_FAV_MULTI,
     CHOOSE_MODE,
@@ -33,8 +34,9 @@ logger = logging.getLogger(__name__)
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
     COOK_ID_DEDU,
-) = range(11)
-
+    COOK_FAV_DEDU,
+) = range(12)
+'''
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"
 judge_folder_len = [28, 33]

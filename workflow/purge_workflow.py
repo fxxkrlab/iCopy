@@ -1,8 +1,14 @@
 from utils.load import _lang, _text
-from utils import load, restricted as _r, keyboard as _KB, purge_payload as _p_payload
+from utils import (
+    load, 
+    restricted as _r, 
+    keyboard as _KB, 
+    purge_payload as _p_payload, 
+    callback_stage as _stage,
+)
 from multiprocessing import Process as _mp
 from telegram.ext import ConversationHandler
-
+'''
 (
     SET_FAV_MULTI,
     CHOOSE_MODE,
@@ -15,10 +21,13 @@ from telegram.ext import ConversationHandler
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
     COOK_ID_DEDU,
-) = range(11)
+    COOK_FAV_DEDU,
+) = range(12)
+'''
 
 bot = load.bot
 
+@_r.restricted
 def purge(update, context):
     update.effective_message.reply_text(
         _text[_lang]["mode_select_msg"].replace(
@@ -29,7 +38,7 @@ def purge(update, context):
         reply_markup=_KB.dst_keyboard(update, context),
     )
 
-    return COOK_FAV_PURGE
+    return _stage.COOK_FAV_PURGE
 
 def pre_to_purge(update, context):
     get_callback = update.callback_query.data
@@ -47,22 +56,32 @@ def pre_to_purge(update, context):
     fav_id = fav_info_list[0]
     fav_name = fav_info_list[1]
 
-    progress = _mp(
-        target=_p_payload.purge_fav,
-        args=(
-            purge_chat_id,
-            purge_message_id,
-            fav_id,
-            fav_name,
-        ),
-    )
+    if len(fav_id) < 28:
+        progress = _mp(
+            target=_p_payload.purge_fav,
+            args=(
+                purge_chat_id,
+                purge_message_id,
+                fav_id,
+                fav_name,
+            ),
+        )
 
-    progress.start()
+        progress.start()
 
-    bot.edit_message_text(
-        chat_id=purge_chat_id,
-        message_id=purge_message_id,
-        text=_text[_lang]["purging"],
-    )
+        bot.edit_message_text(
+            chat_id=purge_chat_id,
+            message_id=purge_message_id,
+            text=_text[_lang]["purging"],
+        )
 
-    return ConversationHandler.END
+        return ConversationHandler.END
+    
+    else:
+        bot.edit_message_text(
+            chat_id=purge_chat_id,
+            message_id=purge_message_id,
+            text=_text[_lang]["is_folder_not_drive"],
+        )
+
+        return ConversationHandler.END

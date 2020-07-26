@@ -12,8 +12,14 @@ from telegram.ext import (
     ConversationHandler,
 )
 from utils.load import _lang, _text
-from utils import messages as _msg, restricted as _r, keyboard as _KB
+from utils import (
+    messages as _msg, 
+    restricted as _r, 
+    keyboard as _KB, 
+    callback_stage as _stage,
+)
 
+'''
 (
     SET_FAV_MULTI,
     CHOOSE_MODE,
@@ -26,8 +32,11 @@ from utils import messages as _msg, restricted as _r, keyboard as _KB
     COOK_FAV_TO_SIZE,
     COOK_FAV_PURGE,
     COOK_ID_DEDU,
-) = range(11)
+    COOK_FAV_DEDU,
+) = range(12)
+'''
 
+@_r.restricted
 def start(update, context):
     _first_name = update.effective_user.first_name
     update.effective_message.reply_text(
@@ -43,4 +52,4 @@ def menu(update, context):
         reply_markup=_KB.start_keyboard(),
     )
 
-    return CHOOSE_MODE
+    return _stage.CHOOSE_MODE
