@@ -7,7 +7,7 @@ from utils import (
     messages as _msg,
     restricted as _r,
     keyboard as _KB,
-    callback_stage as stage,
+    callback_stage as _stage,
 )
 from telegram.ext import ConversationHandler
 from telegram import ParseMode
