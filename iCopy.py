@@ -14,8 +14,6 @@ from telegram.ext import (
     ConversationHandler,
 )
 from utils import (
-    messages as _msg,
-    restricted as _r,
     get_set as _set,
     get_functions as _func,
     task_box as _box,
@@ -44,15 +42,7 @@ logger = logging.getLogger(__name__)
 
 # ############################### Main ####################################
 
-
 def main():
-    '''
-    defualt path:
-    _set.SET_FAV_MULTI,_start.CHOOSE_MODE,_quick.GET_LINK,_set.IS_COVER_QUICK,
-    _copy.GET_DST,_size.COOK_ID,_regex.REGEX_IN,_regex.REGEX_GET_DST,
-    _size.COOK_FAV_TO_SIZE,_purge.COOK_FAV_PURGE,_dedupe.COOK_ID_DEDU,
-    _dedupe.COOK_FAV_DEDU,_stage.FAV_PRE_DEDU_INFO
-    '''
     ### bot define
     request = TGRequest(con_pool_size=8)
     bot = Bot(token=f"{load.cfg['tg']['token']}", request=request)

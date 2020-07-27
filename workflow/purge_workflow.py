@@ -1,4 +1,7 @@
-from utils.load import _lang, _text
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+from utils.load import _lang, _text, ns
 from utils import (
     load, 
     restricted as _r, 
@@ -8,24 +11,9 @@ from utils import (
 )
 from multiprocessing import Process as _mp
 from telegram.ext import ConversationHandler
-'''
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-) = range(12)
-'''
 
 bot = load.bot
+ns.purge = 0
 
 @_r.restricted
 def purge(update, context):
@@ -60,6 +48,7 @@ def pre_to_purge(update, context):
         progress = _mp(
             target=_p_payload.purge_fav,
             args=(
+                ns,
                 purge_chat_id,
                 purge_message_id,
                 fav_id,

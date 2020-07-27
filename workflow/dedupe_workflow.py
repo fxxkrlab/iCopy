@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from utils.load import _lang, _text
+from utils.load import _lang, _text, ns
 from utils import (
     load,
     restricted as _r,
@@ -14,27 +14,10 @@ from multiprocessing import Process as _mp
 from telegram.ext import ConversationHandler
 from drive.gdrive import GoogleDrive as _gd
 
-"""
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-
-) = range(12)
-"""
-
 bot = load.bot
 check_task = {}
 dedufav_callback = ""
+ns.dedupe = 0
 
 @_r.restricted
 def dedupe(update, context):
@@ -148,6 +131,7 @@ def dedupe_mode(update, context):
     progress = _mp(
         target=_d_payload.dedupe_task,
         args=(
+            ns,
             dedu_mode,
             dedu_chat_id,
             dedu_message_id,
@@ -202,6 +186,7 @@ def pre_favdedu_info(update, context):
     progress = _mp(
         target=_d_payload.dedupe_task,
         args=(
+            ns,
             dedu_mode,
             dedu_chat_id,
             dedu_message_id,
