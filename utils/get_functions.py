@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import logging, re, json, requests
 from utils import (
     load,
@@ -21,22 +24,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-'''
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-) = range(12)
-'''
+
 regex1 = r"[-\w]{11,}"
 regex2 = r"[-\w]"
 judge_folder_len = [28, 33]
@@ -201,9 +189,25 @@ def get_share_link(update, context):
     return ConversationHandler.END
 
 def taskill(update, context):
-    ns.x = 1
+    entry_cmd = update.effective_message.text
+    if "/kill" == entry_cmd :
+        ns.x = 1
+    
+    elif context.args[0] == "task":
+        ns.x = 1
 
+    elif context.args[0] == "size":
+        ns.size = 1    
 
+    elif context.args[0] == "purge":
+        ns.purge = 1
+
+    elif context.arg[0] == "dedupe":
+        ns.dedupe = 1
+
+    else:
+        update.effective_message.reply_text(_text[_lang]["global_command_error"])
+        
 def check_restart(bot):
     check_restart = load.db_counters.find_one({"_id": "is_restart"})
     chat_id = check_restart["chat_id"]

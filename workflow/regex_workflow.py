@@ -1,4 +1,7 @@
-from utils.load import _lang, _text
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+from utils.load import _lang, _text, ns
 from utils import (
     load,
     get_functions as _func,
@@ -11,22 +14,11 @@ from utils import (
 from telegram.ext import CallbackQueryHandler, ConversationHandler
 from threading import Thread
 from multiprocessing import Process as _mp
-'''
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-) = range(12)
-'''
+
+ns.size = 0
+ns.dedupe = 0
+ns.purge = 0
+
 src_name_list = []
 src_id_list = []
 regex_in_update = None
@@ -134,6 +126,7 @@ def regex_callback(update, context):
             progress = _mp(
                 target=_s_payload.simple_size,
                 args=(
+                    ns,
                     update,
                     context,
                     item,

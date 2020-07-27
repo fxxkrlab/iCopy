@@ -4,7 +4,6 @@
 null & fixbugs
 
 + before beta7  
-kill size  /  purge  /  dedupe
 del fav keyboard  
 choose fav keyboard  
 del Task info in MongoDB  

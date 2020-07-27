@@ -3,7 +3,7 @@
 
 import re
 from telegram.ext import ConversationHandler
-from utils.load import _lang, _text
+from utils.load import _lang, _text, ns
 from utils import (
     load,
     restricted as _r,
@@ -15,23 +15,9 @@ from utils import (
 )
 from drive.gdrive import GoogleDrive as _gd
 from multiprocessing import Process as _mp
-'''
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-) = range(12)
-'''
+
 bot = load.bot
+ns.size = 0
 
 @_r.restricted
 def size(update, context):
@@ -63,6 +49,7 @@ def size(update, context):
                     progress = _mp(
                         target=_s_payload.owner_size,
                         args=(
+                            ns,
                             size_chat_id,
                             size_message_id,
                             task_id,
@@ -108,6 +95,7 @@ def size(update, context):
                         progress = _mp(
                             target=_s_payload.owner_size,
                             args=(
+                                ns,
                                 size_chat_id,
                                 size_message_id,
                                 task_id,
@@ -198,6 +186,7 @@ def pre_cook_fav_to_size(update, context):
     progress = _mp(
         target=_s_payload.owner_size,
         args=(
+            ns,
             size_chat_id,
             size_message_id,
             task_id,
@@ -235,6 +224,7 @@ def size_handle(update, context):
         progress = _mp(
             target=_s_payload.simple_size,
             args=(
+                ns,
                 update,
                 context,
                 item,

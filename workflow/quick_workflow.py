@@ -9,22 +9,7 @@ from utils import (
     task_box as _box, 
     callback_stage as _stage,
 )
-'''
-(
-    SET_FAV_MULTI,
-    CHOOSE_MODE,
-    GET_LINK,
-    IS_COVER_QUICK,
-    GET_DST,
-    COOK_ID,
-    REGEX_IN,
-    REGEX_GET_DST,
-    COOK_FAV_TO_SIZE,
-    COOK_FAV_PURGE,
-    COOK_ID_DEDU,
-    COOK_FAV_DEDU,
-) = range(12)
-'''
+
 @_r.restricted
 @_r.restricted_quick
 def quick(update, context):
