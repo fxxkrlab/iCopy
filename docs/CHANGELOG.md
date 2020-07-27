@@ -1,5 +1,14 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.6.2
+
++ Update :  
+  + ADD : Add "rmdir" operation to the "/Purge" function to clear the empty folder in the root directory.  
+
++ Fixbugs :  
+  + FIX : "/dedupe" sendMsg error.  
+  + FIX : Insert DATABASE error while dedupe payload finished.  
+
 ## version 0.2.0-beta.6.1
 
 + Update :  

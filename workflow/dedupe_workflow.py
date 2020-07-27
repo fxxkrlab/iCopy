@@ -176,21 +176,13 @@ def dedupe_fav_mode(update, context):
         reply_markup=_KB.dedupe_mode_keyboard(),
     )
 
-    dedu_chat_id = dedu_msg.chat_id
-    dedu_message_id = dedu_msg.message_id
-
     return _stage.FAV_PRE_DEDU_INFO
 
 
 def pre_favdedu_info(update, context):
-    print(update.callback_query.data)
-    print(dedufav_callback)
-
     dedu_mode = update.callback_query.data
 
-    dedu_msg = bot.edit_message_text(
-        chat_id=update.callback_query.message.chat_id,
-        message_id=update.callback_query.message.message_id,
+    dedu_msg = update.callback_query.edit_message_text(
         text=_text[_lang]["ready_to_dedupe"],
         reply_markup=None,
     )

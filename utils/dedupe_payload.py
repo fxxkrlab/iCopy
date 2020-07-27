@@ -13,6 +13,7 @@ myclient = pymongo.MongoClient(
 )
 mydb = myclient[load.cfg["database"]["db_name"]]
 task_list = mydb["task_list"]
+fav_col = mydb["fav_col"]
 
 _cfg = load.cfg
 
@@ -62,11 +63,11 @@ def dedupe_task(
 
     last_dedupe_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-    task_list.update_one(
-        {"_id": int(dedu_task_id)}, {"$set": {"last_dedupe_time": last_dedupe_time,}},
-    )
-
     if dedu_task_id == 0:
+        fav_col.update_one(
+            {"G_id": dedu_id}, {"$set": {"last_dedupe_time": last_dedupe_time,}},
+        )
+
         deduped_msg = (
             " ༺ ✪iCopy✪ ༻ | " 
             + "🏳️"
@@ -80,6 +81,10 @@ def dedupe_task(
         )
 
     else:
+        task_list.update_one(
+            {"_id": int(dedu_task_id)}, {"$set": {"last_dedupe_time": last_dedupe_time,}},
+        )
+
         deduped_msg = (
             " ༺ ✪iCopy✪ ༻ | " 
             + "🏳️" + _text[_lang]["current_task_id"] 
