@@ -33,7 +33,7 @@ from workflow import (
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
 from utils.load import ns
-
+#from web import dash
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -129,7 +129,8 @@ def main():
         progress.terminate()
         load.myclient.close()
         updater.stop()
-        os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
+        #os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
+        os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(update, context):
         restart_msg = update.message.reply_text(load._text[load._lang]["is_restarting"])
@@ -173,4 +174,6 @@ if __name__ == "__main__":
     ns.x = 0
     progress = _mp(target=_payload.task_buffer, args=(ns,))
     progress.start()
+    #web = _mp(target=dash.dashboard)
+    #web.start()
     main()

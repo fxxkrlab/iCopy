@@ -114,6 +114,8 @@ def task_process(chat_id, command, task, ns):
     task_in_size_speed = "-"
     task_in_file_speed = "-"
     task_eta_in_file = "-"
+    task_current_prog_size_tail = ""
+    task_total_prog_size_tail = ""
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     for toutput in run(command):
