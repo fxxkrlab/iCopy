@@ -11,6 +11,8 @@ from google.auth.transport.requests import Request
 
 from utils import load
 logger = logging.getLogger(__name__)
+logging.getLogger('googleapiclient.discovery').setLevel(logging.CRITICAL)
+
 class GoogleDrive:
     def __init__(self):
         service_account_file = random.choice(glob(load.cfg['general']['sa_path'] + '/*.json'))
@@ -21,7 +23,7 @@ class GoogleDrive:
         credentials = service_account.Credentials.from_service_account_file(
             service_account_file, scopes=scopes)
 
-        self.service = discovery.build('drive', 'v3', credentials=credentials)
+        self.service = discovery.build('drive', 'v3', credentials=credentials, cache_discovery=False)
 
     def drive_list(self):
         result = []

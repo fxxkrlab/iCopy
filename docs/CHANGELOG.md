@@ -1,5 +1,11 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.6.6
+
++ Update :
+  + Block "googleapiclient.discovery" warning prompt.
+  + Deprecated "cache_discovery"
+
 ## version 0.2.0-beta.6.5
 
 + Fixbugs:
