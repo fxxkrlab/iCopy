@@ -10,7 +10,7 @@ from telegram.utils.request import Request as TGRequest
 from telegram import Bot
 
 ### local version
-_version = "v0.2.0-beta.6.5"
+_version = "v0.2.0-beta.6.6"
 
 _cfgFile_RAW = os.path.abspath(os.path.join("config", "conf.toml"))
 cfg = toml.load(_cfgFile_RAW)
