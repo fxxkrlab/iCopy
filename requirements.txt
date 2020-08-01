@@ -4,3 +4,4 @@ pymongo[srv]==3.10.1
 toml==0.10.1
 python-telegram-bot==12.8
 urllib3==1.25.9
+requests==2.24.0
