@@ -296,44 +296,84 @@ def task_process(chat_id, command, task, ns):
         )
         check_is_reset = task_list.find_one({"_id": task["_id"]})
         if check_is_reset['is_reset'] == 0:
-            task_list.update_one(
-                {"_id": task["_id"]},
-                {
-                    "$set": {
-                        "status": 1,
-                        "start_time": start_time,
-                        "finished_time": finished_time,
-                        "task_current_prog_num": int(task_current_prog_num),
-                        "task_total_prog_num": int(task_total_prog_num),
-                        "task_current_prog_size": float(task_current_prog_size),
-                        "task_total_prog_size": float(task_total_prog_size),
-                        "task_current_prog_size_tail": task_current_prog_size_tail,
-                        "task_total_prog_size_tail": task_total_prog_size_tail,
-                        "dst_endpoint_link": dst_endpoint_link,
-                        "dst_endpoint_id": dst_endpoint_id["id"],
-                    }
-                },
-            )
+            if task_total_prog_size != 0 and task_current_prog_size != 0:
+                task_list.update_one(
+                    {"_id": task["_id"]},
+                    {
+                        "$set": {
+                            "status": 1,
+                            "start_time": start_time,
+                            "finished_time": finished_time,
+                            "task_current_prog_num": int(task_current_prog_num),
+                            "task_total_prog_num": int(task_total_prog_num),
+                            "task_current_prog_size": float(task_current_prog_size),
+                            "task_total_prog_size": float(task_total_prog_size),
+                            "task_current_prog_size_tail": task_current_prog_size_tail,
+                            "task_total_prog_size_tail": task_total_prog_size_tail,
+                            "dst_endpoint_link": dst_endpoint_link,
+                            "dst_endpoint_id": dst_endpoint_id["id"],
+                        }
+                    },
+                )
+            else:
+                task_list.update_one(
+                    {"_id": task["_id"]},
+                    {
+                        "$set": {
+                            "status": 1,
+                            "start_time": start_time,
+                            "finished_time": finished_time,
+                            "task_current_prog_num": int(task_current_prog_num),
+                            "task_total_prog_num": int(task_total_prog_num),
+                            "task_current_prog_size": int(task_current_prog_size),
+                            "task_total_prog_size": int(task_total_prog_size),
+                            "task_current_prog_size_tail": task_current_prog_size_tail,
+                            "task_total_prog_size_tail": task_total_prog_size_tail,
+                            "dst_endpoint_link": dst_endpoint_link,
+                            "dst_endpoint_id": dst_endpoint_id["id"],
+                        }
+                    },
+                )
 
-        if check_is_reset['is_reset'] == 1:
-            task_list.update_one(
-                {"_id": task["_id"]},
-                {
-                    "$set": {
-                        "status": 1,
-                        "start_time": start_time,
-                        "finished_time": finished_time,
-                        "task_current_prog_num": int(task_current_prog_num) + check_is_reset['task_current_prog_num'],
-                        "task_total_prog_num": int(task_total_prog_num) + check_is_reset['task_total_prog_num'],
-                        "task_current_prog_size": 0,
-                        "task_total_prog_size": 0,
-                        "task_current_prog_size_tail": "",
-                        "task_total_prog_size_tail": "",
-                        "dst_endpoint_link": dst_endpoint_link,
-                        "dst_endpoint_id": dst_endpoint_id["id"],
-                    }
-                },
-            )
+        elif check_is_reset['is_reset'] == 1:
+            if "task_current_prog_num" and "task_total_prog_num" in check_is_reset:
+                task_list.update_one(
+                    {"_id": task["_id"]},
+                    {
+                        "$set": {
+                            "status": 1,
+                            "start_time": start_time,
+                            "finished_time": finished_time,
+                            "task_current_prog_num": int(task_current_prog_num) + check_is_reset['task_current_prog_num'],
+                            "task_total_prog_num": int(task_total_prog_num) + check_is_reset['task_total_prog_num'],
+                            "task_current_prog_size": 0,
+                            "task_total_prog_size": 0,
+                            "task_current_prog_size_tail": "",
+                            "task_total_prog_size_tail": "",
+                            "dst_endpoint_link": dst_endpoint_link,
+                            "dst_endpoint_id": dst_endpoint_id["id"],
+                        }
+                    },
+                )
+            else:
+                task_list.update_one(
+                    {"_id": task["_id"]},
+                    {
+                        "$set": {
+                            "status": 1,
+                            "start_time": start_time,
+                            "finished_time": finished_time,
+                            "task_current_prog_num": int(task_current_prog_num),
+                            "task_total_prog_num": int(task_total_prog_num),
+                            "task_current_prog_size": 0,
+                            "task_total_prog_size": 0,
+                            "task_current_prog_size_tail": "",
+                            "task_total_prog_size_tail": "",
+                            "dst_endpoint_link": dst_endpoint_link,
+                            "dst_endpoint_id": dst_endpoint_id["id"],
+                        }
+                    },
+                )
 
     if ns.x == 1:
         bot.edit_message_text(

@@ -15,3 +15,4 @@ now_work.md
 web/
 sanic/
 examples/
+config/conf copy.toml

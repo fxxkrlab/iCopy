@@ -1,5 +1,15 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.0-beta.6.7
+
++ Update :
+  + ADD : renew requirements.txt.  
+  + ADD : "\_\_version\_\_"  
+
++ Fixbugs :
+  + Compatible with the old version of the database format  
+  + Fix floatify format error when the size is 0  
+
 ## version 0.2.0-beta.6.6
 
 + Update :

@@ -10,6 +10,7 @@ from utils import (
     task_box as _box,
     task_payload as _payload,
     callback_stage as _stage,
+    __version__,
 )
 from workflow import copy_workflow as _copy
 from utils.load import _lang, _text
@@ -220,7 +221,7 @@ def check_restart(bot):
 def _version(update, context):
     update.message.reply_text(
         "Welcome to use iCopy Telegram BOT\n\n"
-        f"Current Version : {load._version}\n\n"
+        "Current Version : " + __version__.__version__ + "\n\n"
         f"Latest Version : {_get_ver()}"
     )
 

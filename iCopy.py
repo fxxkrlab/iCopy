@@ -19,6 +19,7 @@ from utils import (
     task_box as _box,
     task_payload as _payload,
     callback_stage as _stage,
+    __version__,
 )
 
 from workflow import (
@@ -129,7 +130,6 @@ def main():
         progress.terminate()
         load.myclient.close()
         updater.stop()
-        #os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(update, context):
@@ -166,7 +166,7 @@ def main():
     dp.add_error_handler(_func.error)
 
     updater.start_polling()
-    logger.info(f"Fxxkr LAB iCopy {load._version} Start")
+    logger.info("Fxxkr LAB iCopy " + __version__.__version__ + " Start")
     updater.idle()
 
 
