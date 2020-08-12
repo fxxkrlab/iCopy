@@ -1,6 +1,23 @@
 # iCopy v0.2 CHANGELOG
 
-## version 0.2.0-beta.6.7
+## version 0.2.1-beta.1  
+
+NOTICE : Please replace the old "conf.toml" with the new one."conf.[web]dashboard" is the switch of WEB Service.( 0 = Off, 1 = On )  
+
++ Update :  
+  + ADD : iCopy WEB DASHBOARD  
+  + ADD : "/set web" command for set web account&password  
+  + ADD : WEB Section in "conf.toml"  
+  + ADD : API v1  
+  + ADD : logs for dedupe,purge,size  
+  + ADD : COMMAND doc in docs  
+  + FIX : run_args  
+  + FIX : Command & Flags  
+
++ Fixbugs :  
+  + FIXBUG : local variable assignment error  
+
+## version 0.2.0-beta.6.7  
 
 + Update :
   + ADD : renew requirements.txt.  
