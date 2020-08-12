@@ -1,2 +1,2 @@
 ### local version
-__version__ = "v0.2.0-beta.6.7"
+__version__ = "v0.2.1-beta.1"
