@@ -41,4 +41,6 @@ run_args = ['--log-level=DEBUG', '--log-file=/root/icopy_cloner_debug.log'] # st
 
 [web]
 
-dashboard = 0
+dashboard = 0 # web service switch
+
+port = 8000 # web service port, default is 8000.
