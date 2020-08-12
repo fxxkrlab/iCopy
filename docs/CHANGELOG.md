@@ -3,6 +3,15 @@
 ## version 0.2.1-beta.1  
 
 NOTICE : Please replace the old "conf.toml" with the new one."conf.[web]dashboard" is the switch of WEB Service.( 0 = Off, 1 = On )  
+Default Account&Password : admin,admin  
+Upgrade method :  
+
+```bash
+1 git pull
+2 pip3 install -r requirements.txt
+3 edit and replace the new conf.toml
+4 python3 iCopy.py
+```
 
 + Update :  
   + ADD : iCopy WEB DASHBOARD  
