@@ -45,7 +45,7 @@ def purge_run(command):
 def purge_fav(ns, purge_chat_id, purge_message_id, fav_id, fav_name):
     cloner = _cfg["general"]["cloner"]
     option1 = "delete"
-    option2 = "rmdir"
+    option2 = "rmdirs"
     remote = _cfg["general"]["remote"]
     src_id = fav_id
     src_block = remote + ":" + "{" + src_id + "}"
@@ -53,6 +53,7 @@ def purge_fav(ns, purge_chat_id, purge_message_id, fav_id, fav_name):
     transfers = "--transfers=" + f"{_cfg['general']['parallel_t']}"
     rmdirs = "--rmdirs"
     flags = ["--drive-trashed-only", "--drive-use-trash=false", "-P"]
+    flags += _cfg["general"]["run_args"]
     sa_sleep = "--drive-pacer-min-sleep=" + f"{_cfg['general']['min_sleep']}"
 
     command1 = [cloner, option1, src_block, rmdirs, checkers, transfers, sa_sleep]

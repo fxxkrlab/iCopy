@@ -12,7 +12,33 @@ note.md
 element.md
 .VSCodeCounter/
 now_work.md
-web/
 sanic/
 examples/
 config/conf copy.toml
+
+# web
+web/vue-admin-simple/build/
+web/vue-admin-simple/mock/
+web/vue-admin-simple/public/
+web/vue-admin-simple/src/
+web/vue-admin-simple/tests/
+web/vue-admin-simple/.editorconfig
+web/vue-admin-simple/.env.development
+web/vue-admin-simple/.env.production
+web/vue-admin-simple/.env.staging
+web/vue-admin-simple/.eslintignore
+web/vue-admin-simple/.eslintrc.js
+web/vue-admin-simple/.travis.yml
+web/vue-admin-simple/babel.config.js
+web/vue-admin-simple/jest.config.js
+web/vue-admin-simple/jsconfig.json
+web/vue-admin-simple/LICENSE
+web/vue-admin-simple/package.json
+web/vue-admin-simple/postcss.config.js
+web/vue-admin-simple/README.md
+web/vue-admin-simple/README-zh.md
+web/vue-admin-simple/vue.config.js
+web/vue-admin-simple/node_modules
+web/vue-admin-simple/package-lock.json
+web/vue-admin-simple/test
+web/vue-admin-simple/.gitignore

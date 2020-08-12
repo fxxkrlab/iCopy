@@ -17,5 +17,6 @@ from telegram.ext import ConversationHandler
     COOK_ID_DEDU,
     COOK_FAV_DEDU,
     FAV_PRE_DEDU_INFO,
+    SET_WEB
 
-) = range(13)
+) = range(14)

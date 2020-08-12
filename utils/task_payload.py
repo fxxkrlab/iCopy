@@ -45,9 +45,8 @@ def task_buffer(ns):
         wait_list = task_list.find({"status": 0})
         for task in wait_list:
             if _cfg["general"]["cloner"] == "fclone":
-                flags = ["--drive-server-side-across-configs", "--check-first"]
-            else:
-                flags = ["--drive-server-side-across-configs"]
+                flags = ["--drive-server-side-across-configs", "--check-first", '-P', '--ignore-checksum' , '--stats=1s']
+
             command = []
 
             cloner = _cfg["general"]["cloner"]
@@ -100,9 +99,9 @@ def task_process(chat_id, command, task, ns):
     chat_id = chat_id
     message = bot.send_message(chat_id=chat_id, text=_text[_lang]["ready_to_task"])
     message_id = message.message_id
-
+    dst_info = {}
     interval = 0.1
-    timeout = 60
+    timeout = 180
     xtime = 0
     old_working_line = 0
     current_working_line = 0
@@ -261,15 +260,12 @@ def task_process(chat_id, command, task, ns):
     old_working_file = ""
     finished_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-    dst_endpoint_id = _gd.get_dst_endpoint_id(_gd(), dst_id, src_name)
-    if dst_endpoint_id:
-        dst_endpoint_link = r"https://drive.google.com/open?id={}".format(
-            dst_endpoint_id["id"]
-        )
-
     if ns.x == 0:
-        time.sleep(5)
+        time.sleep(4)
         prog_bar = _bar.status(100)
+        dst_info = _func.getIDbypath(dst_id, src_name)
+        dst_endpoint_id = dst_info['dst_endpoint_id']
+        dst_endpoint_link = dst_info['dst_endpoint_link']
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,

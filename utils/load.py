@@ -36,6 +36,13 @@ mydb = myclient[cfg["database"]["db_name"]]
 fav_col = mydb["fav_col"]
 task_list = mydb["task_list"]
 db_counters = mydb["counters"]
+login_col = mydb["login_col"]
+
+# ### check is dashboard admin
+if cfg['web']['dashboard']:
+    vaild_usr_doc = login_col.find_one({"_id": "login_info"})
+    if vaild_usr_doc is None:
+        login_col.insert_one({"_id": "login_info","user_id":1,"username":"admin","password":"admin","user_role":"admin"})
 
 ### drive().list
 all_drive = gdrive.GoogleDrive().drive_list()

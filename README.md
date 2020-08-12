@@ -4,7 +4,7 @@
 
 [![iCopy Telegram-Bot](https://img.shields.io/badge/iCopy-Telegram%20BOT-red?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![Programming Language](https://img.shields.io/badge/LANGUAGE-Python%203.6%2B-success?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
-[![Version](https://img.shields.io/badge/Version-0.2.0--beta.6.7-ff69b4?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
+[![Version](https://img.shields.io/badge/Version-0.2.1--beta.1-ff69b4?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![License](https://img.shields.io/github/license/fxxkrlab/iCopy?style=flat-square&logo=appveyor)](https://bbs.jsu.net/c/official-project/icopy/6)
 [![DATABASE](https://img.shields.io/badge/DATABASE-MongoDB-brightgreen?style=flat-square&logo=appveyor)](https://github.com/mongodb/mongo)
 [![Stars](https://img.shields.io/github/stars/fxxkrlab/iCopy?style=flat-square&logo=appveyor)](https://github.com/fxxkrlab/iCopy)  
