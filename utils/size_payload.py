@@ -56,6 +56,7 @@ def simple_size(ns, update, context, item, size_chat_id, size_message_id, share_
     src_block = remote + ":" + "{" + src_id + "}"
     checkers = "--checkers=" + f"{_cfg['general']['parallel_c']}"
     flags = ["--size-only"]
+    flags += _cfg["general"]["run_args"]
     sa_sleep = "--drive-pacer-min-sleep=" + f"{_cfg['general']['min_sleep']}"
 
     command = [cloner, option, src_block, checkers, sa_sleep]

@@ -34,7 +34,7 @@ from workflow import (
 from multiprocessing import Process as _mp, Manager
 from threading import Thread
 from utils.load import ns
-#from web import dash
+from web import dash
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -122,6 +122,7 @@ def main():
             _stage.COOK_ID_DEDU: [CallbackQueryHandler(_dedupe.dedupe_mode),],
             _stage.COOK_FAV_DEDU: [CallbackQueryHandler(_dedupe.dedupe_fav_mode),],
             _stage.FAV_PRE_DEDU_INFO: [CallbackQueryHandler(_dedupe.pre_favdedu_info)],
+            _stage.SET_WEB: [MessageHandler(Filters.text, _set.setWeb),],
         },
         fallbacks=[CommandHandler("cancel", _func.cancel)],
     )
@@ -174,6 +175,8 @@ if __name__ == "__main__":
     ns.x = 0
     progress = _mp(target=_payload.task_buffer, args=(ns,))
     progress.start()
-    #web = _mp(target=dash.dashboard)
-    #web.start()
+    if load.cfg['web']['dashboard']:
+        web = _mp(target=dash.dashboard)
+        web.start()
+
     main()

@@ -78,6 +78,8 @@ ready_to_dedupe = "正在准备文件去重"
 deduping = "正在执行去重文件，请耐心等待\n如果同时存在复制任务，则会影响复制与文件去重双方的准确性"
 deduping_done = "文件去重已完成"
 is_folder_not_drive = "被选择的收藏夹是一个'文件夹'不是'团队盘'\n无法清空回收站"
+set_web_account = "请设置iCopy WEB DASHBOARD 账号秘密\n格式 : 账号,密码"
+set_web_success = "设置成功"
 
 [eng]
 start = "Hi! replace . Welcome to use iCopy" #replace==symbolic placeholder
@@ -158,6 +160,8 @@ ready_to_dedupe = "Ready to dedupe"
 deduping = "In deduping task, pls wait \nIf there is a copy task, it will affect the accuracy of both copy and dedupe"
 deduping_done = "The task is be deduped"
 is_folder_not_drive = "The selected favorites is a 'folder' not a 'shared drive'\n Can not be purged"
+set_web_account = "Please set your iCopy WEB DASHBOARD Account&Password follow the example\nexample : account,password"
+set_web_success = "Set Successfully"
 
 [jp]
 start = "Hi! replace . iCopyへようこそ" #replace==置き換え指示記号
@@ -238,3 +242,5 @@ ready_to_dedupe = "重複ファイルを除去する準備をしています"
 deduping = "重複ファイルを除去しています。\n同時にコピーの任務がある場合、コピーと重複除外の両方の正確さに影響します"
 deduping_done = "重複ファイルの除去が完了しました"
 is_folder_not_drive = "選択されたお気に入りは「フォルダ」ではなく「シェアドライバ」で\nゴミ箱を空にできない"
+set_web_account = "例に従って、iCopy WEB DASHBOARDアカウントとパスワードを設定してください\n例 : アカウント,パスワード"
+set_web_success = "正しく設定されました"

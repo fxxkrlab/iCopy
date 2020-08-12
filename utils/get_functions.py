@@ -31,6 +31,7 @@ regex2 = r"[-\w]"
 judge_folder_len = [28, 33]
 pick_quick = []
 mode = ""
+count = 0
 
 def cook_to_id(get_share_link):
     share_id_list = []
@@ -208,6 +209,27 @@ def taskill(update, context):
 
     else:
         update.effective_message.reply_text(_text[_lang]["global_command_error"])
+
+def getIDbypath(dst_id, src_name):
+    if count < 10:
+        try:
+            dst_endpoint_id = _gd.get_dst_endpoint_id(_gd(), dst_id, src_name)
+            if dst_endpoint_id:
+                dst_endpoint_link = r"https://drive.google.com/open?id={}".format(
+                    dst_endpoint_id['id']
+                )
+                dst_info = {"dst_endpoint_id['id']":dst_endpoint_id['id'],"dst_endpoint_link":dst_endpoint_link,"linkstatus":True}
+                count = 0
+                return dst_info
+
+        except:
+            count += 1
+            return getIDbypath(dst_id, src_name)
+    
+    else:
+        dst_info = {"dst_endpoint_id['id']":" ","dst_endpoint_link":" ","linkstatus":False}
+        count = 0
+        return dst_info
         
 def check_restart(bot):
     check_restart = load.db_counters.find_one({"_id": "is_restart"})

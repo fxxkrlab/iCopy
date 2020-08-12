@@ -50,7 +50,7 @@ def _setting(update, context):
 
         return _stage.SET_FAV_MULTI
 
-    if "purge" == entry_cmd[4:]:
+    elif "purge" == entry_cmd[4:]:
         fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
         if fav_count is not None and fav_count['fav_sum'] != 0:
             fav_sum = fav_count['fav_sum']
@@ -76,8 +76,14 @@ def _setting(update, context):
 
             return ConversationHandler.END
 
+    elif "web" == entry_cmd[4:]:
+        update.effective_message.reply_text(
+            _text[_lang]["set_web_account"]
+        )
 
-    if "/setlist" == entry_cmd:
+        return _stage.SET_WEB
+
+    elif "/setlist" == entry_cmd:
         global showitem
         global showlist
         fav_count = load.db_counters.find_one({"_id": "fav_count_list"})
@@ -315,3 +321,17 @@ def _multi_settings_recieved(update, context):
                 update.effective_message.reply_text(_text[_lang]["get_multi_fav_error"])
 
             return ConversationHandler.END
+
+# ### set web acc/passwd
+def setWeb(update, context):
+    accpw_list = []
+    raw_accpw = update.effective_message.text
+    accpw_list = raw_accpw.split(",")
+    web_acc = accpw_list[0]
+    web_pw = accpw_list[1]
+    load.login_col.update_one({"_id": "login_info"},{"$set": {"username": web_acc,"password": web_pw,},},)
+    update.effective_message.reply_text(
+        _text[_lang]["set_web_success"]
+    )
+
+    return ConversationHandler.END

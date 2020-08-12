@@ -63,6 +63,7 @@ def dedupe_task(
     checkers = "--checkers=" + f"{_cfg['general']['parallel_c']}"
     transfers = "--transfers=" + f"{_cfg['general']['parallel_t']}"
     flags = ["-P"]
+    flags += _cfg["general"]["run_args"]
     sa_sleep_suffix = "--drive-pacer-min-sleep"
     sa_sleep = _cfg["general"]["min_sleep"]
 

@@ -29,12 +29,16 @@ option = "copy" # cloner option,e.g. "copy" , "sync"
 
 remote = "" # e.g. "fc" , "gc" , "rc", "sa" ,etc...
 
-parallel_c = "16" # customize checkers_NUM,default = "16"
+parallel_c = "4" # customize checkers_NUM,default = "16"
 
-parallel_t = "32" # customize transfers_NUM,default = "32"
+parallel_t = "4" # customize transfers_NUM,default = "32"
 
 min_sleep = "1ms" # customize drive-pacer-min-sleep,default = "1ms"
 
 sa_path = "/root/accounts" #Service_Accounts path,No slash at the end,default is "/root/accounts"
 
-run_args = ['-P', '--ignore-checksum' , '--stats=1s', '--log-level=DEBUG', '--log-file=/root/icopy_cloner_debug.log'] # status flags
+run_args = ['--log-level=DEBUG', '--log-file=/root/icopy_cloner_debug.log'] # status flags
+
+[web]
+
+dashboard = 1
