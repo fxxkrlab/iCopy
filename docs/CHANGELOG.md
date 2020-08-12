@@ -1,9 +1,11 @@
 # iCopy v0.2 CHANGELOG
 
-## version 0.2.1  
+## version 0.2.1-Post.5  
 
-+ Fixbugs:  
-  + FIXBUG : local variable assignment error  
++ Fixbugs:
+  + FIXBUG : local variable assignment error
+  + FIXBUG : dict error
+  + FIXBUG : SQL Error
 
 ## version 0.2.1-beta.1  
 
