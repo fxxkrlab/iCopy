@@ -1,5 +1,10 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.1  
+
++ Fixbugs:  
+  + FIXBUG : local variable assignment error  
+
 ## version 0.2.1-beta.1  
 
 NOTICE : Please replace the old "conf.toml" with the new one."conf.[web]dashboard" is the switch of WEB Service.conf.[web]port is the WEB service port.  
