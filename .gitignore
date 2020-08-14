@@ -15,6 +15,7 @@ now_work.md
 sanic/
 examples/
 config/conf copy.toml
+vue-element-admin/
 
 # web
 web/vue-admin-simple/build/
