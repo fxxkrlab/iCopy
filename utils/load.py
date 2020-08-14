@@ -37,6 +37,7 @@ fav_col = mydb["fav_col"]
 task_list = mydb["task_list"]
 db_counters = mydb["counters"]
 login_col = mydb["login_col"]
+task_details = mydb["task_details"]
 
 # ### check is dashboard admin
 if cfg['web']['dashboard']:

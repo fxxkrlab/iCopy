@@ -77,7 +77,7 @@ def task_buffer(ns):
 
             chat_id = task["chat_id"]
 
-            task_process(chat_id, command, task, ns)
+            task_process(chat_id, command, task, ns, src_name)
 
             ns.x = 0
 
@@ -92,7 +92,7 @@ def task_buffer(ns):
         time.sleep(5)
 
 
-def task_process(chat_id, command, task, ns):
+def task_process(chat_id, command, task, ns, src_name):
     # mark is in processing in db
     task_list.update_one({"_id": task["_id"]}, {"$set": {"status": 2,}})
     db_counters.update({"_id": "last_task"}, {"task_id": task["_id"]}, upsert=True)
@@ -116,7 +116,7 @@ def task_process(chat_id, command, task, ns):
     task_current_prog_size_tail = ""
     task_total_prog_size_tail = ""
     dst_id = task['dst_id']
-    src_name = task['src_name']
+    src_link = r"https://drive.google.com/open?id={}".format(task["src_id"])
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     for toutput in run(command):
@@ -177,7 +177,7 @@ def task_process(chat_id, command, task, ns):
             _text[_lang]["task_src_info"]
             + "\n"
             + "📃"
-            + task["src_name"]
+            + '<a href="{}">{}</a>'.format(src_link, src_name)
             + "\n"
             + "----------------------------------------"
             + "\n"
@@ -188,7 +188,7 @@ def task_process(chat_id, command, task, ns):
             + ":"
             + "\n"
             + "    ┕─📃"
-            + task["src_name"]
+            + src_name
             + "\n"
             + "----------------------------------------"
             + "\n\n"
@@ -279,9 +279,9 @@ def task_process(chat_id, command, task, ns):
             + str(task["_id"])
             + "\n\n"
             + message_info.replace(
-                "    ┕─📃" + task["src_name"],
+                "    ┕─📃" + src_name,
                 "    ┕─📃"
-                + '<a href="{}">{}</a>'.format(dst_endpoint_link, task["src_name"]),
+                + '<a href="{}">{}</a>'.format(dst_endpoint_link, src_name),
             )
             + "\n"
             + _text[_lang]["task_finished_time"]
