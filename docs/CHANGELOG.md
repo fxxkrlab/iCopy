@@ -1,5 +1,14 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.2  
+
++ Update :  
+  + ADD : source link in task message  
+
++ Fixbugs:  
+  + FIXBUG : syntax error  
+  + FIXBUG : local variable error  
+
 ## version 0.2.1-Post.5  
 
 + Fixbugs:
