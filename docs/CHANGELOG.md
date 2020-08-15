@@ -1,5 +1,10 @@
 # iCopy v0.2 CHANGELOG
 
+## version 0.2.2-Post.2
+
++ Fixbugs:  
+  + FIXBUG : Msg ParseMode Error
+
 ## version 0.2.2  
 
 + Update :  
